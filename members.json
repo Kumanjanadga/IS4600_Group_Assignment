@@ -1,0 +1,22 @@
+{
+  "group_number": "GroupXX",
+  "members": {
+    "M1": {"id": "<M1 student ID>", "name": "<M1 name>", "modules": "Admin Login/Logout (SRS 5, 6.1), Category Management (SRS 6.3)"},
+    "M2": {"id": "<M2 student ID>", "name": "<M2 name>", "modules": "Plant Management (SRS 6.4), Dashboard (SRS 6.2)"},
+    "M3": {"id": "<M3 student ID>", "name": "<M3 name>", "modules": "Client Registration (SRS 7.2), Client Login/Inactive accounts (SRS 5, 5.3)"},
+    "M4": {"id": "<M4 student ID>", "name": "<M4 name>", "modules": "Plant Catalog, Plant Details, Navigation, List rules (SRS 7.1, 7.3, 7.4, 4.8)"},
+    "M5": {"id": "<M5 student ID>", "name": "<M5 name>", "modules": "Buy Plant, My Purchases, Client account/session (SRS 7.5, 7.6, 4.2)"},
+    "M6": {"id": "<M6 student ID>", "name": "<M6 name>", "modules": "Sales Management (SRS 6.5), User Management (SRS 6.6)"}
+  },
+  "api_endpoints": {
+    "M1": "/api/admin/auth/login, /api/admin/auth/logout, /api/admin/categories (+ /{id}, /main, /sub)",
+    "M2": "/api/admin/plants (+ /{id}, /in-stock), /api/admin/dashboard/summary",
+    "M3": "/api/client/public/auth/register, /api/client/public/auth/login",
+    "M4": "/api/client/public/plants (+ /{id}), /api/client/public/categories",
+    "M5": "/api/client/purchases, /api/client/plants/{id}/buy-info, /api/client/me, /api/client/auth/logout",
+    "M6": "/api/admin/sales (+ /{id}), /api/admin/users (+ /{id}/activate, /{id}/deactivate)"
+  },
+  "defects": {
+    "TC_API_M3_07": "DEF-001"
+  }
+}

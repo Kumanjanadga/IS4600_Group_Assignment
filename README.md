@@ -1,0 +1,79 @@
+# IS4600 – QA Training App · Task 1: Test Case Design
+
+Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Training App (plant store, Admin App + Client App + Backend API).
+
+| | |
+|---|---|
+| Release / deadline | 16/11/2026 → **25/11/2026** |
+| Members | 6 → minimum **180** test cases (15 API + 15 UI each) |
+| Primary references | `QA_Training_App_SRS_v2.1.pdf` (behaviour), Swagger (API details) |
+
+## Contents
+
+| Path | What it is |
+|---|---|
+| `TestCaseDocument_<Group>_v0.1.xlsx` | **Submission file** – Summary, Module Division, and all 180 test cases (Template sheet) |
+| `members.json` | Group number, member IDs/names, module split, defect IDs – edit, then rebuild the Excel |
+| `api-tests/` | Executable API test cases (Python, standard library only), 15 per member |
+| `ui-tests/ui_test_cases.py` | UI test cases written from the SRS (no UI in this release → *Not Executed*) |
+| `results/api_results.json` | Latest API run (status + actual result per test) |
+| `build_excel.py` | Builds the Excel document from the template + results |
+| `template/` | The original course template |
+
+## Module division
+
+| Member | SRS modules | API endpoints | UI pages |
+|---|---|---|---|
+| M1 | Admin login/logout, Category Management | `/api/admin/auth/*`, `/api/admin/categories/*` | `/admin/login`, `/admin/categories`, add/edit |
+| M2 | Plant Management, Dashboard | `/api/admin/plants/*`, `/api/admin/dashboard/summary` | `/admin/plants`, add/edit, `/admin/dashboard` |
+| M3 | Registration, Client login | `/api/client/public/auth/register`, `/login` | `/client/register`, `/client/login` |
+| M4 | Catalog, Plant details, list rules | `/api/client/public/plants/*`, `/categories` | `/client/plants`, `/client/plants/{id}`, header |
+| M5 | Buy Plant, My Purchases, account/session | `/api/client/purchases`, `/plants/{id}/buy-info`, `/me`, `/auth/logout` | `/client/plants/{id}/buy`, `/client/purchases` |
+| M6 | Sales and User Management | `/api/admin/sales/*`, `/api/admin/users/*` | `/admin/sales`, `/admin/sales/new`, `/admin/users` |
+
+Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written only by the member who owns that endpoint/page, so no scenario is duplicated.
+
+## Rules we follow (from the instructions + SRS)
+
+1. Each member: ≥15 API + ≥15 UI test cases; every test case carries the author's member ID (Tester column).
+2. API test cases state endpoint, HTTP method, role/token, request data, expected status code and response.
+3. UI test cases state page URL, role (or Guest), steps, test data and expected result with the **exact SRS message**.
+4. Expected results come from the SRS, never from what the app does – any difference is a defect.
+5. Duplicates (same scenario + same data) count once, for whoever wrote it first.
+6. Only the port / database settings in `application.yml` may be changed.
+
+## Running the app
+
+1. MySQL 8 (we use Docker):
+   ```sql
+   CREATE DATABASE qa_training_app;
+   CREATE USER 'qa_user'@'%' IDENTIFIED BY 'Qa@12345';
+   GRANT ALL PRIVILEGES ON qa_training_app.* TO 'qa_user'@'%';
+   FLUSH PRIVILEGES;
+   ```
+2. From the folder with `qa-training-app.jar` and `application.yml`: `java -jar qa-training-app.jar` (Java 21+).
+3. Check http://localhost:8080/api/health and open http://localhost:8080/swagger-ui.html.
+
+## Running the API tests
+
+```bash
+cd api-tests
+python run_tests.py          # all 90
+python run_tests.py M3       # one member
+```
+Tests create their own uniquely-named data, so they can be re-run on the same database. Set `QA_BASE_URL` for another host.
+
+## Rebuilding the Excel
+
+```bash
+pip install openpyxl
+python build_excel.py
+```
+
+## Latest results (API)
+
+89 Passed, 1 Failed – see `results/api_results.json`.
+
+| Defect | Test | Summary |
+|---|---|---|
+| DEF-001 | TC_API_M3_07 | A valid 100-character email (`<93 chars>@ex.com`) is rejected with "Please enter a valid email address". The validator caps the part before `@` at 64 characters, which the SRS (7.2: max 100, format name@domain.tld) does not define. |

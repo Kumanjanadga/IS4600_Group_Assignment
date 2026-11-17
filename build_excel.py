@@ -1,0 +1,117 @@
+"""Build TestCaseDocument_<Group>_v0.1.xlsx from the course template.
+
+Reads:  template/TestCaseDocument__GroupNumber__v0.1.xlsx
+        results/api_results.json   (run api-tests/run_tests.py first)
+        ui-tests/ui_test_cases.py
+        members.json
+Writes: TestCaseDocument_<Group>_v0.1.xlsx
+"""
+import json, os, shutil, sys
+from datetime import date
+from copy import copy
+import openpyxl
+from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.worksheet.datavalidation import DataValidation
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, "ui-tests"))
+from ui_test_cases import UI_CASES  # noqa: E402
+
+cfg = json.load(open(os.path.join(HERE, "members.json"), encoding="utf-8"))
+api = json.load(open(os.path.join(HERE, "results", "api_results.json"), encoding="utf-8"))
+group = cfg["group_number"]
+out = os.path.join(HERE, f"TestCaseDocument_{group}_v0.1.xlsx")
+shutil.copy(os.path.join(HERE, "template", "TestCaseDocument__GroupNumber__v0.1.xlsx"), out)
+
+wb = openpyxl.load_workbook(out)
+ws = wb["Template"]
+STATUS = {"Pass": "Passed", "Fail": "Failed", "Blocked": "Blocked"}
+
+
+def tester(m):
+    info = cfg["members"][m]
+    return f"{m} - {info['id']}"
+
+
+rows = []
+for m in ("M1", "M2", "M3", "M4", "M5", "M6"):
+    for r in (x for x in api["results"] if x["member"] == m):
+        rows.append([
+            r["id"], r["title"],
+            f"{r['description']}\nEndpoint: {r['endpoint']}\nRole/Token: {r['role']}",
+            r["precondition"], r["steps"], r["data"], r["expected"], r["actual"], "API",
+            STATUS[r["status"]], tester(m), cfg["defects"].get(r["id"], ""),
+        ])
+    for (tid, title, url, role, pre, steps, data, exp) in UI_CASES[m]:
+        rows.append([
+            tid, title, f"{title}\nPage URL: {url}\nRole: {role}", pre, steps, data, exp, "",
+            "UI", "Not Executed", tester(m), "",
+        ])
+
+# keep the template's style of the first data row, clear the sample rows
+style_src = [ws.cell(row=3, column=c) for c in range(1, 13)]
+styles = [(copy(c.font), copy(c.border), copy(c.fill)) for c in style_src]
+ws.delete_rows(3, ws.max_row)
+wrap = Alignment(wrap_text=True, vertical="top")
+for i, row in enumerate(rows, start=3):
+    for c, val in enumerate(row, start=1):
+        cell = ws.cell(row=i, column=c, value=val)
+        f, b, fl = styles[c - 1]
+        cell.font, cell.border, cell.fill, cell.alignment = f, b, fl, wrap
+last = 2 + len(rows)
+for col, w in zip("ABCDEFGHIJKL", (15, 34, 40, 30, 42, 34, 42, 42, 8, 13, 16, 10)):
+    ws.column_dimensions[col].width = w
+ws.freeze_panes = "B3"
+ws.auto_filter.ref = f"A2:L{last}"
+ws.data_validations.dataValidation = []
+dv1 = DataValidation(type="list", formula1='"Passed,Failed,Blocked,Not Executed"', allow_blank=True)
+dv2 = DataValidation(type="list", formula1='"UI,API"', allow_blank=True)
+dv1.add(f"J3:J{last}"); dv2.add(f"I3:I{last}")
+ws.add_data_validation(dv1); ws.add_data_validation(dv2)
+red, green = PatternFill("solid", fgColor="F8CBAD"), PatternFill("solid", fgColor="C6EFCE")
+for i in range(3, last + 1):
+    v = ws.cell(row=i, column=10).value
+    if v == "Failed":
+        ws.cell(row=i, column=10).fill = red
+    elif v == "Passed":
+        ws.cell(row=i, column=10).fill = green
+
+# ---- Summary sheet
+s = wb["Summary"]
+s["C3"] = "QA Training App - Admin App, Client App and Backend API (all modules)"
+s["C4"] = "v0.1"
+s["E4"] = "16/11/2026"
+s["G4"] = date.today().strftime("%d/%m/%Y")
+s["C5"] = "QA_Training_App_SRS_v2.1.pdf"
+s["C6"] = "Swagger / OpenAPI (http://localhost:8080/swagger-ui.html)"
+s["C8"] = "v0.1"
+s["D8"] = f"{group} (all members)"
+s["E8"] = (f"Initial test case design: {len(rows)} test cases (15 API + 15 UI per member). "
+           f"API cases executed on {api['executed_at'][:10]}; UI not executed (no UI in this release).")
+s["C12"] = "All modules"
+rng = f"Template!J3:J{last}", f"Template!I3:I{last}"
+for r, kind in ((12, "D12"), (13, "D13")):
+    for col in "FGHI":
+        s[f"{col}{r}"] = f"=COUNTIFS({rng[0]},{col}11,{rng[1]},{kind})"
+
+# ---- Module Division sheet (required by the instructions, section 4.3)
+md = wb.create_sheet("Module Division", 1)
+head = ["Member", "Student ID", "Name", "SRS modules", "API endpoints", "API TC IDs", "UI TC IDs"]
+md.append(head)
+for m, info in cfg["members"].items():
+    md.append([m, info["id"], info["name"], info["modules"], cfg["api_endpoints"][m],
+               f"TC_API_{m}_01 - TC_API_{m}_15", f"TC_UI_{m}_01 - TC_UI_{m}_15"])
+md.append([])
+md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
+           "for the endpoints/pages they own, so no scenario is duplicated."])
+for c in md[1]:
+    c.font = Font(bold=True, color="FFFFFF")
+    c.fill = PatternFill("solid", fgColor="305496")
+for col, w in zip("ABCDEFG", (9, 16, 22, 55, 60, 26, 24)):
+    md.column_dimensions[col].width = w
+for row in md.iter_rows(min_row=2):
+    for c in row:
+        c.alignment = wrap
+
+wb.save(out)
+print(f"Wrote {out}  ({len(rows)} test cases)")
