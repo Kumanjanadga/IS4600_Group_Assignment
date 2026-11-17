@@ -122,11 +122,51 @@ s["D8"] = f"{group} (all members)"
 n_tc = sum(1 for r in rows if isinstance(r, list))
 s["E8"] = (f"Initial test case design: {n_tc} test cases (15 API + 15 UI per member). "
            f"API cases executed on {api['executed_at'][:10]}; UI not executed (no UI in this release).")
-s["C12"] = "All modules"
-rng = f"Template!J3:J{last}", f"Template!I3:I{last}"
-for r, kind in ((12, "D12"), (13, "D13")):
-    for col in "FGHI":
-        s[f"{col}{r}"] = f"=COUNTIFS({rng[0]},{col}11,{rng[1]},{kind})"
+# Feature table: one block (UI row + API row) per member, in the template's own style.
+CACHED = {}  # (sheet, cell) -> computed value, written next to each formula so viewers show numbers
+tc_rows = [r for r in rows if isinstance(r, list)]
+def count(member=None, kind=None, status=None):
+    return sum(1 for r in tc_rows if (member is None or r[10] == member) and (kind is None or r[8] == kind)
+               and (status is None or r[9] == status))
+st = {r: [(copy(s.cell(r, c).font), copy(s.cell(r, c).border), copy(s.cell(r, c).fill),
+           copy(s.cell(r, c).alignment), s.cell(r, c).number_format) for c in range(2, 10)] for r in (12, 13, 14)}
+for rng_ in list(s.merged_cells.ranges):
+    if rng_.min_row >= 12:
+        s.unmerge_cells(str(rng_))
+for r in range(12, 15):
+    for c in range(2, 10):
+        s.cell(r, c).value = None
+J, I, K = f"Template!$J$3:$J${last}", f"Template!$I$3:$I${last}", f"Template!$K$3:$K${last}"
+r0 = 12
+for n, (m, info) in enumerate(cfg["members"].items(), start=1):
+    who = f"{m} - {info['id']}"
+    for k, kind in enumerate(("UI", "API")):
+        r = r0 + k
+        for c in range(2, 10):
+            f, b, fl, al, nf = st[12 + k][c - 2]
+            cell = s.cell(r, c); cell.font, cell.border, cell.fill, cell.alignment, cell.number_format = f, b, fl, al, nf
+        s.cell(r, 4, kind)
+        s.cell(r, 5, f"=SUM(F{r}:I{r})"); CACHED[("Summary", f"E{r}")] = count(who, kind)
+        for col, stat in zip("FGHI", ("Passed", "Failed", "Blocked", "Not Executed")):
+            s[f"{col}{r}"] = f'=COUNTIFS({J},{col}$11,{I},$D{r},{K},"{who}")'
+            CACHED[("Summary", f"{col}{r}")] = count(who, kind, stat)
+    s.cell(r0, 2, n)
+    s.cell(r0, 3, f"{m} - {info['name']} ({info['id']})\n{info['modules']}")
+    s.cell(r0, 3).alignment = Alignment(wrap_text=True, vertical="center")
+    s.cell(r0, 2).alignment = Alignment(horizontal="center", vertical="center")
+    s.merge_cells(start_row=r0, start_column=2, end_row=r0 + 1, end_column=2)
+    s.merge_cells(start_row=r0, start_column=3, end_row=r0 + 1, end_column=3)
+    s.row_dimensions[r0].height = s.row_dimensions[r0 + 1].height = 30
+    r0 += 2
+tot = r0
+for c in range(2, 10):
+    f, b, fl, al, nf = st[14][c - 2]
+    cell = s.cell(tot, c); cell.font, cell.border, cell.fill, cell.alignment, cell.number_format = f, b, fl, al, nf
+s.cell(tot, 3, "Total")
+for col, stat in zip("EFGHI", (None, "Passed", "Failed", "Blocked", "Not Executed")):
+    s[f"{col}{tot}"] = f"=SUM({col}12:{col}{tot - 1})"
+    CACHED[("Summary", f"{col}{tot}")] = count(status=stat)
+s.column_dimensions["C"].width = 60
 
 # ---- Module Division sheet (required by the instructions, section 4.3)
 md = wb.create_sheet("Module Division", 1)
@@ -138,17 +178,7 @@ for m, info in cfg["members"].items():
 md.append([])
 md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
            "for the endpoints/pages they own, so no scenario is duplicated."])
-md.append([])
-md.append(["Per-member results", "API Passed", "API Failed", "API Blocked", "UI Not Executed", "Total"])
-hdr = md.max_row
-for m, info in cfg["members"].items():
-    t = f'"{m} - {info["id"]}"'
-    K, I, J = f"Template!K3:K{last}", f"Template!I3:I{last}", f"Template!J3:J{last}"
-    md.append([f"{m} - {info['name']}",
-               f'=COUNTIFS({K},{t},{I},"API",{J},"Passed")', f'=COUNTIFS({K},{t},{I},"API",{J},"Failed")',
-               f'=COUNTIFS({K},{t},{I},"API",{J},"Blocked")', f'=COUNTIFS({K},{t},{I},"UI",{J},"Not Executed")',
-               f"=COUNTIF({K},{t})"])
-for c in list(md[1]) + list(md[hdr]):
+for c in md[1]:
     c.font = Font(bold=True)
 for col, w in zip("ABCDEFG", (9, 16, 22, 55, 60, 26, 24)):
     md.column_dimensions[col].width = w
@@ -158,5 +188,29 @@ for row in md.iter_rows(min_row=2):
 print_setup(md)
 print_setup(s)
 
+wb.calculation.fullCalcOnLoad = True  # Excel recalculates everything when the file is opened
 wb.save(out)
+
+
+def inject_cached_values(path, values):
+    """openpyxl saves formulas without results, so previews (GitHub, phones, Protected View) show
+    blanks. Write the computed result into each formula cell's <v> element."""
+    import re, zipfile
+    sheet_xml = {name: f"xl/worksheets/sheet{i}.xml" for i, name in enumerate(wb.sheetnames, start=1)}
+    with zipfile.ZipFile(path) as z:
+        files = {n: z.read(n) for n in z.namelist()}
+    for (sheet, ref), val in values.items():
+        name = sheet_xml[sheet]
+        xml = files[name].decode("utf-8")
+        pat = re.compile(r'(<c r="%s"[^>]*>)(<f>.*?</f>)(<v\s*/>|<v>.*?</v>)?' % ref)
+        xml, n = pat.subn(lambda mm: f"{mm.group(1)}{mm.group(2)}<v>{val}</v>", xml, count=1)
+        if not n:
+            raise RuntimeError(f"formula cell {sheet}!{ref} not found")
+        files[name] = xml.encode("utf-8")
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        for n, data in files.items():
+            z.writestr(n, data)
+
+
+inject_cached_values(out, CACHED)
 print(f"Wrote {out}  ({n_tc} test cases, {len(sep_rows)} member sections)")
