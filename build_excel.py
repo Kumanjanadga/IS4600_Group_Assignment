@@ -68,13 +68,26 @@ dv1 = DataValidation(type="list", formula1='"Passed,Failed,Blocked,Not Executed"
 dv2 = DataValidation(type="list", formula1='"UI,API"', allow_blank=True)
 dv1.add(f"J3:J{last}"); dv2.add(f"I3:I{last}")
 ws.add_data_validation(dv1); ws.add_data_validation(dv2)
-red, green = PatternFill("solid", fgColor="F8CBAD"), PatternFill("solid", fgColor="C6EFCE")
-for i in range(3, last + 1):
-    v = ws.cell(row=i, column=10).value
-    if v == "Failed":
-        ws.cell(row=i, column=10).fill = red
-    elif v == "Passed":
-        ws.cell(row=i, column=10).fill = green
+for i in range(3, last + 1):  # bold Failed rows instead of colour (printed in black & white)
+    if ws.cell(row=i, column=10).value == "Failed":
+        ws.cell(row=i, column=10).font = Font(bold=True)
+
+
+def print_setup(sheet, title_rows=None):
+    """Lecturer: hard copy, A4/A3, black & white, one document per group."""
+    sheet.page_setup.orientation = "landscape"
+    sheet.page_setup.paperSize = sheet.PAPERSIZE_A3
+    sheet.page_setup.fitToWidth, sheet.page_setup.fitToHeight = 1, 0
+    sheet.sheet_properties.pageSetUpPr.fitToPage = True
+    sheet.print_options.gridLines = True
+    sheet.page_setup.blackAndWhite = True
+    if title_rows:
+        sheet.print_title_rows = title_rows
+    sheet.oddHeader.right.text = f"{group} - IS4600 Task 1"
+    sheet.oddFooter.center.text = "Page &P of &N"
+
+
+print_setup(ws, "2:2")
 
 # ---- Summary sheet
 s = wb["Summary"]
@@ -105,13 +118,14 @@ md.append([])
 md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
            "for the endpoints/pages they own, so no scenario is duplicated."])
 for c in md[1]:
-    c.font = Font(bold=True, color="FFFFFF")
-    c.fill = PatternFill("solid", fgColor="305496")
+    c.font = Font(bold=True)
 for col, w in zip("ABCDEFG", (9, 16, 22, 55, 60, 26, 24)):
     md.column_dimensions[col].width = w
 for row in md.iter_rows(min_row=2):
     for c in row:
         c.alignment = wrap
+print_setup(md)
+print_setup(s)
 
 wb.save(out)
 print(f"Wrote {out}  ({len(rows)} test cases)")

@@ -41,6 +41,15 @@ Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written 
 4. Expected results come from the SRS, never from what the app does – any difference is a defect.
 5. Duplicates (same scenario + same data) count once, for whoever wrote it first.
 6. Only the port / database settings in `application.yml` may be changed.
+7. Marks are individual: every test case is marked one by one. The lecturer hid ~15 bugs; test cases should be designed to find them.
+
+## Submission (from the lecturer's voice notes)
+
+- **Hard copy**: print the test case document on A4 or A3 (whatever fits), **one document per group**.
+- **Write the group number** (from the lecturer's group Excel) on it. **No cover page, no binding**: just keep the pages in order.
+- **Black & white only**, no colour printing.
+- Hand it in **by 4 PM** on the deadline (25/11/2026) and **sign** the submission sheet. **No late submissions.**
+- Get the app running early; the deadline will not be extended.
 
 ## Running the app
 
