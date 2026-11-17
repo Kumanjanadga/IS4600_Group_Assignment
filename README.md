@@ -24,12 +24,12 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 
 | Member | SRS modules | API endpoints | UI pages |
 |---|---|---|---|
-| M1 | Admin login/logout, Category Management | `/api/admin/auth/*`, `/api/admin/categories/*` | `/admin/login`, `/admin/categories`, add/edit |
-| M2 | Plant Management, Dashboard | `/api/admin/plants/*`, `/api/admin/dashboard/summary` | `/admin/plants`, add/edit, `/admin/dashboard` |
-| M3 | Registration, Client login | `/api/client/public/auth/register`, `/login` | `/client/register`, `/client/login` |
-| M4 | Catalog, Plant details, list rules | `/api/client/public/plants/*`, `/categories` | `/client/plants`, `/client/plants/{id}`, header |
-| M5 | Buy Plant, My Purchases, account/session | `/api/client/purchases`, `/plants/{id}/buy-info`, `/me`, `/auth/logout` | `/client/plants/{id}/buy`, `/client/purchases` |
-| M6 | Sales and User Management | `/api/admin/sales/*`, `/api/admin/users/*` | `/admin/sales`, `/admin/sales/new`, `/admin/users` |
+| M1 – 224135V Nimhan R.D.S. | Admin login/logout, Category Management | `/api/admin/auth/*`, `/api/admin/categories/*` | `/admin/login`, `/admin/categories`, add/edit |
+| M2 – 224098H Kahanda M.C. | Plant Management, Dashboard | `/api/admin/plants/*`, `/api/admin/dashboard/summary` | `/admin/plants`, add/edit, `/admin/dashboard` |
+| M3 – 224114G Kumanjana D.G.A. | Registration, Client login | `/api/client/public/auth/register`, `/login` | `/client/register`, `/client/login` |
+| M4 – 224173 Sathsara | Catalog, Plant details, list rules | `/api/client/public/plants/*`, `/categories` | `/client/plants`, `/client/plants/{id}`, header |
+| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant, My Purchases, account/session | `/api/client/purchases`, `/plants/{id}/buy-info`, `/me`, `/auth/logout` | `/client/plants/{id}/buy`, `/client/purchases` |
+| M6 – 224003P Aberathna M.H.A.J.D. | Sales and User Management | `/api/admin/sales/*`, `/api/admin/users/*` | `/admin/sales`, `/admin/sales/new`, `/admin/users` |
 
 Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written only by the member who owns that endpoint/page, so no scenario is duplicated.
 

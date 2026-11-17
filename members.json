@@ -1,12 +1,36 @@
 {
   "group_number": "GroupXX",
   "members": {
-    "M1": {"id": "<M1 student ID>", "name": "<M1 name>", "modules": "Admin Login/Logout (SRS 5, 6.1), Category Management (SRS 6.3)"},
-    "M2": {"id": "<M2 student ID>", "name": "<M2 name>", "modules": "Plant Management (SRS 6.4), Dashboard (SRS 6.2)"},
-    "M3": {"id": "<M3 student ID>", "name": "<M3 name>", "modules": "Client Registration (SRS 7.2), Client Login/Inactive accounts (SRS 5, 5.3)"},
-    "M4": {"id": "<M4 student ID>", "name": "<M4 name>", "modules": "Plant Catalog, Plant Details, Navigation, List rules (SRS 7.1, 7.3, 7.4, 4.8)"},
-    "M5": {"id": "<M5 student ID>", "name": "<M5 name>", "modules": "Buy Plant, My Purchases, Client account/session (SRS 7.5, 7.6, 4.2)"},
-    "M6": {"id": "<M6 student ID>", "name": "<M6 name>", "modules": "Sales Management (SRS 6.5), User Management (SRS 6.6)"}
+    "M1": {
+      "id": "224135V",
+      "name": "Nimhan R.D.S.",
+      "modules": "Admin Login/Logout (SRS 5, 6.1), Category Management (SRS 6.3)"
+    },
+    "M2": {
+      "id": "224098H",
+      "name": "Kahanda M.C.",
+      "modules": "Plant Management (SRS 6.4), Dashboard (SRS 6.2)"
+    },
+    "M3": {
+      "id": "224114G",
+      "name": "Kumanjana D.G.A.",
+      "modules": "Client Registration (SRS 7.2), Client Login/Inactive accounts (SRS 5, 5.3)"
+    },
+    "M4": {
+      "id": "224173",
+      "name": "Sathsara",
+      "modules": "Plant Catalog, Plant Details, Navigation, List rules (SRS 7.1, 7.3, 7.4, 4.8)"
+    },
+    "M5": {
+      "id": "224208A",
+      "name": "Warnasooriya W.M.E.S.",
+      "modules": "Buy Plant, My Purchases, Client account/session (SRS 7.5, 7.6, 4.2)"
+    },
+    "M6": {
+      "id": "224003P",
+      "name": "Aberathna M.H.A.J.D.",
+      "modules": "Sales Management (SRS 6.5), User Management (SRS 6.6)"
+    }
   },
   "api_endpoints": {
     "M1": "/api/admin/auth/login, /api/admin/auth/logout, /api/admin/categories (+ /{id}, /main, /sub)",
