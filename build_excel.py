@@ -10,7 +10,8 @@ import json, os, shutil, sys
 from datetime import date
 from copy import copy
 import openpyxl
-from openpyxl.styles import Alignment, Font, PatternFill
+from openpyxl.styles import Alignment, Border, Font, Side
+from openpyxl.worksheet.pagebreak import Break
 from openpyxl.worksheet.datavalidation import DataValidation
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -33,8 +34,9 @@ def tester(m):
     return f"{m} - {info['id']}"
 
 
-rows = []
+rows = []  # lists are test-case rows; ("SEP", m) marks the start of a member's section
 for m in ("M1", "M2", "M3", "M4", "M5", "M6"):
+    rows.append(("SEP", m))
     for r in (x for x in api["results"] if x["member"] == m):
         rows.append([
             r["id"], r["title"],
@@ -53,7 +55,25 @@ style_src = [ws.cell(row=3, column=c) for c in range(1, 13)]
 styles = [(copy(c.font), copy(c.border), copy(c.fill)) for c in style_src]
 ws.delete_rows(3, ws.max_row)
 wrap = Alignment(wrap_text=True, vertical="top")
+thick = Side(style="medium")
+sep_rows = []
 for i, row in enumerate(rows, start=3):
+    if isinstance(row, tuple):  # member section header (bold, no colour: printed in B&W)
+        m = row[1]; info = cfg["members"][m]
+        ws.cell(row=i, column=1, value=f"{m}  |  {info['id']} - {info['name']}  |  {info['modules']}  "
+                                       f"|  TC_API_{m}_01-15, TC_UI_{m}_01-15")
+        ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=12)
+        ws.cell(row=i, column=1).font = Font(bold=True, size=13)
+        ws.cell(row=i, column=1).alignment = Alignment(vertical="center")
+        for c in range(1, 13):
+            ws.cell(row=i, column=c).border = Border(top=thick, bottom=thick,
+                                                     left=thick if c == 1 else None,
+                                                     right=thick if c == 12 else None)
+        ws.row_dimensions[i].height = 26
+        if i > 3:
+            ws.row_breaks.append(Break(id=i - 1))  # each member starts on a new printed page
+        sep_rows.append(i)
+        continue
     for c, val in enumerate(row, start=1):
         cell = ws.cell(row=i, column=c, value=val)
         f, b, fl = styles[c - 1]
@@ -99,7 +119,8 @@ s["C5"] = "QA_Training_App_SRS_v2.1.pdf"
 s["C6"] = "Swagger / OpenAPI (http://localhost:8080/swagger-ui.html)"
 s["C8"] = "v0.1"
 s["D8"] = f"{group} (all members)"
-s["E8"] = (f"Initial test case design: {len(rows)} test cases (15 API + 15 UI per member). "
+n_tc = sum(1 for r in rows if isinstance(r, list))
+s["E8"] = (f"Initial test case design: {n_tc} test cases (15 API + 15 UI per member). "
            f"API cases executed on {api['executed_at'][:10]}; UI not executed (no UI in this release).")
 s["C12"] = "All modules"
 rng = f"Template!J3:J{last}", f"Template!I3:I{last}"
@@ -117,7 +138,17 @@ for m, info in cfg["members"].items():
 md.append([])
 md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
            "for the endpoints/pages they own, so no scenario is duplicated."])
-for c in md[1]:
+md.append([])
+md.append(["Per-member results", "API Passed", "API Failed", "API Blocked", "UI Not Executed", "Total"])
+hdr = md.max_row
+for m, info in cfg["members"].items():
+    t = f'"{m} - {info["id"]}"'
+    K, I, J = f"Template!K3:K{last}", f"Template!I3:I{last}", f"Template!J3:J{last}"
+    md.append([f"{m} - {info['name']}",
+               f'=COUNTIFS({K},{t},{I},"API",{J},"Passed")', f'=COUNTIFS({K},{t},{I},"API",{J},"Failed")',
+               f'=COUNTIFS({K},{t},{I},"API",{J},"Blocked")', f'=COUNTIFS({K},{t},{I},"UI",{J},"Not Executed")',
+               f"=COUNTIF({K},{t})"])
+for c in list(md[1]) + list(md[hdr]):
     c.font = Font(bold=True)
 for col, w in zip("ABCDEFG", (9, 16, 22, 55, 60, 26, 24)):
     md.column_dimensions[col].width = w
@@ -128,4 +159,4 @@ print_setup(md)
 print_setup(s)
 
 wb.save(out)
-print(f"Wrote {out}  ({len(rows)} test cases)")
+print(f"Wrote {out}  ({n_tc} test cases, {len(sep_rows)} member sections)")
