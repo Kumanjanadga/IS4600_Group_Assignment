@@ -1,0 +1,41 @@
+# =====================================================================
+#  QA Training App - settings file
+#
+#  Keep this file in the SAME folder as qa-training-app.jar and start the
+#  app from that folder. Settings here replace the built-in defaults.
+#  Edit the values below, save, then (re)start the app.
+# =====================================================================
+
+server:
+  # Port the APIs and Swagger UI listen on, e.g. http://localhost:8080
+  port: 8080
+
+spring:
+  datasource:
+    # MySQL connection: jdbc:mysql://<host>:<port>/<database>?serverTimezone=UTC
+    # The database must already exist; tables are created automatically on first start.
+    url: jdbc:mysql://localhost:3306/qa_training_app?serverTimezone=UTC
+    username: qa_user
+    password: Qa@12345
+
+app:
+  jwt:
+    # Secret used to sign login tokens. CHANGE THIS to your own random text
+    # (at least 32 characters). Changing it later logs everyone out.
+    secret: change-me-to-a-long-random-secret-of-32-plus-characters
+    # How long a login token stays valid, in minutes (480 = 8 hours).
+    expiration-minutes: 480
+
+  # Default accounts, created on the FIRST start only (when they don't exist yet).
+  # Changing these values later does NOT change accounts that already exist.
+  seed:
+    admin:
+      username: admin
+      password: Admin@123
+      full-name: Store Administrator
+      email: admin@qatraining.local
+    client:
+      username: user
+      password: User@123
+      full-name: Test Client
+      email: user@qatraining.local
