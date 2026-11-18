@@ -5,6 +5,7 @@ from framework import api_test, verify
 M = "M1"
 LOGIN = "POST /api/admin/auth/login"
 CAT = "POST /api/admin/categories"
+EDIT = "PUT /api/admin/categories/{id}"
 ADMIN = "Admin token"
 NONE = "No token"
 
@@ -109,14 +110,12 @@ def _(ctx):
 
 @api_test("TC_API_M1_12", M, "Duplicate category name (different case) under same parent", CAT, ADMIN,
           'Existing main category "<name>"; send {"name":"<name in lowercase>","parentId":null}',
-          '409 Conflict, message/errors.name "Category name already exists"',
+          '409 Conflict, errors.name = "Category name already exists"',
           precondition="A main category exists.")
 def _(ctx):
     main = ctx.main_cat()
     s, b = call("POST", "/api/admin/categories", {"name": main["name"].lower(), "parentId": None}, ctx.admin)
-    text = str(b)
-    return verify(s, b, 409, checks=[("'Category name already exists' in response",
-                                      lambda: "Category name already exists" in text)])
+    return verify(s, b, 409, field="name", field_msg="Category name already exists")
 
 
 @api_test("TC_API_M1_13", M, "Sub-category cannot be used as a parent", CAT, ADMIN,
@@ -146,3 +145,101 @@ def _(ctx):
 def _(ctx):
     s, b = call("POST", "/api/admin/categories", {"name": "Indoor", "parentId": None}, ctx.client)
     return verify(s, b, 403, "You do not have permission to access this resource")
+
+
+# ---------------------------------------------------------------- extra boundary / rule cases
+@api_test("TC_API_M1_16", M, "Category name at minimum length (3 chars) is accepted", CAT, ADMIN,
+          '{"name":"<3 unique chars>","parentId":null}',
+          '201 Created, message "Category created successfully"')
+def _(ctx):
+    s, b = call("POST", "/api/admin/categories", {"name": ctx.uniq(3), "parentId": None}, ctx.admin)
+    return verify(s, b, 201, "Category created successfully")
+
+
+@api_test("TC_API_M1_17", M, "Category name at maximum length (10 chars) is accepted", CAT, ADMIN,
+          '{"name":"<10 unique chars>","parentId":null}',
+          '201 Created, message "Category created successfully", data.name has 10 characters')
+def _(ctx):
+    name = ctx.uniq(10)
+    s, b = call("POST", "/api/admin/categories", {"name": name, "parentId": None}, ctx.admin)
+    return verify(s, b, 201, "Category created successfully",
+                  checks=[("name saved", lambda: b["data"]["name"] == name)])
+
+
+@api_test("TC_API_M1_18", M, "Category name is trimmed before the length check", CAT, ADMIN,
+          '{"name":"   AB   ","parentId":null}  (2 characters after trimming)',
+          '400 Bad Request, errors.name = "Category name must be between 3 and 10 characters"')
+def _(ctx):
+    s, b = call("POST", "/api/admin/categories", {"name": "   AB   ", "parentId": None}, ctx.admin)
+    return verify(s, b, 400, field="name", field_msg="Category name must be between 3 and 10 characters")
+
+
+@api_test("TC_API_M1_19", M, "Same category name is allowed under a different parent", CAT, ADMIN,
+          'Sub-category "<name>" exists under main A; send {"name":"<name>","parentId":<main B id>}',
+          '201 Created, message "Category created successfully"',
+          precondition="Two main categories A and B exist; A has sub-category <name>.")
+def _(ctx):
+    a, b_main = ctx.main_cat(), ctx.main_cat()
+    sub = ctx.sub_cat(a["id"])
+    s, b = call("POST", "/api/admin/categories", {"name": sub["name"], "parentId": b_main["id"]}, ctx.admin)
+    return verify(s, b, 201, "Category created successfully")
+
+
+@api_test("TC_API_M1_20", M, "A category cannot be its own parent", EDIT, ADMIN,
+          'id = main category X; {"name":"<X name>","parentId":<X id>}',
+          '400 Bad Request, errors.parentId = "A category cannot be its own parent"',
+          precondition="A main category X exists.")
+def _(ctx):
+    x = ctx.main_cat()
+    s, b = call("PUT", f"/api/admin/categories/{x['id']}", {"name": x["name"], "parentId": x["id"]}, ctx.admin)
+    return verify(s, b, 400, field="parentId", field_msg="A category cannot be its own parent")
+
+
+@api_test("TC_API_M1_21", M, "Main category with sub-categories cannot be moved under another", EDIT, ADMIN,
+          'id = main A (has 1 sub-category); {"name":"<A name>","parentId":<main B id>}',
+          '400 Bad Request, errors.parentId = "A category with sub-categories cannot be moved under another category"',
+          precondition="Main category A with one sub-category, and main category B exist.")
+def _(ctx):
+    a, b_main = ctx.main_cat(), ctx.main_cat()
+    ctx.sub_cat(a["id"])
+    s, b = call("PUT", f"/api/admin/categories/{a['id']}", {"name": a["name"], "parentId": b_main["id"]}, ctx.admin)
+    return verify(s, b, 400, field="parentId",
+                  field_msg="A category with sub-categories cannot be moved under another category")
+
+
+@api_test("TC_API_M1_22", M, "Sub-category with plants cannot become a main category", EDIT, ADMIN,
+          'id = sub-category S (has 1 plant); {"name":"<S name>","parentId":null}',
+          '400 Bad Request, errors.parentId = "A category with plants must stay a sub-category"',
+          precondition="Sub-category S with one plant exists.")
+def _(ctx):
+    sub = ctx.sub_cat()
+    ctx.plant(category_id=sub["id"])
+    s, b = call("PUT", f"/api/admin/categories/{sub['id']}", {"name": sub["name"], "parentId": None}, ctx.admin)
+    return verify(s, b, 400, field="parentId", field_msg="A category with plants must stay a sub-category")
+
+
+@api_test("TC_API_M1_23", M, "Delete sub-category that has 1 plant",
+          "DELETE /api/admin/categories/{id}", ADMIN, "id = sub-category with exactly 1 plant",
+          '409 Conflict, message "Category cannot be deleted because it has 1 plant."',
+          precondition="A sub-category with exactly one plant exists.")
+def _(ctx):
+    sub = ctx.sub_cat()
+    ctx.plant(category_id=sub["id"])
+    s, b = call("DELETE", f"/api/admin/categories/{sub['id']}", token=ctx.admin)
+    return verify(s, b, 409, "Category cannot be deleted because it has 1 plant.")
+
+
+@api_test("TC_API_M1_24", M, "Update a category that does not exist", EDIT, ADMIN,
+          'id = 999999; {"name":"Ghost","parentId":null}',
+          '404 Not Found, message "Category not found"')
+def _(ctx):
+    s, b = call("PUT", "/api/admin/categories/999999", {"name": "Ghost", "parentId": None}, ctx.admin)
+    return verify(s, b, 404, "Category not found")
+
+
+@api_test("TC_API_M1_25", M, "Category list without a token is rejected",
+          "GET /api/admin/categories", NONE, "No Authorization header",
+          '401 Unauthorized, message "Authentication required"')
+def _(ctx):
+    s, b = call("GET", "/api/admin/categories")
+    return verify(s, b, 401, "Authentication required")
