@@ -81,7 +81,7 @@ python build_excel.py
 
 ## Latest results (API)
 
-89 Passed, 1 Failed – see `results/api_results.json`.
+99 Passed, 1 Failed (100 API test cases) – see `results/api_results.json`.
 
 | Defect | Test | Summary |
 |---|---|---|
