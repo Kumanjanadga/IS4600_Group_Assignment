@@ -29,12 +29,6 @@ ws = wb["Template"]
 STATUS = {"Pass": "Passed", "Fail": "Failed", "Blocked": "Blocked"}
 
 
-def id_range(m, kind):
-    """e.g. 'TC_API_M1_01 - TC_API_M1_25': first and last test case ID of a member."""
-    ids = sorted(r["id"] for r in api["results"] if r["member"] == m) if kind == "API"         else sorted(c[0] for c in UI_CASES[m])
-    return f"{ids[0]} - {ids[-1]}"
-
-
 def tester(m):
     info = cfg["members"][m]
     return f"{m} - {info['id']}"
@@ -67,7 +61,7 @@ for i, row in enumerate(rows, start=3):
     if isinstance(row, tuple):  # member section header (bold, no colour: printed in B&W)
         m = row[1]; info = cfg["members"][m]
         ws.cell(row=i, column=1, value=f"{m}  |  {info['id']} - {info['name']}  |  {info['modules']}  "
-                                       f"|  {id_range(m, 'API')}, {id_range(m, 'UI')}")
+                                       f"|  TC_API_{m}_01-15, TC_UI_{m}_01-15")
         ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=12)
         ws.cell(row=i, column=1).font = Font(bold=True, size=13)
         ws.cell(row=i, column=1).alignment = Alignment(vertical="center")
@@ -126,7 +120,7 @@ s["C6"] = "Swagger / OpenAPI (http://localhost:8080/swagger-ui.html)"
 s["C8"] = "v0.1"
 s["D8"] = f"{group} (all members)"
 n_tc = sum(1 for r in rows if isinstance(r, list))
-s["E8"] = (f"Initial test case design: {n_tc} test cases (at least 15 API + 15 UI per member). "
+s["E8"] = (f"Initial test case design: {n_tc} test cases (15 API + 15 UI per member). "
            f"API cases executed on {api['executed_at'][:10]}; UI not executed (no UI in this release).")
 # Feature table: one block (UI row + API row) per member, in the template's own style.
 CACHED = {}  # (sheet, cell) -> computed value, written next to each formula so viewers show numbers
@@ -180,7 +174,7 @@ head = ["Member", "Student ID", "Name", "SRS modules", "API endpoints", "API TC 
 md.append(head)
 for m, info in cfg["members"].items():
     md.append([m, info["id"], info["name"], info["modules"], cfg["api_endpoints"][m],
-               id_range(m, "API"), id_range(m, "UI")])
+               f"TC_API_{m}_01 - TC_API_{m}_15", f"TC_UI_{m}_01 - TC_UI_{m}_15"])
 md.append([])
 md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
            "for the endpoints/pages they own, so no scenario is duplicated."])
