@@ -40,7 +40,5 @@
     "M5": "/api/client/purchases, /api/client/plants/{id}/buy-info, /api/client/me, /api/client/auth/logout",
     "M6": "/api/admin/sales (+ /{id}), /api/admin/users (+ /{id}/activate, /{id}/deactivate)"
   },
-  "defects": {
-    "TC_API_M3_07": "DEF-001"
-  }
+  "defects": {}
 }
