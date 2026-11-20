@@ -78,10 +78,10 @@ def _(ctx):
 
 
 @api_test("TC_API_M3_07", M, "Email of exactly 100 characters (max boundary) is accepted", REG, NONE,
-          'email = "<93-char name>@ex.com" (100 characters, valid name@domain.tld format)',
+          'email = "<33-char name>@<63-char domain>.lk" (exactly 100 characters, valid name@domain.tld format)',
           "201 Created, account registered (SRS 7.2: maximum 100 characters, format name@domain.tld)")
 def _(ctx):
-    email = ctx.uniq(5).lower() + "a" * 88 + "@ex.com"
+    email = ctx.uniq(5).lower() + "a" * 28 + "@" + "d" * 63 + ".lk"
     s, b = post_reg(reg(ctx, email=email))
     return verify(s, b, 201, checks=[("email is 100 chars", lambda: len(email) == 100)])
 

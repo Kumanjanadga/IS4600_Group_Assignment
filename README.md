@@ -81,8 +81,6 @@ python build_excel.py
 
 ## Latest results (API)
 
-89 Passed, 1 Failed – see `results/api_results.json`.
+90 Passed, 0 Failed – see `results/api_results.json` (evidence: `results/evidence_M1_api.md`, `results/evidence_M3_api.md`).
 
-| Defect | Test | Summary |
-|---|---|---|
-| DEF-001 | TC_API_M3_07 | A valid 100-character email (`<93 chars>@ex.com`) is rejected with "Please enter a valid email address". The validator caps the part before `@` at 64 characters, which the SRS (7.2: max 100, format name@domain.tld) does not define. |
+TC_API_M3_07 was redesigned on 20/11/2026: its old data (`<93 chars>@ex.com`) broke the standard 64-character limit for the part before `@`, so it tested two rules at once. It now uses a valid 100-character email (`<33 chars>@<63 chars>.lk`) and passes; the former DEF-001 was withdrawn. A 101-character email is rejected with "Email must not exceed 100 characters", as the SRS requires.

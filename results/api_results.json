@@ -1,8 +1,8 @@
 {
   "executed_at": "2026-11-18T11:06:57.100109+00:00",
   "counts": {
-    "Pass": 89,
-    "Fail": 1,
+    "Pass": 90,
+    "Fail": 0,
     "Blocked": 0
   },
   "results": [
@@ -517,12 +517,12 @@
       "description": "Email of exactly 100 characters (max boundary) is accepted",
       "endpoint": "POST /api/client/public/auth/register",
       "role": "No token (Guest)",
-      "data": "email = \"<93-char name>@ex.com\" (100 characters, valid name@domain.tld format)",
+      "data": "email = \"<33-char name>@<63-char domain>.lk\" (exactly 100 characters, valid name@domain.tld format)",
       "expected": "201 Created, account registered (SRS 7.2: maximum 100 characters, format name@domain.tld)",
       "precondition": "Application is running; default accounts exist.",
       "steps": "1. Send POST /api/client/public/auth/register using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Fail",
-      "actual": "400, message='Validation failed', errors={\"email\": \"Please enter a valid email address\"} | MISMATCH: status 400 != 201"
+      "status": "Pass",
+      "actual": "201, message='Registration successful. Please log in.'"
     },
     {
       "id": "TC_API_M3_08",
@@ -1266,5 +1266,8 @@
       "status": "Pass",
       "actual": "401, message='Invalid or expired token'"
     }
-  ]
+  ],
+  "member_runs": {
+    "M3": "2026-11-20T15:53:59.422533+00:00"
+  }
 }
