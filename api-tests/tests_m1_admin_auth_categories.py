@@ -109,14 +109,12 @@ def _(ctx):
 
 @api_test("TC_API_M1_12", M, "Duplicate category name (different case) under same parent", CAT, ADMIN,
           'Existing main category "<name>"; send {"name":"<name in lowercase>","parentId":null}',
-          '409 Conflict, message/errors.name "Category name already exists"',
+          '409 Conflict, errors.name = "Category name already exists"',
           precondition="A main category exists.")
 def _(ctx):
     main = ctx.main_cat()
     s, b = call("POST", "/api/admin/categories", {"name": main["name"].lower(), "parentId": None}, ctx.admin)
-    text = str(b)
-    return verify(s, b, 409, checks=[("'Category name already exists' in response",
-                                      lambda: "Category name already exists" in text)])
+    return verify(s, b, 409, field="name", field_msg="Category name already exists")
 
 
 @api_test("TC_API_M1_13", M, "Sub-category cannot be used as a parent", CAT, ADMIN,
@@ -146,3 +144,4 @@ def _(ctx):
 def _(ctx):
     s, b = call("POST", "/api/admin/categories", {"name": "Indoor", "parentId": None}, ctx.client)
     return verify(s, b, 403, "You do not have permission to access this resource")
+

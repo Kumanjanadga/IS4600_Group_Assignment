@@ -81,6 +81,6 @@ python build_excel.py
 
 ## Latest results (API)
 
-90 Passed, 0 Failed – see `results/api_results.json` (M3 evidence: `results/evidence_M3_api.md`).
+90 Passed, 0 Failed – see `results/api_results.json` (evidence: `results/evidence_M1_api.md`, `results/evidence_M3_api.md`).
 
 TC_API_M3_07 was redesigned on 20/11/2026: its old data (`<93 chars>@ex.com`) broke the standard 64-character limit for the part before `@`, so it tested two rules at once. It now uses a valid 100-character email (`<33 chars>@<63 chars>.lk`) and passes; the former DEF-001 was withdrawn. A 101-character email is rejected with "Email must not exceed 100 characters", as the SRS requires.

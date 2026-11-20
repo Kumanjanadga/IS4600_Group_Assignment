@@ -1,5 +1,5 @@
 {
-  "executed_at": "2026-11-17T15:46:53.302362+00:00",
+  "executed_at": "2026-11-18T11:06:57.100109+00:00",
   "counts": {
     "Pass": 90,
     "Fail": 0,
@@ -168,7 +168,7 @@
       "endpoint": "POST /api/admin/categories",
       "role": "Admin token",
       "data": "Existing main category \"<name>\"; send {\"name\":\"<name in lowercase>\",\"parentId\":null}",
-      "expected": "409 Conflict, message/errors.name \"Category name already exists\"",
+      "expected": "409 Conflict, errors.name = \"Category name already exists\"",
       "precondition": "A main category exists.",
       "steps": "1. Send POST /api/admin/categories using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
