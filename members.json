@@ -41,20 +41,20 @@
     "M6": "/api/admin/sales (+ /{id})"
   },
   "defects": {
-    "TC_API_M1_13": "DEF-003",
-    "TC_API_M1_14": "DEF-001",
+    "TC_API_M1_13": "DEF-001",
     "TC_API_M1_15": "DEF-002",
-    "TC_API_M2_13": "DEF-004",
-    "TC_API_M2_14": "DEF-005",
+    "TC_API_M1_14": "DEF-003",
+    "TC_API_M2_14": "DEF-004",
+    "TC_API_M2_13": "DEF-005",
     "TC_API_M2_15": "DEF-006",
-    "TC_API_M6_13": "DEF-007",
-    "TC_API_M6_14": "DEF-008",
-    "TC_API_M6_15": "DEF-009",
-    "TC_API_M3_14": "DEF-010",
-    "TC_API_M3_15": "DEF-011",
-    "TC_API_M4_14": "DEF-012",
-    "TC_API_M4_15": "DEF-013",
-    "TC_API_M5_14": "DEF-014",
-    "TC_API_M5_15": "DEF-015"
+    "TC_API_M3_14": "DEF-007",
+    "TC_API_M3_15": "DEF-008",
+    "TC_API_M4_14": "DEF-009",
+    "TC_API_M4_15": "DEF-010",
+    "TC_API_M5_14": "DEF-011",
+    "TC_API_M5_15": "DEF-012",
+    "TC_API_M6_14": "DEF-013",
+    "TC_API_M6_15": "DEF-014",
+    "TC_API_M6_13": "DEF-015"
   }
 }

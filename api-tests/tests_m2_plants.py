@@ -115,27 +115,17 @@ def _(ctx):
     return verify(s, b, 200, checks=[("both plants returned", lambda: ids() == {p1["id"], p2["id"]})])
 
 
-@api_test("TC_API_M2_13", 'M2', "Parallel: sub-category made main while plants are added keeps plants in sub-categories only",
-          "PUT /api/admin/categories/{id}", 'Admin token',
-          'At the same moment: PUT /api/admin/categories/{S} {"name":"<S>","parentId":null} and '
-          '3 x POST /api/admin/plants {"name":"<new>","categoryId":<S>,"price":5,"quantity":7}',
-          'One side is rejected; afterwards S is never a main category that holds plants (SRS 6.3.2 "A sub-category that has '
-          'plants cannot be changed into a main category", 6.4.2 "Category must be a sub-category")',
-          precondition="A sub-category S without plants exists.",
-          steps="1. Send the PUT (make S a main category) and three POST /api/admin/plants into S at the same moment.\n"
-                "2. Send GET /api/admin/categories/{S} and GET /api/admin/plants?categoryId={S}.\n"
-                "3. Check that S is not a main category with plants.")
+@api_test("TC_API_M2_13", 'M2', "Plant name with a special letter is not a duplicate", 'POST /api/admin/plants', 'Admin token',
+          'Plant "Straße Fern <xyz>" exists; send {"name":"Strasse Fern <xyz>","categoryId":<sub id>,"price":5,"quantity":5}',
+          '201 Created, "Plant created successfully" - plant names are unique only case-insensitively (SRS 6.4.2), '
+          'and "Strasse" is a different name from "Straße"',
+          precondition='A sub-category and a plant "Straße Fern <xyz>" exist.')
 def _(ctx):
-    s2 = ctx.sub_cat()
-
-    def mk():
-        return call("POST", "/api/admin/plants", {"name": "MP " + ctx.uniq(7), "categoryId": s2["id"], "price": 5, "quantity": 7}, ctx.admin)
-    r = parallel(lambda: call("PUT", f"/api/admin/categories/{s2['id']}", {"name": s2["name"], "parentId": None}, ctx.admin), mk, mk, mk)
-    s, b = call("GET", f"/api/admin/categories/{s2['id']}", token=ctx.admin)
-    n = call("GET", f"/api/admin/plants?categoryId={s2['id']}", token=ctx.admin)[1]["data"]["totalElements"]
-    is_main = b["data"]["parentId"] is None
-    return verify(s, b, 200, checks=[(f"not a main category with plants (main={is_main}, plants={n}, statuses {[x[0] for x in r]})",
-                                      lambda: not (is_main and n))])
+    sub = ctx.sub_cat()["id"]
+    u = ctx.uniq(4)
+    call("POST", "/api/admin/plants", {"name": f"Straße Fern {u}", "categoryId": sub, "price": 5, "quantity": 5}, ctx.admin)
+    s, b = call("POST", "/api/admin/plants", {"name": f"Strasse Fern {u}", "categoryId": sub, "price": 5, "quantity": 5}, ctx.admin)
+    return verify(s, b, 201, "Plant created successfully")
 
 
 @api_test("TC_API_M2_14", 'M2', "Stock never becomes negative when a sale is deleted at maximum stock",
@@ -155,12 +145,11 @@ def _(ctx):
     return verify(s, b, s, checks=[(f"stock not negative (stock={q})", lambda: q >= 0)])
 
 
-@api_test("TC_API_M2_15", 'M2', "Two invalid fields: price 0 AND category not found", 'POST /api/admin/plants', 'Admin token',
-          '{"name":"Okay Plant <x>","categoryId":999999,"price":0,"quantity":1}',
-          '400 Bad Request with one message per field (SRS 4.7): errors.price = "Price must be greater than 0" AND '
-          'errors.categoryId = "Category not found"')
+@api_test("TC_API_M2_15", 'M2', "Plant name of 20 characters including emoji is within 3-25", 'POST /api/admin/plants', 'Admin token',
+          '{"name":"Rose<4 letters>🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹","categoryId":<sub id>,"price":5,"quantity":1}  (20 characters)',
+          '201 Created, "Plant created successfully" (SRS 6.4.2 "Length 3-25" counts characters)',
+          precondition="A sub-category exists.")
 def _(ctx):
-    s, b = call("POST", "/api/admin/plants", {"name": "Okay " + ctx.uniq(6), "categoryId": 999999, "price": 0, "quantity": 1}, ctx.admin)
-    return verify(s, b, 400, field="price", field_msg="Price must be greater than 0",
-                  checks=[("errors.categoryId = 'Category not found'",
-                           lambda: (b.get("errors") or {}).get("categoryId") == "Category not found")])
+    name = "Rose" + ctx.uniq(4) + "🌹" * 12
+    s, b = call("POST", "/api/admin/plants", plant_body(ctx, name=name), ctx.admin)
+    return verify(s, b, 201, "Plant created successfully", checks=[("name is 20 characters", lambda: len(name) == 20)])

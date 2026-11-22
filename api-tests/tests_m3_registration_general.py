@@ -125,19 +125,12 @@ def _(ctx):
     return verify(s, b, 415, "Content-Type must be application/json")
 
 
-@api_test("TC_API_M3_14", 'M3', "Parallel: deleting the same category twice returns 404, not a server error",
-          "DELETE /api/admin/categories/{id}", 'Admin token', "5 x DELETE /api/admin/categories/{id} of one empty category, at the same moment",
-          '1 x 200 "Category deleted successfully", 4 x 404 "Category not found" (SRS 4.6); no 500',
-          precondition="An empty main category exists.",
-          steps="1. Send DELETE /api/admin/categories/{id} 5 times at the same moment (Postman Runner, 5 iterations).\n"
-                "2. Check every response status and message.")
+@api_test("TC_API_M3_14", 'M3', "Full name of 1 character (an emoji) is rejected", 'POST /api/client/public/auth/register', 'No token (Guest)',
+          'Valid registration body with "fullName":"😀" (1 character)',
+          '400 Bad Request, errors.fullName = "Full name must be between 2 and 50 characters" (SRS 7.2 "Length 2-50")')
 def _(ctx):
-    cat = ctx.main_cat()
-    r = parallel(*[lambda: call("DELETE", f"/api/admin/categories/{cat['id']}", token=ctx.admin)] * 5)
-    codes = sorted(x[0] for x in r)
-    bad = [x for x in r if x[0] not in (200, 404)]
-    s, b = bad[0] if bad else r[0]
-    return verify(s, b, s, checks=[(f"1 x 200 and 4 x 404, no 500 (got {codes})", lambda: codes == [200, 404, 404, 404, 404])])
+    s, b = post_reg(reg_body(ctx, fullName="😀"))
+    return verify(s, b, 400, field="fullName", field_msg="Full name must be between 2 and 50 characters")
 
 
 @api_test("TC_API_M3_15", 'M3', "Error for a very long search is returned in the standard JSON format",

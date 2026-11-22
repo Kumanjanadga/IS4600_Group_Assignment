@@ -42,10 +42,10 @@ qa-project/
 |---|---|---|---|---|
 | M1 – 224135V Nimhan R.D.S. | Category Management (6.3) + Dashboard (6.2) | `tests_m1_categories_dashboard.py` · `/api/admin/categories/*`, `/api/admin/dashboard/summary` | `/admin/categories`, add/edit, `/admin/dashboard` | DEF-001, 002, 003 |
 | M2 – 224098H Kahanda M.C. | Plant Management (6.4) | `tests_m2_plants.py` · `/api/admin/plants/*` | `/admin/plants`, add/edit | DEF-004, 005, 006 |
-| M3 – 224114G Kumanjana D.G.A. | Registration (7.2) + Navigation/header (7.1) + general API rules (4.5, 4.6) | `tests_m3_registration_general.py` · `/api/client/public/auth/register`, 405/415/response format | `/client/register`, `/client`, header | DEF-010, 011 |
-| M4 – 224173 Sathsara | Plant Catalog + Plant Details (7.3, 7.4) + list rules (4.8) | `tests_m4_catalog.py` · `/api/client/public/plants/*`, `/api/client/public/categories`, page/size/sort | `/client/plants`, `/client/plants/{id}` | DEF-012, 013 |
-| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant + My Purchases (7.5, 7.6) + User Management (6.6) | `tests_m5_purchases_users.py` · `/api/client/purchases`, `/plants/{id}/buy-info`, `/api/admin/users/*` | `/client/plants/{id}/buy`, `/client/purchases`, `/admin/users` | DEF-014, 015 |
-| M6 – 224003P Aberathna M.H.A.J.D. | Sales Management + Sell Plant (6.5) | `tests_m6_sales.py` · `/api/admin/sales/*` | `/admin/sales`, `/admin/sales/new` | DEF-007, 008, 009 |
+| M3 – 224114G Kumanjana D.G.A. | Registration (7.2) + Navigation/header (7.1) + general API rules (4.5, 4.6) | `tests_m3_registration_general.py` · `/api/client/public/auth/register`, 405/415/response format | `/client/register`, `/client`, header | DEF-007, 008 |
+| M4 – 224173 Sathsara | Plant Catalog + Plant Details (7.3, 7.4) + list rules (4.8) | `tests_m4_catalog.py` · `/api/client/public/plants/*`, `/api/client/public/categories`, page/size/sort | `/client/plants`, `/client/plants/{id}` | DEF-009, 010 |
+| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant + My Purchases (7.5, 7.6) + User Management (6.6) | `tests_m5_purchases_users.py` · `/api/client/purchases`, `/plants/{id}/buy-info`, `/api/admin/users/*` | `/client/plants/{id}/buy`, `/client/purchases`, `/admin/users` | DEF-011, 012 |
+| M6 – 224003P Aberathna M.H.A.J.D. | Sales Management + Sell Plant (6.5) | `tests_m6_sales.py` · `/api/admin/sales/*` | `/admin/sales`, `/admin/sales/new` | DEF-013, 014, 015 |
 
 - Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
 - Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
@@ -102,23 +102,23 @@ python build_excel.py
 
 ## Latest results (API, 22/11/2026)
 
-**75 Passed, 15 Failed** – every failure is one of the 15 defects (`results/api_results.json`, `DEFECT_REPORT.md`).
+**75 Passed, 15 Failed** – every failure is one of the 15 defects (10 need only a single request) (`results/api_results.json`, `DEFECT_REPORT.md`).
 UI cases: 90 *Not Executed* (no UI in this release).
 
 | Defect | Test case | Summary |
 |---|---|---|
-| DEF-001 | TC_API_M1_14 | Duplicate category names saved (parallel) |
-| DEF-002 | TC_API_M1_15 | Category tree becomes 3 levels (parallel) |
-| DEF-003 | TC_API_M1_13 | Category form drops the parent error when the name is also invalid |
-| DEF-004 | TC_API_M2_13 | Main category ends up holding plants (parallel) |
-| DEF-005 | TC_API_M2_14 | Stock becomes negative after a sale is deleted |
-| DEF-006 | TC_API_M2_15 | Plant form drops the category error |
-| DEF-007 | TC_API_M6_13 | Deleting the same sale twice → 500 (parallel) |
-| DEF-008 | TC_API_M6_14 | `soldTo=9999-12-31` → 500 |
-| DEF-009 | TC_API_M6_15 | Sell Plant drops the out-of-stock error |
-| DEF-010 | TC_API_M3_14 | Deleting the same category twice → 500 (parallel) |
-| DEF-011 | TC_API_M3_15 | Some errors are HTML instead of JSON |
-| DEF-012 | TC_API_M4_14 | Huge page number → 500 on every list |
-| DEF-013 | TC_API_M4_15 | Deleting the same plant twice → 500 (parallel) |
-| DEF-014 | TC_API_M5_14 | Deactivating the same Client twice → both succeed (parallel) |
-| DEF-015 | TC_API_M5_15 | Buy Plant drops the out-of-stock error |
+| DEF-001 | TC_API_M1_13 | "Café" rejected as a duplicate of category "Cafe" |
+| DEF-002 | TC_API_M1_15 | 7-character category name (with emoji) rejected as longer than 10 |
+| DEF-003 | TC_API_M1_14 | Duplicate category names saved (parallel) |
+| DEF-004 | TC_API_M2_14 | Stock becomes negative after a sale is deleted |
+| DEF-005 | TC_API_M2_13 | "Strasse Fern" rejected as a duplicate of plant "Straße Fern" |
+| DEF-006 | TC_API_M2_15 | 20-character plant name (with emoji) rejected as longer than 25 |
+| DEF-007 | TC_API_M3_14 | 1-character full name (an emoji) accepted |
+| DEF-008 | TC_API_M3_15 | Some errors are HTML instead of JSON |
+| DEF-009 | TC_API_M4_14 | Huge page number → 500 on every list |
+| DEF-010 | TC_API_M4_15 | Deleting the same plant twice → 500 (parallel) |
+| DEF-011 | TC_API_M5_14 | Deactivating the same Client twice → both succeed (parallel) |
+| DEF-012 | TC_API_M5_15 | Buy Plant drops the out-of-stock error |
+| DEF-013 | TC_API_M6_14 | `soldTo=9999-12-31` → 500 |
+| DEF-014 | TC_API_M6_15 | Sell Plant drops the out-of-stock error |
+| DEF-015 | TC_API_M6_13 | Deleting the same sale twice → 500 (parallel) |

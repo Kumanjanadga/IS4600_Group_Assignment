@@ -1,5 +1,5 @@
 {
-  "executed_at": "2026-11-22T05:39:29.799645+00:00",
+  "executed_at": "2026-11-22T07:31:38.363659+00:00",
   "counts": {
     "Pass": 75,
     "Fail": 15,
@@ -177,16 +177,16 @@
     {
       "id": "TC_API_M1_13",
       "member": "M1",
-      "title": "Two invalid fields: name too short AND parent not found",
-      "description": "Two invalid fields: name too short AND parent not found",
+      "title": "Category name with an accented letter is not a duplicate",
+      "description": "Category name with an accented letter is not a duplicate",
       "endpoint": "POST /api/admin/categories",
       "role": "Admin token",
-      "data": "{\"name\":\"AB\",\"parentId\":999999}",
-      "expected": "400 Bad Request with one message per field (SRS 4.7): errors.name = \"Category name must be between 3 and 10 characters\" AND errors.parentId = \"Parent category not found\"",
-      "precondition": "Application is running; default accounts exist.",
+      "data": "Category \"Cafe<xyz>\" exists; send {\"name\":\"Caf\u00e9<xyz>\",\"parentId\":null}",
+      "expected": "201 Created, \"Category created successfully\" - names are unique only case-insensitively (SRS 6.3.2), and \"Caf\u00e9\" is a different name from \"Cafe\"",
+      "precondition": "A main category \"Cafe<xyz>\" exists.",
       "steps": "1. Send POST /api/admin/categories using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Fail",
-      "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"} | MISMATCH: check failed: errors.parentId = 'Parent category not found'"
+      "actual": "409, message='Validation failed', errors={\"name\": \"Category name already exists\"} | MISMATCH: status 409 != 201; message 'Validation failed' != 'Category created successfully'"
     },
     {
       "id": "TC_API_M1_14",
@@ -205,16 +205,16 @@
     {
       "id": "TC_API_M1_15",
       "member": "M1",
-      "title": "Parallel: moving a main category while adding a sub-category to it keeps two levels",
-      "description": "Parallel: moving a main category while adding a sub-category to it keeps two levels",
-      "endpoint": "PUT /api/admin/categories/{id}",
+      "title": "Category name of 7 characters including emoji is within 3-10",
+      "description": "Category name of 7 characters including emoji is within 3-10",
+      "endpoint": "POST /api/admin/categories",
       "role": "Admin token",
-      "data": "At the same moment: PUT /api/admin/categories/{M} {\"name\":\"<M>\",\"parentId\":<O>} and 2 x POST /api/admin/categories {\"name\":\"<new>\",\"parentId\":<M>}",
-      "expected": "The move or the new sub-categories are rejected; afterwards M never has both a parent and children (SRS 6.3.2 \"Categories have two levels only\")",
-      "precondition": "Two main categories M and O exist; M has no sub-categories.",
-      "steps": "1. Send the PUT (move M under O) and the two POST requests (sub-category under M) at the same moment.\n2. Send GET /api/admin/categories/{M} and GET /api/admin/categories?parentId={M}.\n3. Check that M does not have both a parent and children.",
+      "data": "{\"name\":\"<3 letters>\ud83c\udf35\ud83c\udf35\ud83c\udf35\ud83c\udf35\",\"parentId\":null}  (7 characters)",
+      "expected": "201 Created, \"Category created successfully\" (SRS 6.3.2 \"Length 3-10\" counts characters)",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send POST /api/admin/categories using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Fail",
-      "actual": "200, message='Category retrieved successfully' | MISMATCH: check failed: not 3 levels (M.parent=901, M.children=2, statuses [200, 201, 201])"
+      "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"} | MISMATCH: status 400 != 201; message 'Validation failed' != 'Category created successfully'"
     },
     {
       "id": "TC_API_M2_01",
@@ -387,16 +387,16 @@
     {
       "id": "TC_API_M2_13",
       "member": "M2",
-      "title": "Parallel: sub-category made main while plants are added keeps plants in sub-categories only",
-      "description": "Parallel: sub-category made main while plants are added keeps plants in sub-categories only",
-      "endpoint": "PUT /api/admin/categories/{id}",
+      "title": "Plant name with a special letter is not a duplicate",
+      "description": "Plant name with a special letter is not a duplicate",
+      "endpoint": "POST /api/admin/plants",
       "role": "Admin token",
-      "data": "At the same moment: PUT /api/admin/categories/{S} {\"name\":\"<S>\",\"parentId\":null} and 3 x POST /api/admin/plants {\"name\":\"<new>\",\"categoryId\":<S>,\"price\":5,\"quantity\":7}",
-      "expected": "One side is rejected; afterwards S is never a main category that holds plants (SRS 6.3.2 \"A sub-category that has plants cannot be changed into a main category\", 6.4.2 \"Category must be a sub-category\")",
-      "precondition": "A sub-category S without plants exists.",
-      "steps": "1. Send the PUT (make S a main category) and three POST /api/admin/plants into S at the same moment.\n2. Send GET /api/admin/categories/{S} and GET /api/admin/plants?categoryId={S}.\n3. Check that S is not a main category with plants.",
+      "data": "Plant \"Stra\u00dfe Fern <xyz>\" exists; send {\"name\":\"Strasse Fern <xyz>\",\"categoryId\":<sub id>,\"price\":5,\"quantity\":5}",
+      "expected": "201 Created, \"Plant created successfully\" - plant names are unique only case-insensitively (SRS 6.4.2), and \"Strasse\" is a different name from \"Stra\u00dfe\"",
+      "precondition": "A sub-category and a plant \"Stra\u00dfe Fern <xyz>\" exist.",
+      "steps": "1. Send POST /api/admin/plants using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Fail",
-      "actual": "200, message='Category retrieved successfully' | MISMATCH: check failed: not a main category with plants (main=True, plants=1, statuses [200, 400, 201, 400])"
+      "actual": "409, message='Validation failed', errors={\"name\": \"Plant name already exists\"} | MISMATCH: status 409 != 201; message 'Validation failed' != 'Plant created successfully'"
     },
     {
       "id": "TC_API_M2_14",
@@ -415,16 +415,16 @@
     {
       "id": "TC_API_M2_15",
       "member": "M2",
-      "title": "Two invalid fields: price 0 AND category not found",
-      "description": "Two invalid fields: price 0 AND category not found",
+      "title": "Plant name of 20 characters including emoji is within 3-25",
+      "description": "Plant name of 20 characters including emoji is within 3-25",
       "endpoint": "POST /api/admin/plants",
       "role": "Admin token",
-      "data": "{\"name\":\"Okay Plant <x>\",\"categoryId\":999999,\"price\":0,\"quantity\":1}",
-      "expected": "400 Bad Request with one message per field (SRS 4.7): errors.price = \"Price must be greater than 0\" AND errors.categoryId = \"Category not found\"",
-      "precondition": "Application is running; default accounts exist.",
+      "data": "{\"name\":\"Rose<4 letters>\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\ud83c\udf39\",\"categoryId\":<sub id>,\"price\":5,\"quantity\":1}  (20 characters)",
+      "expected": "201 Created, \"Plant created successfully\" (SRS 6.4.2 \"Length 3-25\" counts characters)",
+      "precondition": "A sub-category exists.",
       "steps": "1. Send POST /api/admin/plants using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Fail",
-      "actual": "400, message='Validation failed', errors={\"price\": \"Price must be greater than 0\"} | MISMATCH: check failed: errors.categoryId = 'Category not found'"
+      "actual": "400, message='Validation failed', errors={\"name\": \"Plant name must be between 3 and 25 characters\"} | MISMATCH: status 400 != 201; message 'Validation failed' != 'Plant created successfully'"
     },
     {
       "id": "TC_API_M3_01",
@@ -611,16 +611,16 @@
     {
       "id": "TC_API_M3_14",
       "member": "M3",
-      "title": "Parallel: deleting the same category twice returns 404, not a server error",
-      "description": "Parallel: deleting the same category twice returns 404, not a server error",
-      "endpoint": "DELETE /api/admin/categories/{id}",
-      "role": "Admin token",
-      "data": "5 x DELETE /api/admin/categories/{id} of one empty category, at the same moment",
-      "expected": "1 x 200 \"Category deleted successfully\", 4 x 404 \"Category not found\" (SRS 4.6); no 500",
-      "precondition": "An empty main category exists.",
-      "steps": "1. Send DELETE /api/admin/categories/{id} 5 times at the same moment (Postman Runner, 5 iterations).\n2. Check every response status and message.",
+      "title": "Full name of 1 character (an emoji) is rejected",
+      "description": "Full name of 1 character (an emoji) is rejected",
+      "endpoint": "POST /api/client/public/auth/register",
+      "role": "No token (Guest)",
+      "data": "Valid registration body with \"fullName\":\"\ud83d\ude00\" (1 character)",
+      "expected": "400 Bad Request, errors.fullName = \"Full name must be between 2 and 50 characters\" (SRS 7.2 \"Length 2-50\")",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send POST /api/client/public/auth/register using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Fail",
-      "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 4 x 404, no 500 (got [200, 500, 500, 500, 500])"
+      "actual": "201, message='Registration successful. Please log in.' | MISMATCH: status 201 != 400; errors.fullName 'None' != 'Full name must be between 2 and 50 characters'"
     },
     {
       "id": "TC_API_M3_15",

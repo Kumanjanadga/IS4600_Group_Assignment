@@ -140,15 +140,16 @@ def _(ctx):
                   field_msg="A category with sub-categories cannot be moved under another category")
 
 
-@api_test("TC_API_M1_13", 'M1', "Two invalid fields: name too short AND parent not found", 'POST /api/admin/categories', 'Admin token',
-          '{"name":"AB","parentId":999999}',
-          '400 Bad Request with one message per field (SRS 4.7): errors.name = "Category name must be between 3 and 10 '
-          'characters" AND errors.parentId = "Parent category not found"')
+@api_test("TC_API_M1_13", 'M1', "Category name with an accented letter is not a duplicate", 'POST /api/admin/categories', 'Admin token',
+          'Category "Cafe<xyz>" exists; send {"name":"Café<xyz>","parentId":null}',
+          '201 Created, "Category created successfully" - names are unique only case-insensitively (SRS 6.3.2), '
+          'and "Café" is a different name from "Cafe"',
+          precondition='A main category "Cafe<xyz>" exists.')
 def _(ctx):
-    s, b = call("POST", "/api/admin/categories", {"name": "AB", "parentId": 999999}, ctx.admin)
-    return verify(s, b, 400, field="name", field_msg="Category name must be between 3 and 10 characters",
-                  checks=[("errors.parentId = 'Parent category not found'",
-                           lambda: (b.get("errors") or {}).get("parentId") == "Parent category not found")])
+    u = ctx.uniq(3)
+    call("POST", "/api/admin/categories", {"name": "Cafe" + u, "parentId": None}, ctx.admin)
+    s, b = call("POST", "/api/admin/categories", {"name": "Café" + u, "parentId": None}, ctx.admin)
+    return verify(s, b, 201, "Category created successfully")
 
 
 @api_test("TC_API_M1_14", 'M1', "Parallel: 8 identical Add Category requests create only one category", 'POST /api/admin/categories',
@@ -167,23 +168,10 @@ def _(ctx):
                                      (f"one saved category (got {b['data']['totalElements']})", lambda: b["data"]["totalElements"] == 1)])
 
 
-@api_test("TC_API_M1_15", 'M1', "Parallel: moving a main category while adding a sub-category to it keeps two levels",
-          "PUT /api/admin/categories/{id}", 'Admin token',
-          'At the same moment: PUT /api/admin/categories/{M} {"name":"<M>","parentId":<O>} and '
-          '2 x POST /api/admin/categories {"name":"<new>","parentId":<M>}',
-          'The move or the new sub-categories are rejected; afterwards M never has both a parent and children '
-          '(SRS 6.3.2 "Categories have two levels only")',
-          precondition="Two main categories M and O exist; M has no sub-categories.",
-          steps="1. Send the PUT (move M under O) and the two POST requests (sub-category under M) at the same moment.\n"
-                "2. Send GET /api/admin/categories/{M} and GET /api/admin/categories?parentId={M}.\n"
-                "3. Check that M does not have both a parent and children.")
+@api_test("TC_API_M1_15", 'M1', "Category name of 7 characters including emoji is within 3-10", 'POST /api/admin/categories', 'Admin token',
+          '{"name":"<3 letters>🌵🌵🌵🌵","parentId":null}  (7 characters)',
+          '201 Created, "Category created successfully" (SRS 6.3.2 "Length 3-10" counts characters)')
 def _(ctx):
-    m, other = ctx.main_cat(), ctx.main_cat()
-    r = parallel(lambda: call("PUT", f"/api/admin/categories/{m['id']}", {"name": m["name"], "parentId": other["id"]}, ctx.admin),
-                 lambda: call("POST", "/api/admin/categories", {"name": "L" + ctx.uniq(6), "parentId": m["id"]}, ctx.admin),
-                 lambda: call("POST", "/api/admin/categories", {"name": "L" + ctx.uniq(6), "parentId": m["id"]}, ctx.admin))
-    s, b = call("GET", f"/api/admin/categories/{m['id']}", token=ctx.admin)
-    kids = call("GET", f"/api/admin/categories?parentId={m['id']}", token=ctx.admin)[1]["data"]["totalElements"]
-    parent = b["data"]["parentId"]
-    return verify(s, b, 200, checks=[(f"not 3 levels (M.parent={parent}, M.children={kids}, statuses {[x[0] for x in r]})",
-                                      lambda: not (parent and kids))])
+    name = ctx.uniq(3) + "🌵" * 4
+    s, b = call("POST", "/api/admin/categories", {"name": name, "parentId": None}, ctx.admin)
+    return verify(s, b, 201, "Category created successfully", checks=[("name is 7 characters", lambda: len(name) == 7)])
