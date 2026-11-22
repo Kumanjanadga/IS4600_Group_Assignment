@@ -4,41 +4,57 @@
     "M1": {
       "id": "224135V",
       "name": "Nimhan R.D.S.",
-      "modules": "Admin Login/Logout (SRS 5, 6.1), Category Management (SRS 6.3)"
+      "modules": "Category Management (SRS 6.3) + Dashboard (SRS 6.2)"
     },
     "M2": {
       "id": "224098H",
       "name": "Kahanda M.C.",
-      "modules": "Plant Management (SRS 6.4), Dashboard (SRS 6.2)"
+      "modules": "Plant Management (SRS 6.4)"
     },
     "M3": {
       "id": "224114G",
       "name": "Kumanjana D.G.A.",
-      "modules": "Client Registration (SRS 7.2), Client Login/Inactive accounts (SRS 5, 5.3)"
+      "modules": "Registration (SRS 7.2) + Navigation/header (SRS 7.1) + general API rules (SRS 4.5, 4.6)"
     },
     "M4": {
       "id": "224173",
       "name": "Sathsara",
-      "modules": "Plant Catalog, Plant Details, Navigation, List rules (SRS 7.1, 7.3, 7.4, 4.8)"
+      "modules": "Plant Catalog + Plant Details (SRS 7.3, 7.4) + list rules (SRS 4.8)"
     },
     "M5": {
       "id": "224208A",
       "name": "Warnasooriya W.M.E.S.",
-      "modules": "Buy Plant, My Purchases, Client account/session (SRS 7.5, 7.6, 4.2)"
+      "modules": "Buy Plant + My Purchases (SRS 7.5, 7.6) + User Management (SRS 6.6)"
     },
     "M6": {
       "id": "224003P",
       "name": "Aberathna M.H.A.J.D.",
-      "modules": "Sales Management (SRS 6.5), User Management (SRS 6.6)"
+      "modules": "Sales Management + Sell Plant (SRS 6.5)"
     }
   },
   "api_endpoints": {
-    "M1": "/api/admin/auth/login, /api/admin/auth/logout, /api/admin/categories (+ /{id}, /main, /sub)",
-    "M2": "/api/admin/plants (+ /{id}, /in-stock), /api/admin/dashboard/summary",
-    "M3": "/api/client/public/auth/register, /api/client/public/auth/login",
-    "M4": "/api/client/public/plants (+ /{id}), /api/client/public/categories",
-    "M5": "/api/client/purchases, /api/client/plants/{id}/buy-info, /api/client/me, /api/client/auth/logout",
-    "M6": "/api/admin/sales (+ /{id}), /api/admin/users (+ /{id}/activate, /{id}/deactivate)"
+    "M1": "/api/admin/categories (+ /{id}, /main, /sub), /api/admin/dashboard/summary",
+    "M2": "/api/admin/plants (+ /{id}, /in-stock)",
+    "M3": "/api/client/public/auth/register; general rules (405, 415, response format) on any endpoint",
+    "M4": "/api/client/public/plants (+ /{id}), /api/client/public/categories; list parameters (page, size, sortBy, sortDir, search)",
+    "M5": "/api/client/purchases, /api/client/plants/{id}/buy-info, /api/client/me, /api/admin/users (+ /{id}/activate, /{id}/deactivate)",
+    "M6": "/api/admin/sales (+ /{id})"
   },
-  "defects": {}
+  "defects": {
+    "TC_API_M1_13": "DEF-003",
+    "TC_API_M1_14": "DEF-001",
+    "TC_API_M1_15": "DEF-002",
+    "TC_API_M2_13": "DEF-004",
+    "TC_API_M2_14": "DEF-005",
+    "TC_API_M2_15": "DEF-006",
+    "TC_API_M6_13": "DEF-007",
+    "TC_API_M6_14": "DEF-008",
+    "TC_API_M6_15": "DEF-009",
+    "TC_API_M3_14": "DEF-010",
+    "TC_API_M3_15": "DEF-011",
+    "TC_API_M4_14": "DEF-012",
+    "TC_API_M4_15": "DEF-013",
+    "TC_API_M5_14": "DEF-014",
+    "TC_API_M5_15": "DEF-015"
+  }
 }

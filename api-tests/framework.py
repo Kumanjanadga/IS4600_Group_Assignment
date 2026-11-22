@@ -139,3 +139,22 @@ class Ctx:
         s, b = call("POST", "/api/admin/sales",
                     {"plantId": plant_id, "quantity": qty}, self.admin)
         return self._ok(s, b, "admin sale")
+
+
+def parallel(*fns):
+    """Run the given zero-argument callables at the same moment; return their results in order.
+
+    Used by the "parallel" test cases (SRS rules that break only when requests arrive together).
+    In Postman the same thing is done with the Collection Runner (several iterations, no delay).
+    """
+    import threading
+    out = [None] * len(fns)
+    barrier = threading.Barrier(len(fns))
+
+    def run(i):
+        barrier.wait()
+        out[i] = fns[i]()
+    threads = [threading.Thread(target=run, args=(i,)) for i in range(len(fns))]
+    [t.start() for t in threads]
+    [t.join() for t in threads]
+    return out

@@ -1,55 +1,60 @@
-# IS4600 – QA Training App · Task 1: Test Case Design
+# IS4600 – QA Training App · Task 1: Test Case Design (Group 20)
 
 Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Training App (plant store, Admin App + Client App + Backend API).
 
 | | |
 |---|---|
-| Release / deadline | 16/11/2026 → **25/11/2026** |
-| Members | 6 → minimum **180** test cases (15 API + 15 UI each) |
+| Release / deadline | 16/11/2026 → **25/11/2026 (Wednesday)** |
+| Members | 6 → **180** test cases (15 API + 15 UI each), no login/logout cases |
 | Primary references | `QA_Training_App_SRS_v2.1.pdf` (behaviour), Swagger (API details) |
+| Defects found | **15** – see [`DEFECT_REPORT.md`](DEFECT_REPORT.md) |
 
 ## Contents
 
 | Path | What it is |
 |---|---|
-| `TestCaseDocument_<Group>_v0.1.xlsx` | **Submission file** – Summary, Module Division, and all 180 test cases (Template sheet) |
-| `members.json` | Group number, member IDs/names, module split, defect IDs – edit, then rebuild the Excel |
-| `api-tests/` | Executable API test cases (Python, standard library only), 15 per member |
-| `ui-tests/ui_test_cases.py` | UI test cases written from the SRS (no UI in this release → *Not Executed*) |
+| `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary, Module Division, Defect Log and all 180 test cases (Template sheet) |
+| `DEFECT_REPORT.md` | The 15 defects: steps, expected vs actual, SRS sentence broken, owner |
+| `members.json` | Group number, member IDs/names, module split, test case → defect IDs – edit, then rebuild the Excel |
+| `api-tests/tests_m1_…py` … `tests_m6_…py` | Executable API test cases, one file per member (15 each) |
+| `api-tests/framework.py`, `client.py`, `helpers.py`, `run_tests.py` | Test runner, HTTP client, fixtures, `parallel()` helper |
+| `ui-tests/ui_test_cases.py` | UI test cases written from the SRS (no UI in this release → *Not Executed*), 15 per member |
 | `results/api_results.json` | Latest API run (status + actual result per test) |
 | `build_excel.py` | Builds the Excel document from the template + results |
 | `template/` | The original course template |
 
-## Module division
+## Module division (equal weight, ~27 SRS rules each)
 
-| Member | SRS modules | API endpoints | UI pages |
-|---|---|---|---|
-| M1 – 224135V Nimhan R.D.S. | Admin login/logout, Category Management | `/api/admin/auth/*`, `/api/admin/categories/*` | `/admin/login`, `/admin/categories`, add/edit |
-| M2 – 224098H Kahanda M.C. | Plant Management, Dashboard | `/api/admin/plants/*`, `/api/admin/dashboard/summary` | `/admin/plants`, add/edit, `/admin/dashboard` |
-| M3 – 224114G Kumanjana D.G.A. | Registration, Client login | `/api/client/public/auth/register`, `/login` | `/client/register`, `/client/login` |
-| M4 – 224173 Sathsara | Catalog, Plant details, list rules | `/api/client/public/plants/*`, `/categories` | `/client/plants`, `/client/plants/{id}`, header |
-| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant, My Purchases, account/session | `/api/client/purchases`, `/plants/{id}/buy-info`, `/me`, `/auth/logout` | `/client/plants/{id}/buy`, `/client/purchases` |
-| M6 – 224003P Aberathna M.H.A.J.D. | Sales and User Management | `/api/admin/sales/*`, `/api/admin/users/*` | `/admin/sales`, `/admin/sales/new`, `/admin/users` |
+| Member | SRS modules | API test file / endpoints | UI pages | Defects |
+|---|---|---|---|---|
+| M1 – 224135V Nimhan R.D.S. | Category Management (6.3) + Dashboard (6.2) | `tests_m1_categories_dashboard.py` · `/api/admin/categories/*`, `/api/admin/dashboard/summary` | `/admin/categories`, add/edit, `/admin/dashboard` | DEF-001, 002, 003 |
+| M2 – 224098H Kahanda M.C. | Plant Management (6.4) | `tests_m2_plants.py` · `/api/admin/plants/*` | `/admin/plants`, add/edit | DEF-004, 005, 006 |
+| M3 – 224114G Kumanjana D.G.A. | Registration (7.2) + Navigation/header (7.1) + general API rules (4.5, 4.6) | `tests_m3_registration_general.py` · `/api/client/public/auth/register`, 405/415/response format | `/client/register`, `/client`, header | DEF-010, 011 |
+| M4 – 224173 Sathsara | Plant Catalog + Plant Details (7.3, 7.4) + list rules (4.8) | `tests_m4_catalog.py` · `/api/client/public/plants/*`, `/api/client/public/categories`, page/size/sort | `/client/plants`, `/client/plants/{id}` | DEF-012, 013 |
+| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant + My Purchases (7.5, 7.6) + User Management (6.6) | `tests_m5_purchases_users.py` · `/api/client/purchases`, `/plants/{id}/buy-info`, `/api/admin/users/*` | `/client/plants/{id}/buy`, `/client/purchases`, `/admin/users` | DEF-014, 015 |
+| M6 – 224003P Aberathna M.H.A.J.D. | Sales Management + Sell Plant (6.5) | `tests_m6_sales.py` · `/api/admin/sales/*` | `/admin/sales`, `/admin/sales/new` | DEF-007, 008, 009 |
 
-Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written only by the member who owns that endpoint/page, so no scenario is duplicated.
+- Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
+- Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
+- Restructured on 22/11/2026: all login/logout cases and the 3 "redirect to login" cases were removed and replaced.
+  The evidence files `results/evidence_M1_api.md` and `evidence_M3_api.md` use the **old** IDs from before this change.
 
-## Rules we follow (from the instructions + SRS)
+## Rules we follow (instructions + sir's notices)
 
-1. Each member: ≥15 API + ≥15 UI test cases; every test case carries the author's member ID (Tester column).
-2. API test cases state endpoint, HTTP method, role/token, request data, expected status code and response.
-3. UI test cases state page URL, role (or Guest), steps, test data and expected result with the **exact SRS message**.
-4. Expected results come from the SRS, never from what the app does – any difference is a defect.
-5. Duplicates (same scenario + same data) count once, for whoever wrote it first.
-6. Only the port / database settings in `application.yml` may be changed.
-7. Marks are individual: every test case is marked one by one. The lecturer hid ~15 bugs; test cases should be designed to find them.
+1. Each member: 15 API + 15 UI test cases, only inside their own modules; every case carries the writer's ID (Tester column).
+2. **No test cases for the login function** (login page, login API, logout) – sir's notice.
+3. API cases state endpoint, HTTP method, role/token, request data, expected status code and response.
+4. UI cases state page URL, role (or Guest), steps, test data and the expected result with the **exact SRS message**.
+5. Expected results come from the SRS, never from what the app does – any difference is a defect.
+6. No duplicates: the same scenario with the same data counts once, for whoever wrote it first. Marks are individual.
+7. Only the port / database settings in `application.yml` may be changed.
+8. Sir hid ~15 bugs; find at least 12 (about 2 per member). Our 15 are in `DEFECT_REPORT.md`.
 
-## Submission (from the lecturer's voice notes)
+## Submission
 
-- **Hard copy**: print the test case document on A4 or A3 (whatever fits), **one document per group**.
-- **Write the group number** (from the lecturer's group Excel) on it. **No cover page, no binding**: just keep the pages in order.
-- **Black & white only**, no colour printing.
-- Hand it in **by 4 PM** on the deadline (25/11/2026) and **sign** the submission sheet. **No late submissions.**
-- Get the app running early; the deadline will not be extended.
+- **One printed document per group**, A4 or A3, **black & white only** (colour loses marks).
+- Write the **group number (20)** on it. **No cover page, no binding – staple it.**
+- Hand it in to the department by **25/11/2026 (Wednesday)**, 4 PM; earlier is fine. No late submissions.
 
 ## Running the app
 
@@ -71,6 +76,8 @@ python run_tests.py          # all 90
 python run_tests.py M3       # one member
 ```
 Tests create their own uniquely-named data, so they can be re-run on the same database. Set `QA_BASE_URL` for another host.
+"Parallel" cases send the same request several times at the same moment (`framework.parallel`); in Postman use the
+Collection Runner with several iterations and 0 ms delay.
 
 ## Rebuilding the Excel
 
@@ -79,8 +86,25 @@ pip install openpyxl
 python build_excel.py
 ```
 
-## Latest results (API)
+## Latest results (API, 22/11/2026)
 
-90 Passed, 0 Failed – see `results/api_results.json` (evidence: `results/evidence_M1_api.md`, `results/evidence_M3_api.md`).
+**75 Passed, 15 Failed** – every failure is one of the 15 defects (`results/api_results.json`, `DEFECT_REPORT.md`).
+UI cases: 90 *Not Executed* (no UI in this release).
 
-TC_API_M3_07 was redesigned on 20/11/2026: its old data (`<93 chars>@ex.com`) broke the standard 64-character limit for the part before `@`, so it tested two rules at once. It now uses a valid 100-character email (`<33 chars>@<63 chars>.lk`) and passes; the former DEF-001 was withdrawn. A 101-character email is rejected with "Email must not exceed 100 characters", as the SRS requires.
+| Defect | Test case | Summary |
+|---|---|---|
+| DEF-001 | TC_API_M1_14 | Duplicate category names saved (parallel) |
+| DEF-002 | TC_API_M1_15 | Category tree becomes 3 levels (parallel) |
+| DEF-003 | TC_API_M1_13 | Category form drops the parent error when the name is also invalid |
+| DEF-004 | TC_API_M2_13 | Main category ends up holding plants (parallel) |
+| DEF-005 | TC_API_M2_14 | Stock becomes negative after a sale is deleted |
+| DEF-006 | TC_API_M2_15 | Plant form drops the category error |
+| DEF-007 | TC_API_M6_13 | Deleting the same sale twice → 500 (parallel) |
+| DEF-008 | TC_API_M6_14 | `soldTo=9999-12-31` → 500 |
+| DEF-009 | TC_API_M6_15 | Sell Plant drops the out-of-stock error |
+| DEF-010 | TC_API_M3_14 | Deleting the same category twice → 500 (parallel) |
+| DEF-011 | TC_API_M3_15 | Some errors are HTML instead of JSON |
+| DEF-012 | TC_API_M4_14 | Huge page number → 500 on every list |
+| DEF-013 | TC_API_M4_15 | Deleting the same plant twice → 500 (parallel) |
+| DEF-014 | TC_API_M5_14 | Deactivating the same Client twice → both succeed (parallel) |
+| DEF-015 | TC_API_M5_15 | Buy Plant drops the out-of-stock error |

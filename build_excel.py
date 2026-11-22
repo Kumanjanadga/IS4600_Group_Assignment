@@ -176,8 +176,9 @@ for m, info in cfg["members"].items():
     md.append([m, info["id"], info["name"], info["modules"], cfg["api_endpoints"][m],
                f"TC_API_{m}_01 - TC_API_{m}_15", f"TC_UI_{m}_01 - TC_UI_{m}_15"])
 md.append([])
-md.append(["Rule", "Cross-cutting checks (401/403, wrong-app login, deactivated tokens) are written by each member only "
-           "for the endpoints/pages they own, so no scenario is duplicated."])
+md.append(["Rules", "No test cases for the login function (login page, login API, logout), as instructed. "
+           "Each member writes 15 API + 15 UI cases only inside their own modules; token/role checks (401/403) are "
+           "written only by the member who owns that endpoint, so no scenario is duplicated."])
 for c in md[1]:
     c.font = Font(bold=True)
 for col, w in zip("ABCDEFG", (9, 16, 22, 55, 60, 26, 24)):
@@ -187,6 +188,24 @@ for row in md.iter_rows(min_row=2):
         c.alignment = wrap
 print_setup(md)
 print_setup(s)
+
+# ---- Defect Log sheet, read from the summary table in DEFECT_REPORT.md (single source)
+report = os.path.join(HERE, "DEFECT_REPORT.md")
+if os.path.exists(report):
+    dl = wb.create_sheet("Defect Log", 2)
+    dl.append(["Defect ID", "Test case", "Owner", "Defect", "Type", "SRS sentence broken", "Status"])
+    for line in open(report, encoding="utf-8"):
+        if line.startswith("| DEF-"):
+            cells = [c.strip().replace("`", "") for c in line.strip().strip("|").split("|")]
+            dl.append(cells[:6] + ["Open"])
+    for c in dl[1]:
+        c.font = Font(bold=True)
+    for col, w in zip("ABCDEFG", (11, 15, 30, 60, 10, 60, 9)):
+        dl.column_dimensions[col].width = w
+    for row in dl.iter_rows(min_row=2):
+        for c in row:
+            c.alignment = wrap
+    print_setup(dl, "1:1")
 
 wb.calculation.fullCalcOnLoad = True  # Excel recalculates everything when the file is opened
 wb.save(out)

@@ -1,111 +1,13 @@
 {
-  "executed_at": "2026-11-18T11:06:57.100109+00:00",
+  "executed_at": "2026-11-22T05:39:29.799645+00:00",
   "counts": {
-    "Pass": 90,
-    "Fail": 0,
+    "Pass": 75,
+    "Fail": 15,
     "Blocked": 0
   },
   "results": [
     {
       "id": "TC_API_M1_01",
-      "member": "M1",
-      "title": "Admin login with valid credentials",
-      "description": "Admin login with valid credentials",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"admin\",\"password\":\"Admin@123\"}",
-      "expected": "200 OK, message \"Login successful\", data.token is returned",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Login successful'"
-    },
-    {
-      "id": "TC_API_M1_02",
-      "member": "M1",
-      "title": "Admin login with wrong password",
-      "description": "Admin login with wrong password",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"admin\",\"password\":\"Wrong@123\"}",
-      "expected": "401 Unauthorized, message \"Invalid username or password.\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "401, message='Invalid username or password.'"
-    },
-    {
-      "id": "TC_API_M1_03",
-      "member": "M1",
-      "title": "Admin login with empty username",
-      "description": "Admin login with empty username",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"\",\"password\":\"Admin@123\"}",
-      "expected": "400 Bad Request, errors.username = \"Username is required\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "400, message='Validation failed', errors={\"username\": \"Username is required\"}"
-    },
-    {
-      "id": "TC_API_M1_04",
-      "member": "M1",
-      "title": "Admin username is trimmed and not case-sensitive",
-      "description": "Admin username is trimmed and not case-sensitive",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"  ADMIN  \",\"password\":\"Admin@123\"}",
-      "expected": "200 OK, message \"Login successful\", token returned",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Login successful'"
-    },
-    {
-      "id": "TC_API_M1_05",
-      "member": "M1",
-      "title": "Admin password is case-sensitive",
-      "description": "Admin password is case-sensitive",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"admin\",\"password\":\"admin@123\"}",
-      "expected": "401 Unauthorized, message \"Invalid username or password.\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "401, message='Invalid username or password.'"
-    },
-    {
-      "id": "TC_API_M1_06",
-      "member": "M1",
-      "title": "Client credentials rejected on Admin login",
-      "description": "Client credentials rejected on Admin login",
-      "endpoint": "POST /api/admin/auth/login",
-      "role": "No token",
-      "data": "{\"username\":\"user\",\"password\":\"User@123\"}",
-      "expected": "403 Forbidden, message \"You are not authorized to access the Admin App.\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/admin/auth/login using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "403, message='You are not authorized to access the Admin App.'"
-    },
-    {
-      "id": "TC_API_M1_07",
-      "member": "M1",
-      "title": "Admin token is invalid after logout",
-      "description": "Admin token is invalid after logout",
-      "endpoint": "POST /api/admin/auth/logout",
-      "role": "Admin token",
-      "data": "Fresh admin token; then GET /api/admin/categories with same token",
-      "expected": "Logout 200; next call with the same token 401, message \"Invalid or expired token\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Log in as admin and copy the token.\n2. Send POST /api/admin/auth/logout with the token.\n3. Send GET /api/admin/categories with the same token.\n4. Check status and message.",
-      "status": "Pass",
-      "actual": "401, message='Invalid or expired token'"
-    },
-    {
-      "id": "TC_API_M1_08",
       "member": "M1",
       "title": "Create a main category",
       "description": "Create a main category",
@@ -119,7 +21,7 @@
       "actual": "201, message='Category created successfully'"
     },
     {
-      "id": "TC_API_M1_09",
+      "id": "TC_API_M1_02",
       "member": "M1",
       "title": "Create a sub-category under a main category",
       "description": "Create a sub-category under a main category",
@@ -133,7 +35,7 @@
       "actual": "201, message='Category created successfully'"
     },
     {
-      "id": "TC_API_M1_10",
+      "id": "TC_API_M1_03",
       "member": "M1",
       "title": "Category name is required",
       "description": "Category name is required",
@@ -147,7 +49,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Category name is required\"}"
     },
     {
-      "id": "TC_API_M1_11",
+      "id": "TC_API_M1_04",
       "member": "M1",
       "title": "Category name below minimum length (2 chars)",
       "description": "Category name below minimum length (2 chars)",
@@ -161,7 +63,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"}"
     },
     {
-      "id": "TC_API_M1_12",
+      "id": "TC_API_M1_05",
       "member": "M1",
       "title": "Duplicate category name (different case) under same parent",
       "description": "Duplicate category name (different case) under same parent",
@@ -175,7 +77,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Category name already exists\"}"
     },
     {
-      "id": "TC_API_M1_13",
+      "id": "TC_API_M1_06",
       "member": "M1",
       "title": "Sub-category cannot be used as a parent",
       "description": "Sub-category cannot be used as a parent",
@@ -189,7 +91,7 @@
       "actual": "400, message='Validation failed', errors={\"parentId\": \"Parent category must be a main category\"}"
     },
     {
-      "id": "TC_API_M1_14",
+      "id": "TC_API_M1_07",
       "member": "M1",
       "title": "Delete main category that has 1 sub-category",
       "description": "Delete main category that has 1 sub-category",
@@ -203,7 +105,7 @@
       "actual": "409, message='Category cannot be deleted because it has 1 sub-category.'"
     },
     {
-      "id": "TC_API_M1_15",
+      "id": "TC_API_M1_08",
       "member": "M1",
       "title": "Client token cannot create a category",
       "description": "Client token cannot create a category",
@@ -215,6 +117,104 @@
       "steps": "1. Send POST /api/admin/categories using Client token (user).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
       "actual": "403, message='You do not have permission to access this resource'"
+    },
+    {
+      "id": "TC_API_M1_09",
+      "member": "M1",
+      "title": "Dashboard low-stock count includes quantity 0 and 4, not 5",
+      "description": "Dashboard low-stock count includes quantity 0 and 4, not 5",
+      "endpoint": "GET /api/admin/dashboard/summary",
+      "role": "Admin token",
+      "data": "Read summary; add plants with quantity 0, 4 and 5; read summary again",
+      "expected": "200 OK, plants.total +3 and plants.lowStock +2",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send GET /api/admin/dashboard/summary and note plants.total and plants.lowStock.\n2. Add three plants with quantity 0, 4 and 5.\n3. Send GET /api/admin/dashboard/summary again.\n4. Compare the counts.",
+      "status": "Pass",
+      "actual": "200, message='Dashboard summary retrieved successfully'"
+    },
+    {
+      "id": "TC_API_M1_10",
+      "member": "M1",
+      "title": "A category cannot be its own parent (Edit)",
+      "description": "A category cannot be its own parent (Edit)",
+      "endpoint": "PUT /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "id = main category C; {\"name\":\"<C name>\",\"parentId\":<C id>}",
+      "expected": "400 Bad Request, errors.parentId = \"A category cannot be its own parent\"",
+      "precondition": "A main category C exists.",
+      "steps": "1. Send PUT /api/admin/categories/{id} using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "400, message='Validation failed', errors={\"parentId\": \"A category cannot be its own parent\"}"
+    },
+    {
+      "id": "TC_API_M1_11",
+      "member": "M1",
+      "title": "Delete sub-category with 2 plants shows plural message",
+      "description": "Delete sub-category with 2 plants shows plural message",
+      "endpoint": "DELETE /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "id = sub-category that contains exactly 2 plants",
+      "expected": "409 Conflict, message \"Category cannot be deleted because it has 2 plants.\"",
+      "precondition": "A sub-category with exactly two plants exists.",
+      "steps": "1. Send DELETE /api/admin/categories/{id} using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "409, message='Category cannot be deleted because it has 2 plants.'"
+    },
+    {
+      "id": "TC_API_M1_12",
+      "member": "M1",
+      "title": "Main category with sub-categories cannot be moved under another",
+      "description": "Main category with sub-categories cannot be moved under another",
+      "endpoint": "PUT /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "id = main M (has 1 sub-category); {\"name\":\"<M name>\",\"parentId\":<other main id>}",
+      "expected": "400 Bad Request, errors.parentId = \"A category with sub-categories cannot be moved under another category\"",
+      "precondition": "Main category M with one sub-category, and another main category O, exist.",
+      "steps": "1. Send PUT /api/admin/categories/{id} using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "400, message='Validation failed', errors={\"parentId\": \"A category with sub-categories cannot be moved under another category\"}"
+    },
+    {
+      "id": "TC_API_M1_13",
+      "member": "M1",
+      "title": "Two invalid fields: name too short AND parent not found",
+      "description": "Two invalid fields: name too short AND parent not found",
+      "endpoint": "POST /api/admin/categories",
+      "role": "Admin token",
+      "data": "{\"name\":\"AB\",\"parentId\":999999}",
+      "expected": "400 Bad Request with one message per field (SRS 4.7): errors.name = \"Category name must be between 3 and 10 characters\" AND errors.parentId = \"Parent category not found\"",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send POST /api/admin/categories using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"} | MISMATCH: check failed: errors.parentId = 'Parent category not found'"
+    },
+    {
+      "id": "TC_API_M1_14",
+      "member": "M1",
+      "title": "Parallel: 8 identical Add Category requests create only one category",
+      "description": "Parallel: 8 identical Add Category requests create only one category",
+      "endpoint": "POST /api/admin/categories",
+      "role": "Admin token",
+      "data": "8 x {\"name\":\"<same unique name>\",\"parentId\":null} sent at the same moment",
+      "expected": "1 x 201 \"Category created successfully\", 7 x 409 \"Category name already exists\"; GET /api/admin/categories?search=<name> returns 1 category (SRS 6.3.2 unique within the same parent)",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Prepare a new category name.\n2. Send POST /api/admin/categories 8 times at the same moment (Postman Runner, 8 iterations, 0 ms delay).\n3. Count the 201 and 409 responses.\n4. Send GET /api/admin/categories?search=<name> and count the rows.",
+      "status": "Fail",
+      "actual": "200, message='Categories retrieved successfully' | MISMATCH: check failed: exactly one 201 (got [201, 201, 201, 201, 201, 201, 201, 201]); check failed: one saved category (got 8)"
+    },
+    {
+      "id": "TC_API_M1_15",
+      "member": "M1",
+      "title": "Parallel: moving a main category while adding a sub-category to it keeps two levels",
+      "description": "Parallel: moving a main category while adding a sub-category to it keeps two levels",
+      "endpoint": "PUT /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "At the same moment: PUT /api/admin/categories/{M} {\"name\":\"<M>\",\"parentId\":<O>} and 2 x POST /api/admin/categories {\"name\":\"<new>\",\"parentId\":<M>}",
+      "expected": "The move or the new sub-categories are rejected; afterwards M never has both a parent and children (SRS 6.3.2 \"Categories have two levels only\")",
+      "precondition": "Two main categories M and O exist; M has no sub-categories.",
+      "steps": "1. Send the PUT (move M under O) and the two POST requests (sub-category under M) at the same moment.\n2. Send GET /api/admin/categories/{M} and GET /api/admin/categories?parentId={M}.\n3. Check that M does not have both a parent and children.",
+      "status": "Fail",
+      "actual": "200, message='Category retrieved successfully' | MISMATCH: check failed: not 3 levels (M.parent=901, M.children=2, statuses [200, 201, 201])"
     },
     {
       "id": "TC_API_M2_01",
@@ -317,20 +317,6 @@
     {
       "id": "TC_API_M2_08",
       "member": "M2",
-      "title": "Decimal quantity is rejected",
-      "description": "Decimal quantity is rejected",
-      "endpoint": "POST /api/admin/plants",
-      "role": "Admin token",
-      "data": "quantity = 2.5",
-      "expected": "400 Bad Request, errors.quantity = \"Quantity must be a whole number\"",
-      "precondition": "Admin is logged in; a sub-category exists.",
-      "steps": "1. Send POST /api/admin/plants using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be a whole number\"}"
-    },
-    {
-      "id": "TC_API_M2_09",
-      "member": "M2",
       "title": "Plant cannot be added to a main category",
       "description": "Plant cannot be added to a main category",
       "endpoint": "POST /api/admin/plants",
@@ -343,7 +329,7 @@
       "actual": "400, message='Validation failed', errors={\"categoryId\": \"Category must be a sub-category\"}"
     },
     {
-      "id": "TC_API_M2_10",
+      "id": "TC_API_M2_09",
       "member": "M2",
       "title": "Duplicate plant name (different case) is rejected",
       "description": "Duplicate plant name (different case) is rejected",
@@ -357,7 +343,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Plant name already exists\"}"
     },
     {
-      "id": "TC_API_M2_11",
+      "id": "TC_API_M2_10",
       "member": "M2",
       "title": "Plant name above maximum length (26 chars)",
       "description": "Plant name above maximum length (26 chars)",
@@ -371,7 +357,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Plant name must be between 3 and 25 characters\"}"
     },
     {
-      "id": "TC_API_M2_12",
+      "id": "TC_API_M2_11",
       "member": "M2",
       "title": "Plant with sales records cannot be deleted",
       "description": "Plant with sales records cannot be deleted",
@@ -385,7 +371,7 @@
       "actual": "409, message='Plant cannot be deleted because it has sales records.'"
     },
     {
-      "id": "TC_API_M2_13",
+      "id": "TC_API_M2_12",
       "member": "M2",
       "title": "Filter by main category returns plants of all its sub-categories",
       "description": "Filter by main category returns plants of all its sub-categories",
@@ -399,32 +385,46 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
+      "id": "TC_API_M2_13",
+      "member": "M2",
+      "title": "Parallel: sub-category made main while plants are added keeps plants in sub-categories only",
+      "description": "Parallel: sub-category made main while plants are added keeps plants in sub-categories only",
+      "endpoint": "PUT /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "At the same moment: PUT /api/admin/categories/{S} {\"name\":\"<S>\",\"parentId\":null} and 3 x POST /api/admin/plants {\"name\":\"<new>\",\"categoryId\":<S>,\"price\":5,\"quantity\":7}",
+      "expected": "One side is rejected; afterwards S is never a main category that holds plants (SRS 6.3.2 \"A sub-category that has plants cannot be changed into a main category\", 6.4.2 \"Category must be a sub-category\")",
+      "precondition": "A sub-category S without plants exists.",
+      "steps": "1. Send the PUT (make S a main category) and three POST /api/admin/plants into S at the same moment.\n2. Send GET /api/admin/categories/{S} and GET /api/admin/plants?categoryId={S}.\n3. Check that S is not a main category with plants.",
+      "status": "Fail",
+      "actual": "200, message='Category retrieved successfully' | MISMATCH: check failed: not a main category with plants (main=True, plants=1, statuses [200, 400, 201, 400])"
+    },
+    {
       "id": "TC_API_M2_14",
       "member": "M2",
-      "title": "Dashboard low-stock count includes quantity 0 and 4, not 5",
-      "description": "Dashboard low-stock count includes quantity 0 and 4, not 5",
-      "endpoint": "GET /api/admin/dashboard/summary",
+      "title": "Stock never becomes negative when a sale is deleted at maximum stock",
+      "description": "Stock never becomes negative when a sale is deleted at maximum stock",
+      "endpoint": "DELETE /api/admin/sales/{id}",
       "role": "Admin token",
-      "data": "Read summary; add plants with quantity 0, 4 and 5; read summary again",
-      "expected": "200 OK, plants.total +3 and plants.lowStock +2",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send GET /api/admin/dashboard/summary and note plants.total and plants.lowStock.\n2. Add three plants with quantity 0, 4 and 5.\n3. Send GET /api/admin/dashboard/summary again.\n4. Compare the counts.",
-      "status": "Pass",
-      "actual": "200, message='Dashboard summary retrieved successfully'"
+      "data": "Plant qty 10 -> sell 5 -> edit plant quantity to 2147483647 -> delete the sale",
+      "expected": "Stock is never negative (SRS 6.5.2 \"stock can never become negative\"): the delete is rejected or the stock stays >= 0; GET /api/admin/plants/{id} quantity >= 0",
+      "precondition": "A plant with quantity 10 exists.",
+      "steps": "1. Send POST /api/admin/sales {plantId, quantity 5}.\n2. Send PUT /api/admin/plants/{id} with quantity 2147483647.\n3. Send DELETE /api/admin/sales/{saleId}.\n4. Send GET /api/admin/plants/{id} and check quantity.",
+      "status": "Fail",
+      "actual": "200, message='Sale deleted successfully' | MISMATCH: check failed: stock not negative (stock=-2147483644)"
     },
     {
       "id": "TC_API_M2_15",
       "member": "M2",
-      "title": "Plant list without token is rejected",
-      "description": "Plant list without token is rejected",
-      "endpoint": "GET /api/admin/plants",
-      "role": "No token",
-      "data": "No Authorization header",
-      "expected": "401 Unauthorized, message \"Authentication required\"",
+      "title": "Two invalid fields: price 0 AND category not found",
+      "description": "Two invalid fields: price 0 AND category not found",
+      "endpoint": "POST /api/admin/plants",
+      "role": "Admin token",
+      "data": "{\"name\":\"Okay Plant <x>\",\"categoryId\":999999,\"price\":0,\"quantity\":1}",
+      "expected": "400 Bad Request with one message per field (SRS 4.7): errors.price = \"Price must be greater than 0\" AND errors.categoryId = \"Category not found\"",
       "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send GET /api/admin/plants using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "401, message='Authentication required'"
+      "steps": "1. Send POST /api/admin/plants using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "400, message='Validation failed', errors={\"price\": \"Price must be greater than 0\"} | MISMATCH: check failed: errors.categoryId = 'Category not found'"
     },
     {
       "id": "TC_API_M3_01",
@@ -583,58 +583,58 @@
     {
       "id": "TC_API_M3_12",
       "member": "M3",
-      "title": "Client login with valid credentials",
-      "description": "Client login with valid credentials",
-      "endpoint": "POST /api/client/public/auth/login",
+      "title": "Unsupported HTTP method on the registration endpoint",
+      "description": "Unsupported HTTP method on the registration endpoint",
+      "endpoint": "GET /api/client/public/auth/register",
       "role": "No token (Guest)",
-      "data": "{\"username\":\"user\",\"password\":\"User@123\"}",
-      "expected": "200 OK, message \"Login successful\", data.token returned",
+      "data": "GET instead of POST",
+      "expected": "405 Method Not Allowed, message \"Method GET is not supported for this endpoint\" (SRS 4.6)",
       "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/client/public/auth/login using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "steps": "1. Send GET /api/client/public/auth/register using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
-      "actual": "200, message='Login successful'"
+      "actual": "405, message='Method GET is not supported for this endpoint'"
     },
     {
       "id": "TC_API_M3_13",
       "member": "M3",
-      "title": "Admin credentials rejected on Client login",
-      "description": "Admin credentials rejected on Client login",
-      "endpoint": "POST /api/client/public/auth/login",
+      "title": "Registration body that is not JSON",
+      "description": "Registration body that is not JSON",
+      "endpoint": "POST /api/client/public/auth/register",
       "role": "No token (Guest)",
-      "data": "{\"username\":\"admin\",\"password\":\"Admin@123\"}",
-      "expected": "403 Forbidden, message \"Please use the Admin App to sign in.\"",
+      "data": "Header Content-Type: text/plain; body \"username=john_01\"",
+      "expected": "415 Unsupported Media Type, message \"Content-Type must be application/json\" (SRS 4.6)",
       "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/client/public/auth/login using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "steps": "1. Send POST /api/client/public/auth/register using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
-      "actual": "403, message='Please use the Admin App to sign in.'"
+      "actual": "415, message='Content-Type must be application/json'"
     },
     {
       "id": "TC_API_M3_14",
       "member": "M3",
-      "title": "Inactive Client with correct password cannot log in",
-      "description": "Inactive Client with correct password cannot log in",
-      "endpoint": "POST /api/client/public/auth/login",
-      "role": "No token (Guest)",
-      "data": "Username/password of a Client deactivated by Admin",
-      "expected": "403 Forbidden, message \"Your account is inactive. Please contact support.\"",
-      "precondition": "A Client account exists and has been deactivated by the Admin.",
-      "steps": "1. Send POST /api/client/public/auth/login using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "403, message='Your account is inactive. Please contact support.'"
+      "title": "Parallel: deleting the same category twice returns 404, not a server error",
+      "description": "Parallel: deleting the same category twice returns 404, not a server error",
+      "endpoint": "DELETE /api/admin/categories/{id}",
+      "role": "Admin token",
+      "data": "5 x DELETE /api/admin/categories/{id} of one empty category, at the same moment",
+      "expected": "1 x 200 \"Category deleted successfully\", 4 x 404 \"Category not found\" (SRS 4.6); no 500",
+      "precondition": "An empty main category exists.",
+      "steps": "1. Send DELETE /api/admin/categories/{id} 5 times at the same moment (Postman Runner, 5 iterations).\n2. Check every response status and message.",
+      "status": "Fail",
+      "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 4 x 404, no 500 (got [200, 500, 500, 500, 500])"
     },
     {
       "id": "TC_API_M3_15",
       "member": "M3",
-      "title": "Inactive Client with wrong password gets generic error",
-      "description": "Inactive Client with wrong password gets generic error",
-      "endpoint": "POST /api/client/public/auth/login",
+      "title": "Error for a very long search is returned in the standard JSON format",
+      "description": "Error for a very long search is returned in the standard JSON format",
+      "endpoint": "GET /api/client/public/plants?search={9000 chars}",
       "role": "No token (Guest)",
-      "data": "Username of a deactivated Client, password = Wrong@999",
-      "expected": "401 Unauthorized, message \"Invalid username or password.\" (status not revealed)",
-      "precondition": "A Client account exists and has been deactivated by the Admin.",
-      "steps": "1. Send POST /api/client/public/auth/login using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "401, message='Invalid username or password.'"
+      "data": "search = \"a\" repeated 9000 times",
+      "expected": "A JSON response {\"success\": ..., \"message\": ...} (SRS 4.5 \"Every API response, successful or not, has the same structure\"), e.g. 200 with an empty list or 400 with a message",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send GET /api/client/public/plants?search={9000 chars} using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "400, <!doctype html><html lang=\"en\"><head><title>HTTP Status 400 \u2013 Bad Request</title><style type=\"text/css\">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76; | MISMATCH: check failed: JSON body with success and message"
     },
     {
       "id": "TC_API_M4_01",
@@ -653,20 +653,6 @@
     {
       "id": "TC_API_M4_02",
       "member": "M4",
-      "title": "Search by partial, case-insensitive plant name",
-      "description": "Search by partial, case-insensitive plant name",
-      "endpoint": "GET /api/client/public/plants?search={part}",
-      "role": "No token (Guest)",
-      "data": "Plant \"Plant <XXXX>\"; search = lowercase middle part of the name",
-      "expected": "200 OK, the plant is in the result list",
-      "precondition": "A plant exists.",
-      "steps": "1. Send GET /api/client/public/plants?search={part} using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Plants retrieved successfully'"
-    },
-    {
-      "id": "TC_API_M4_03",
-      "member": "M4",
       "title": "Filter by main category shows plants of all sub-categories",
       "description": "Filter by main category shows plants of all sub-categories",
       "endpoint": "GET /api/client/public/plants?categoryId={mainId}",
@@ -679,7 +665,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_04",
+      "id": "TC_API_M4_03",
       "member": "M4",
       "title": "Sort catalog by price descending",
       "description": "Sort catalog by price descending",
@@ -693,7 +679,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_05",
+      "id": "TC_API_M4_04",
       "member": "M4",
       "title": "Invalid sortBy value is rejected",
       "description": "Invalid sortBy value is rejected",
@@ -707,7 +693,7 @@
       "actual": "400, message='Invalid sortBy value. Allowed: name, price'"
     },
     {
-      "id": "TC_API_M4_06",
+      "id": "TC_API_M4_05",
       "member": "M4",
       "title": "Page 0 is rejected",
       "description": "Page 0 is rejected",
@@ -721,7 +707,7 @@
       "actual": "400, message='Page must be 1 or greater'"
     },
     {
-      "id": "TC_API_M4_07",
+      "id": "TC_API_M4_06",
       "member": "M4",
       "title": "Page size above 100 is rejected",
       "description": "Page size above 100 is rejected",
@@ -735,7 +721,7 @@
       "actual": "400, message='Size must be between 1 and 100'"
     },
     {
-      "id": "TC_API_M4_08",
+      "id": "TC_API_M4_07",
       "member": "M4",
       "title": "Out-of-stock plant shows 'Out of Stock' and cannot be bought",
       "description": "Out-of-stock plant shows 'Out of Stock' and cannot be bought",
@@ -749,7 +735,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_09",
+      "id": "TC_API_M4_08",
       "member": "M4",
       "title": "Low-stock plant (3) shows 'Only 3 left'",
       "description": "Low-stock plant (3) shows 'Only 3 left'",
@@ -763,7 +749,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_10",
+      "id": "TC_API_M4_09",
       "member": "M4",
       "title": "In-stock plant (10) does not reveal stock quantity",
       "description": "In-stock plant (10) does not reveal stock quantity",
@@ -777,7 +763,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_11",
+      "id": "TC_API_M4_10",
       "member": "M4",
       "title": "Plant details show category as 'Parent > Sub-category'",
       "description": "Plant details show category as 'Parent > Sub-category'",
@@ -791,7 +777,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_12",
+      "id": "TC_API_M4_11",
       "member": "M4",
       "title": "Plant details for a non-existing id",
       "description": "Plant details for a non-existing id",
@@ -805,7 +791,7 @@
       "actual": "404, message='Plant not found'"
     },
     {
-      "id": "TC_API_M4_13",
+      "id": "TC_API_M4_12",
       "member": "M4",
       "title": "Catalog filter lists main categories with their sub-categories",
       "description": "Catalog filter lists main categories with their sub-categories",
@@ -819,21 +805,7 @@
       "actual": "200, message='Categories retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_14",
-      "member": "M4",
-      "title": "Invalid token on a public API is treated as Guest",
-      "description": "Invalid token on a public API is treated as Guest",
-      "endpoint": "GET /api/client/public/plants",
-      "role": "Invalid token (Bearer abc.def.ghi)",
-      "data": "Authorization: Bearer abc.def.ghi",
-      "expected": "200 OK, catalog returned (request handled as Guest)",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send GET /api/client/public/plants using Invalid token (Bearer abc.def.ghi).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Plants retrieved successfully'"
-    },
-    {
-      "id": "TC_API_M4_15",
+      "id": "TC_API_M4_13",
       "member": "M4",
       "title": "'%' in search is treated as a normal character",
       "description": "'%' in search is treated as a normal character",
@@ -845,6 +817,34 @@
       "steps": "1. Send GET /api/client/public/plants?search=%25 using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
       "actual": "200, message='Plants retrieved successfully'"
+    },
+    {
+      "id": "TC_API_M4_14",
+      "member": "M4",
+      "title": "Very large page number returns an empty list",
+      "description": "Very large page number returns an empty list",
+      "endpoint": "GET /api/client/public/plants?page=2147483647&size=10",
+      "role": "No token (Guest)",
+      "data": "page = 2147483647, size = 10",
+      "expected": "200 OK, \"Plants retrieved successfully\", empty content (SRS 4.8 \"Requesting a page after the last page returns an empty list\")",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send GET /api/client/public/plants?page=2147483647&size=10 using No token (Guest).\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "500, message='Unexpected server error' | MISMATCH: status 500 != 200; message 'Unexpected server error' != 'Plants retrieved successfully'; check failed: empty list"
+    },
+    {
+      "id": "TC_API_M4_15",
+      "member": "M4",
+      "title": "Parallel: deleting the same plant twice returns 404, not a server error",
+      "description": "Parallel: deleting the same plant twice returns 404, not a server error",
+      "endpoint": "DELETE /api/admin/plants/{id}",
+      "role": "Admin token",
+      "data": "5 x DELETE /api/admin/plants/{id} of one plant without sales, at the same moment",
+      "expected": "1 x 200 \"Plant deleted successfully\", 4 x 404 \"Plant not found\" (SRS 4.6); no 500; the plant then shows 404 \"Plant not found\" on the Plant Details API",
+      "precondition": "A plant without sales exists.",
+      "steps": "1. Send DELETE /api/admin/plants/{id} 5 times at the same moment (Postman Runner, 5 iterations).\n2. Check every response status and message.\n3. Send GET /api/client/public/plants/{id}.",
+      "status": "Fail",
+      "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 4 x 404, no 500 (got [200, 500, 500, 500, 500])"
     },
     {
       "id": "TC_API_M5_01",
@@ -933,48 +933,6 @@
     {
       "id": "TC_API_M5_07",
       "member": "M5",
-      "title": "Quantity sent as text is accepted",
-      "description": "Quantity sent as text is accepted",
-      "endpoint": "POST /api/client/purchases",
-      "role": "Client token",
-      "data": "{\"plantId\":<id>,\"quantity\":\"2\"}",
-      "expected": "201 Created, message \"Purchase completed successfully.\", quantity 2",
-      "precondition": "A Client is logged in; a plant with stock exists.",
-      "steps": "1. Send POST /api/client/purchases using Client token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "201, message='Purchase completed successfully.'"
-    },
-    {
-      "id": "TC_API_M5_08",
-      "member": "M5",
-      "title": "Purchase without a token is rejected",
-      "description": "Purchase without a token is rejected",
-      "endpoint": "POST /api/client/purchases",
-      "role": "No token",
-      "data": "{\"plantId\":<id>,\"quantity\":1}",
-      "expected": "401 Unauthorized, message \"Authentication required\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/client/purchases using No token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "401, message='Authentication required'"
-    },
-    {
-      "id": "TC_API_M5_09",
-      "member": "M5",
-      "title": "Admin token cannot use the Client purchase API",
-      "description": "Admin token cannot use the Client purchase API",
-      "endpoint": "POST /api/client/purchases",
-      "role": "Admin token",
-      "data": "{\"plantId\":<id>,\"quantity\":1}",
-      "expected": "403 Forbidden, message \"You do not have permission to access this resource\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send POST /api/client/purchases using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "403, message='You do not have permission to access this resource'"
-    },
-    {
-      "id": "TC_API_M5_10",
-      "member": "M5",
       "title": "My Purchases shows only the logged-in Client's purchases",
       "description": "My Purchases shows only the logged-in Client's purchases",
       "endpoint": "GET /api/client/purchases",
@@ -987,7 +945,7 @@
       "actual": "200, message='Purchases retrieved successfully'"
     },
     {
-      "id": "TC_API_M5_11",
+      "id": "TC_API_M5_08",
       "member": "M5",
       "title": "Purchase keeps the unit price at the time of purchase",
       "description": "Purchase keeps the unit price at the time of purchase",
@@ -1001,49 +959,7 @@
       "actual": "200, message='Purchases retrieved successfully'"
     },
     {
-      "id": "TC_API_M5_12",
-      "member": "M5",
-      "title": "Buy Plant page data shows the exact available stock",
-      "description": "Buy Plant page data shows the exact available stock",
-      "endpoint": "GET /api/client/plants/{id}/buy-info",
-      "role": "Client token",
-      "data": "Plant with quantity 7",
-      "expected": "200 OK, availableStock 7, outOfStock false",
-      "precondition": "A Client is logged in; a plant with stock 7 exists.",
-      "steps": "1. Send GET /api/client/plants/{id}/buy-info using Client token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Purchase details retrieved successfully'"
-    },
-    {
-      "id": "TC_API_M5_13",
-      "member": "M5",
-      "title": "Get logged-in Client account details",
-      "description": "Get logged-in Client account details",
-      "endpoint": "GET /api/client/me",
-      "role": "Client token",
-      "data": "Token of default Client 'user'",
-      "expected": "200 OK, username \"user\", role CLIENT, no password field in response",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Send GET /api/client/me using Client token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "200, message='Account details retrieved successfully'"
-    },
-    {
-      "id": "TC_API_M5_14",
-      "member": "M5",
-      "title": "Client token is invalid after logout",
-      "description": "Client token is invalid after logout",
-      "endpoint": "POST /api/client/auth/logout",
-      "role": "Client token",
-      "data": "Fresh Client token; then GET /api/client/purchases with same token",
-      "expected": "Logout 200; next call 401, message \"Invalid or expired token\"",
-      "precondition": "Application is running; default accounts exist.",
-      "steps": "1. Log in as a Client and copy the token.\n2. Send POST /api/client/auth/logout.\n3. Send GET /api/client/purchases with the same token.\n4. Check status and message.",
-      "status": "Pass",
-      "actual": "401, message='Invalid or expired token'"
-    },
-    {
-      "id": "TC_API_M5_15",
+      "id": "TC_API_M5_09",
       "member": "M5",
       "title": "Token of a deactivated Client is rejected",
       "description": "Token of a deactivated Client is rejected",
@@ -1055,6 +971,90 @@
       "steps": "1. Send GET /api/client/purchases using Token of a Client later deactivated.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
       "actual": "401, message='Your account is inactive. Please contact support.'"
+    },
+    {
+      "id": "TC_API_M5_10",
+      "member": "M5",
+      "title": "Deactivate an active Client",
+      "description": "Deactivate an active Client",
+      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "role": "Admin token",
+      "data": "id = active Client",
+      "expected": "200 OK, message \"User deactivated successfully.\", status INACTIVE",
+      "precondition": "An active Client exists.",
+      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "200, message='User deactivated successfully.'"
+    },
+    {
+      "id": "TC_API_M5_11",
+      "member": "M5",
+      "title": "Deactivating an already inactive Client is rejected",
+      "description": "Deactivating an already inactive Client is rejected",
+      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "role": "Admin token",
+      "data": "id = inactive Client",
+      "expected": "409 Conflict, message \"User is already inactive\"",
+      "precondition": "An inactive Client exists.",
+      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "409, message='User is already inactive'"
+    },
+    {
+      "id": "TC_API_M5_12",
+      "member": "M5",
+      "title": "Admin account cannot be deactivated",
+      "description": "Admin account cannot be deactivated",
+      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "role": "Admin token",
+      "data": "id = 1 (the admin account)",
+      "expected": "404 Not Found, message \"User not found\"",
+      "precondition": "Admin is logged in.",
+      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Pass",
+      "actual": "404, message='User not found'"
+    },
+    {
+      "id": "TC_API_M5_13",
+      "member": "M5",
+      "title": "Old token stays invalid after the Client is reactivated",
+      "description": "Old token stays invalid after the Client is reactivated",
+      "endpoint": "PATCH /api/admin/users/{id}/activate",
+      "role": "Admin token",
+      "data": "Client logs in (token T); Admin deactivates then activates the Client; call GET /api/client/me with T",
+      "expected": "Activate 200 \"User activated successfully.\"; call with T returns 401",
+      "precondition": "An active Client is logged in.",
+      "steps": "1. Log in as a Client and keep token T.\n2. Admin sends PATCH .../deactivate for that Client.\n3. Admin sends PATCH .../activate for that Client.\n4. Send GET /api/client/me with token T.\n5. Check the activate response and the 401 status.",
+      "status": "Pass",
+      "actual": "401, message='Invalid or expired token'"
+    },
+    {
+      "id": "TC_API_M5_14",
+      "member": "M5",
+      "title": "Parallel: deactivating the same Client twice succeeds only once",
+      "description": "Parallel: deactivating the same Client twice succeeds only once",
+      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "role": "Admin token",
+      "data": "6 x PATCH .../deactivate for one active Client, at the same moment",
+      "expected": "1 x 200 \"User deactivated successfully.\", 5 x 409 \"User is already inactive\" (SRS 6.6.2)",
+      "precondition": "An active Client exists.",
+      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate 6 times at the same moment (Postman Runner, 6 iterations).\n2. Count the 200 and 409 responses.",
+      "status": "Fail",
+      "actual": "200, message='User deactivated successfully.' | MISMATCH: check failed: 1 x 200 and 5 x 409 (got [200, 200, 200, 200, 200, 200])"
+    },
+    {
+      "id": "TC_API_M5_15",
+      "member": "M5",
+      "title": "Two invalid fields: out-of-stock plant AND quantity 0",
+      "description": "Two invalid fields: out-of-stock plant AND quantity 0",
+      "endpoint": "POST /api/client/purchases",
+      "role": "Client token",
+      "data": "{\"plantId\":<plant with stock 0>,\"quantity\":0}",
+      "expected": "400 with one message per field (SRS 4.7, 7.5 table): errors.quantity = \"Quantity must be greater than 0\" AND the plant error \"This plant is out of stock\"",
+      "precondition": "A Client is logged in; a plant with stock 0 exists.",
+      "steps": "1. Send POST /api/client/purchases using Client token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be greater than 0\"} | MISMATCH: check failed: errors.plantId = 'This plant is out of stock'"
     },
     {
       "id": "TC_API_M6_01",
@@ -1199,75 +1199,72 @@
     {
       "id": "TC_API_M6_11",
       "member": "M6",
-      "title": "User list shows Client accounts only",
-      "description": "User list shows Client accounts only",
-      "endpoint": "GET /api/admin/users?size=100",
+      "title": "Sell exactly the whole stock",
+      "description": "Sell exactly the whole stock",
+      "endpoint": "POST /api/admin/sales",
       "role": "Admin token",
-      "data": "size = 100",
-      "expected": "200 OK, message \"Users retrieved successfully\", no row with role ADMIN / username admin",
-      "precondition": "Admin is logged in.",
-      "steps": "1. Send GET /api/admin/users?size=100 using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "data": "{\"plantId\":<plant with stock 4>,\"quantity\":4}",
+      "expected": "201 \"Sale completed successfully\"; plant stock becomes 0 and the plant is no longer in the Sell Plant dropdown (GET /api/admin/plants/in-stock)",
+      "precondition": "A plant with stock 4 exists.",
+      "steps": "1. Send POST /api/admin/sales using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
-      "actual": "200, message='Users retrieved successfully'"
+      "actual": "201, message='Sale completed successfully'"
     },
     {
       "id": "TC_API_M6_12",
       "member": "M6",
-      "title": "Deactivate an active Client",
-      "description": "Deactivate an active Client",
-      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "title": "Deleting a Client purchase removes it from My Purchases and restores stock",
+      "description": "Deleting a Client purchase removes it from My Purchases and restores stock",
+      "endpoint": "DELETE /api/admin/sales/{id}",
       "role": "Admin token",
-      "data": "id = active Client",
-      "expected": "200 OK, message \"User deactivated successfully.\", status INACTIVE",
-      "precondition": "An active Client exists.",
-      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "data": "Client buys 3 of a plant with stock 10; Admin deletes that sale",
+      "expected": "200 \"Sale deleted successfully\"; the Client's GET /api/client/purchases no longer lists it; stock back to 10",
+      "precondition": "A Client has bought 3 of a plant with stock 10.",
+      "steps": "1. Send DELETE /api/admin/sales/{id} using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
       "status": "Pass",
-      "actual": "200, message='User deactivated successfully.'"
+      "actual": "200, message='Sale deleted successfully'"
     },
     {
       "id": "TC_API_M6_13",
       "member": "M6",
-      "title": "Deactivating an already inactive Client is rejected",
-      "description": "Deactivating an already inactive Client is rejected",
-      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "title": "Parallel: deleting the same sale twice returns 404, not a server error",
+      "description": "Parallel: deleting the same sale twice returns 404, not a server error",
+      "endpoint": "DELETE /api/admin/sales/{id}",
       "role": "Admin token",
-      "data": "id = inactive Client",
-      "expected": "409 Conflict, message \"User is already inactive\"",
-      "precondition": "An inactive Client exists.",
-      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "409, message='User is already inactive'"
+      "data": "6 x DELETE /api/admin/sales/{id} of one sale, sent at the same moment",
+      "expected": "1 x 200 \"Sale deleted successfully\", 5 x 404 \"Sale not found\" (SRS 4.6); no 500",
+      "precondition": "One sale exists.",
+      "steps": "1. Send DELETE /api/admin/sales/{id} 6 times at the same moment (Postman Runner, 6 iterations).\n2. Check every response status and message.",
+      "status": "Fail",
+      "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 5 x 404, no 500 (got [200, 500, 500, 500, 500, 500])"
     },
     {
       "id": "TC_API_M6_14",
       "member": "M6",
-      "title": "Admin account cannot be deactivated",
-      "description": "Admin account cannot be deactivated",
-      "endpoint": "PATCH /api/admin/users/{id}/deactivate",
+      "title": "Sold-date filter with To date 9999-12-31",
+      "description": "Sold-date filter with To date 9999-12-31",
+      "endpoint": "GET /api/admin/sales?soldTo=9999-12-31",
       "role": "Admin token",
-      "data": "id = 1 (the admin account)",
-      "expected": "404 Not Found, message \"User not found\"",
-      "precondition": "Admin is logged in.",
-      "steps": "1. Send PATCH /api/admin/users/{id}/deactivate using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
-      "status": "Pass",
-      "actual": "404, message='User not found'"
+      "data": "soldTo = 9999-12-31",
+      "expected": "200 OK, \"Sales retrieved successfully\", all sales sold on or before that date (SRS 6.5.1 From/To both inclusive)",
+      "precondition": "Application is running; default accounts exist.",
+      "steps": "1. Send GET /api/admin/sales?soldTo=9999-12-31 using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "500, message='Unexpected server error' | MISMATCH: status 500 != 200; message 'Unexpected server error' != 'Sales retrieved successfully'"
     },
     {
       "id": "TC_API_M6_15",
       "member": "M6",
-      "title": "Old token stays invalid after the Client is reactivated",
-      "description": "Old token stays invalid after the Client is reactivated",
-      "endpoint": "PATCH /api/admin/users/{id}/activate",
+      "title": "Two invalid fields: out-of-stock plant AND quantity 0",
+      "description": "Two invalid fields: out-of-stock plant AND quantity 0",
+      "endpoint": "POST /api/admin/sales",
       "role": "Admin token",
-      "data": "Client logs in (token T); Admin deactivates then activates the Client; call GET /api/client/me with T",
-      "expected": "Activate 200 \"User activated successfully.\"; call with T returns 401",
-      "precondition": "An active Client is logged in.",
-      "steps": "1. Log in as a Client and keep token T.\n2. Admin sends PATCH .../deactivate for that Client.\n3. Admin sends PATCH .../activate for that Client.\n4. Send GET /api/client/me with token T.\n5. Check the activate response and the 401 status.",
-      "status": "Pass",
-      "actual": "401, message='Invalid or expired token'"
+      "data": "{\"plantId\":<plant with stock 0>,\"quantity\":0}",
+      "expected": "400 with one message per field (SRS 4.7, 6.5.2 table): errors.quantity = \"Quantity must be greater than 0\" AND the plant error \"This plant is out of stock\"",
+      "precondition": "A plant with stock 0 exists.",
+      "steps": "1. Send POST /api/admin/sales using Admin token.\n2. Send the test data as the request.\n3. Check the HTTP status code and the response body.",
+      "status": "Fail",
+      "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be greater than 0\"} | MISMATCH: check failed: errors.plantId = 'This plant is out of stock'"
     }
-  ],
-  "member_runs": {
-    "M3": "2026-11-20T15:53:59.422533+00:00"
-  }
+  ]
 }
