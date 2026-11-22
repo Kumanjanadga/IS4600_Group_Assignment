@@ -26,13 +26,13 @@ How to reproduce:
 | DEF-004 | Admin App · Plant Management | ADM-PLT-API-13 | "Strasse Fern" is rejected as a duplicate of plant "Straße Fern" | Single | Kahanda M.C. (224098H) | 6.4.2 "Plant names must be unique (case-insensitive)" |
 | DEF-005 | Admin App · Plant Management | ADM-PLT-API-14 | Stock becomes negative (-2147483644) after a sale is deleted | Single | Kahanda M.C. (224098H) | 6.5.2 "stock can never become negative" |
 | DEF-006 | Admin App · Plant Management | ADM-PLT-API-15 | A 20-character plant name with emoji is rejected as longer than 25 | Single | Kahanda M.C. (224098H) | 6.4.2 "Name - Length 3-25" |
-| DEF-007 | Admin App · Plant Management | ADM-PLT-API-16 | Deleting the same plant twice at once → 500 | Parallel | Sathsara (224173) | 4.6 404 "Plant not found" when the record does not exist |
+| DEF-007 | Admin App · Plant Management | ADM-PLT-API-16 | Deleting the same plant twice at once → 500 | Parallel | Sathsara H.W.S (224173J) | 4.6 404 "Plant not found" when the record does not exist |
 | DEF-008 | Admin App · Sales Management | ADM-SAL-API-13 | Deleting the same sale twice at once → 500 | Parallel | Aberathna M.H.A.J.D (224003P) | 4.6 404 "Sale not found" when the record does not exist |
 | DEF-009 | Admin App · Sales Management | ADM-SAL-API-14 | Sold-date filter `soldTo=9999-12-31` → 500 | Single | Aberathna M.H.A.J.D (224003P) | 6.5.1 "filtered by sold date, using a From date and a To date (both inclusive)" |
 | DEF-010 | Admin App · Sales Management | ADM-SAL-API-15 | Sell Plant drops the out-of-stock error when quantity is also invalid | Single | Aberathna M.H.A.J.D (224003P) | 4.7 "Validation errors return one message per field" + 6.5.2 field table |
 | DEF-011 | Admin App · User Management | ADM-USR-API-05 | Deactivating the same Client twice at once → both "successful" | Parallel | Warnasooriya W.M.E.S (224208A) | 6.6.2 "Deactivating a user who is already Inactive is rejected" |
 | DEF-012 | Client App · Registration | CLI-REG-API-12 | A 1-character full name (an emoji) is accepted | Single | Kumanjana D.G.A. (224114G) | 7.2 "Full Name - Length 2-50" |
-| DEF-013 | Client App · Plant Catalog | CLI-CTL-API-09 | A very large page number → 500 on every list | Single | Sathsara (224173) | 4.8 "Requesting a page after the last page returns an empty list" |
+| DEF-013 | Client App · Plant Catalog | CLI-CTL-API-09 | A very large page number → 500 on every list | Single | Sathsara H.W.S (224173J) | 4.8 "Requesting a page after the last page returns an empty list" |
 | DEF-014 | Client App · Buy Plant | CLI-BUY-API-07 | Buy Plant drops the out-of-stock error when quantity is also invalid | Single | Warnasooriya W.M.E.S (224208A) | 4.7 "one message per field" + 7.5 field table |
 | DEF-015 | Backend API · General API rules | API-GEN-API-03 | Some errors are HTML / an empty body instead of the JSON format | Single | Kumanjana D.G.A. (224114G) | 4.5 "Every API response, successful or not, has the same structure" |
 
@@ -89,7 +89,7 @@ DEF-010/014 existence/stock rules run only after the other fields are valid.
 - **Expected:** 201 (3-25 characters).
 - **Actual:** **400 "Plant name must be between 3 and 25 characters"** (each emoji counted as 2).
 
-### DEF-007 Same plant deleted twice at once → 500 · Parallel · ADM-PLT-API-16 · Sathsara
+### DEF-007 Same plant deleted twice at once → 500 · Parallel · ADM-PLT-API-16 · Sathsara H.W.S
 - **Steps:** a plant without sales. Send 5 × `DELETE /api/admin/plants/{id}` at the same moment.
 - **Expected:** one 200 "Plant deleted successfully", others 404 "Plant not found".
 - **Actual:** others **500 `{"success":false,"message":"Unexpected server error"}`**. (Categories behave the same.)
@@ -130,7 +130,7 @@ DEF-010/014 existence/stock rules run only after the other fields are valid.
 
 ## Plant Catalog (SRS 7.3, list rules 4.8)
 
-### DEF-013 Huge page number → 500 · Single · CLI-CTL-API-09 · Sathsara
+### DEF-013 Huge page number → 500 · Single · CLI-CTL-API-09 · Sathsara H.W.S
 - **Steps:** `GET /api/client/public/plants?page=2147483647&size=10` (no token). Also `/api/admin/plants`, `/sales`, `/users`,
   `/categories` and `/api/client/purchases`.
 - **Expected:** 200 with an empty list.

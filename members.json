@@ -17,8 +17,8 @@
       "modules": "Registration (SRS 7.2) + Navigation/header (SRS 7.1) + general API rules (SRS 4.5, 4.6)"
     },
     "M4": {
-      "id": "224173",
-      "name": "Sathsara",
+      "id": "224173J",
+      "name": "Sathsara H.W.S",
       "modules": "Plant Catalog + Plant Details (SRS 7.3, 7.4) + list rules (SRS 4.8)"
     },
     "M5": {

@@ -49,7 +49,7 @@ Portals: `ADM` Admin App, `CLI` Client App, `API` Backend API (general rules).
 | Aberathna M.H.A.J.D (224003P) | Admin App · Sales Management (6.5) | ADM-SAL-* | `tests_m6_sales.py` | DEF-008, 009, 010 |
 | Warnasooriya W.M.E.S (224208A) | Admin App · User Management (6.6); Client App · Buy Plant (7.5), My Purchases (7.6) | ADM-USR-*, CLI-BUY-*, CLI-PUR-* | `tests_m5_purchases_users.py` | DEF-011, 014 |
 | Kumanjana D.G.A. (224114G) | Client App · Navigation (7.1), Registration (7.2); Backend API · General API rules (4.5, 4.6) | CLI-NAV-*, CLI-REG-*, API-GEN-* | `tests_m3_registration_general.py` | DEF-012, 015 |
-| Sathsara (224173) | Client App · Plant Catalog (7.3, 4.8), Plant Details (7.4); + ADM-PLT-API-16 | CLI-CTL-*, CLI-DET-*, ADM-PLT-API-16 | `tests_m4_catalog.py` | DEF-007, 013 |
+| Sathsara H.W.S (224173J) | Client App · Plant Catalog (7.3, 4.8), Plant Details (7.4); + ADM-PLT-API-16 | CLI-CTL-*, CLI-DET-*, ADM-PLT-API-16 | `tests_m4_catalog.py` | DEF-007, 013 |
 
 - Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
 - Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
