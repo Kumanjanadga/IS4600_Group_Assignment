@@ -21,7 +21,20 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 | `ui-tests/ui_test_cases.py` | UI test cases written from the SRS (no UI in this release → *Not Executed*), 15 per member |
 | `results/api_results.json` | Latest API run (status + actual result per test) |
 | `build_excel.py` | Builds the Excel document from the template + results |
-| `template/` | The original course template |
+| `template/` | Sir's blank test case template (used by `build_excel.py`) |
+| `assignment/` | Sir's files: Task 1 instructions, SRS v2.1, Deployment Guide, `qa-training-app.jar`, `application.yml` |
+
+```
+qa-project/
+├── TestCaseDocument_Group20_v0.1.xlsx   ← print this (the submission)
+├── DEFECT_REPORT.md                     ← 15 defects
+├── README.md · members.json · build_excel.py
+├── api-tests/      90 API test cases (tests_m1 … tests_m6) + runner
+├── ui-tests/       90 UI test cases
+├── results/        api_results.json (latest run)
+├── template/       blank course template
+└── assignment/     sir's PDFs, jar and application.yml
+```
 
 ## Module division (equal weight, ~27 SRS rules each)
 
@@ -37,7 +50,8 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 - Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
 - Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
 - Restructured on 22/11/2026: all login/logout cases and the 3 "redirect to login" cases were removed and replaced.
-  The evidence files `results/evidence_M1_api.md` and `evidence_M3_api.md` use the **old** IDs from before this change.
+  The old run logs (`results/evidence_M1_api.md`, `evidence_M3_api.md`) were removed because they used the old IDs and
+  the removed login cases; they remain in the git history.
 
 ## Rules we follow (instructions + sir's notices)
 
@@ -65,7 +79,7 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
    GRANT ALL PRIVILEGES ON qa_training_app.* TO 'qa_user'@'%';
    FLUSH PRIVILEGES;
    ```
-2. From the folder with `qa-training-app.jar` and `application.yml`: `java -jar qa-training-app.jar` (Java 21+).
+2. From the `assignment/` folder (it holds `qa-training-app.jar` and `application.yml`): `cd assignment` then `java -jar qa-training-app.jar` (Java 21+).
 3. Check http://localhost:8080/api/health and open http://localhost:8080/swagger-ui.html.
 
 ## Running the API tests
