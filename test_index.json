@@ -1,0 +1,1698 @@
+{
+ "modules": [
+  {
+   "code": "ADM-DSH",
+   "portal": "Admin App",
+   "module": "Dashboard & navigation",
+   "srs": "6.2"
+  },
+  {
+   "code": "ADM-CAT",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3"
+  },
+  {
+   "code": "ADM-PLT",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4"
+  },
+  {
+   "code": "ADM-SAL",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5"
+  },
+  {
+   "code": "ADM-USR",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6"
+  },
+  {
+   "code": "CLI-NAV",
+   "portal": "Client App",
+   "module": "Navigation",
+   "srs": "7.1"
+  },
+  {
+   "code": "CLI-REG",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2"
+  },
+  {
+   "code": "CLI-CTL",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8"
+  },
+  {
+   "code": "CLI-DET",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4"
+  },
+  {
+   "code": "CLI-BUY",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5"
+  },
+  {
+   "code": "CLI-PUR",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6"
+  },
+  {
+   "code": "API-GEN",
+   "portal": "Backend API",
+   "module": "General API rules",
+   "srs": "4.5, 4.6"
+  }
+ ],
+ "tests": {
+  "ADM-DSH-API-01": {
+   "old_id": "TC_API_M1_09",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Dashboard & navigation",
+   "srs": "6.2",
+   "module_code": "ADM-DSH"
+  },
+  "ADM-DSH-UI-01": {
+   "old_id": "TC_UI_M1_09",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Dashboard & navigation",
+   "srs": "6.2",
+   "module_code": "ADM-DSH"
+  },
+  "ADM-DSH-UI-02": {
+   "old_id": "TC_UI_M1_10",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Dashboard & navigation",
+   "srs": "6.2",
+   "module_code": "ADM-DSH"
+  },
+  "ADM-CAT-API-01": {
+   "old_id": "TC_API_M1_01",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-02": {
+   "old_id": "TC_API_M1_02",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-03": {
+   "old_id": "TC_API_M1_03",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-04": {
+   "old_id": "TC_API_M1_04",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-05": {
+   "old_id": "TC_API_M1_05",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-06": {
+   "old_id": "TC_API_M1_06",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-07": {
+   "old_id": "TC_API_M1_07",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-08": {
+   "old_id": "TC_API_M1_08",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-09": {
+   "old_id": "TC_API_M1_10",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-10": {
+   "old_id": "TC_API_M1_11",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-11": {
+   "old_id": "TC_API_M1_12",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-12": {
+   "old_id": "TC_API_M1_13",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-13": {
+   "old_id": "TC_API_M1_14",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-API-14": {
+   "old_id": "TC_API_M1_15",
+   "type": "API",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-01": {
+   "old_id": "TC_UI_M1_01",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-02": {
+   "old_id": "TC_UI_M1_02",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-03": {
+   "old_id": "TC_UI_M1_03",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-04": {
+   "old_id": "TC_UI_M1_04",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-05": {
+   "old_id": "TC_UI_M1_05",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-06": {
+   "old_id": "TC_UI_M1_06",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-07": {
+   "old_id": "TC_UI_M1_07",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-08": {
+   "old_id": "TC_UI_M1_08",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-09": {
+   "old_id": "TC_UI_M1_11",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-10": {
+   "old_id": "TC_UI_M1_12",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-11": {
+   "old_id": "TC_UI_M1_13",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-12": {
+   "old_id": "TC_UI_M1_14",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-CAT-UI-13": {
+   "old_id": "TC_UI_M1_15",
+   "type": "UI",
+   "member": "M1",
+   "portal": "Admin App",
+   "module": "Category Management",
+   "srs": "6.3",
+   "module_code": "ADM-CAT"
+  },
+  "ADM-PLT-API-01": {
+   "old_id": "TC_API_M2_01",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-02": {
+   "old_id": "TC_API_M2_02",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-03": {
+   "old_id": "TC_API_M2_03",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-04": {
+   "old_id": "TC_API_M2_04",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-05": {
+   "old_id": "TC_API_M2_05",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-06": {
+   "old_id": "TC_API_M2_06",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-07": {
+   "old_id": "TC_API_M2_07",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-08": {
+   "old_id": "TC_API_M2_08",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-09": {
+   "old_id": "TC_API_M2_09",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-10": {
+   "old_id": "TC_API_M2_10",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-11": {
+   "old_id": "TC_API_M2_11",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-12": {
+   "old_id": "TC_API_M2_12",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-13": {
+   "old_id": "TC_API_M2_13",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-14": {
+   "old_id": "TC_API_M2_14",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-15": {
+   "old_id": "TC_API_M2_15",
+   "type": "API",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-API-16": {
+   "old_id": "TC_API_M4_15",
+   "type": "API",
+   "member": "M4",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-01": {
+   "old_id": "TC_UI_M2_01",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-02": {
+   "old_id": "TC_UI_M2_02",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-03": {
+   "old_id": "TC_UI_M2_03",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-04": {
+   "old_id": "TC_UI_M2_04",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-05": {
+   "old_id": "TC_UI_M2_05",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-06": {
+   "old_id": "TC_UI_M2_06",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-07": {
+   "old_id": "TC_UI_M2_07",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-08": {
+   "old_id": "TC_UI_M2_08",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-09": {
+   "old_id": "TC_UI_M2_09",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-10": {
+   "old_id": "TC_UI_M2_10",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-11": {
+   "old_id": "TC_UI_M2_11",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-12": {
+   "old_id": "TC_UI_M2_12",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-13": {
+   "old_id": "TC_UI_M2_13",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-14": {
+   "old_id": "TC_UI_M2_14",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-PLT-UI-15": {
+   "old_id": "TC_UI_M2_15",
+   "type": "UI",
+   "member": "M2",
+   "portal": "Admin App",
+   "module": "Plant Management",
+   "srs": "6.4",
+   "module_code": "ADM-PLT"
+  },
+  "ADM-SAL-API-01": {
+   "old_id": "TC_API_M6_01",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-02": {
+   "old_id": "TC_API_M6_02",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-03": {
+   "old_id": "TC_API_M6_03",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-04": {
+   "old_id": "TC_API_M6_04",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-05": {
+   "old_id": "TC_API_M6_05",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-06": {
+   "old_id": "TC_API_M6_06",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-07": {
+   "old_id": "TC_API_M6_07",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-08": {
+   "old_id": "TC_API_M6_08",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-09": {
+   "old_id": "TC_API_M6_09",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-10": {
+   "old_id": "TC_API_M6_10",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-11": {
+   "old_id": "TC_API_M6_11",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-12": {
+   "old_id": "TC_API_M6_12",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-13": {
+   "old_id": "TC_API_M6_13",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-14": {
+   "old_id": "TC_API_M6_14",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-API-15": {
+   "old_id": "TC_API_M6_15",
+   "type": "API",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-01": {
+   "old_id": "TC_UI_M6_01",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-02": {
+   "old_id": "TC_UI_M6_02",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-03": {
+   "old_id": "TC_UI_M6_03",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-04": {
+   "old_id": "TC_UI_M6_04",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-05": {
+   "old_id": "TC_UI_M6_05",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-06": {
+   "old_id": "TC_UI_M6_06",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-07": {
+   "old_id": "TC_UI_M6_07",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-08": {
+   "old_id": "TC_UI_M6_08",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-09": {
+   "old_id": "TC_UI_M6_09",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-10": {
+   "old_id": "TC_UI_M6_10",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-11": {
+   "old_id": "TC_UI_M6_11",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-12": {
+   "old_id": "TC_UI_M6_12",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-13": {
+   "old_id": "TC_UI_M6_13",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-14": {
+   "old_id": "TC_UI_M6_14",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-SAL-UI-15": {
+   "old_id": "TC_UI_M6_15",
+   "type": "UI",
+   "member": "M6",
+   "portal": "Admin App",
+   "module": "Sales Management",
+   "srs": "6.5",
+   "module_code": "ADM-SAL"
+  },
+  "ADM-USR-API-01": {
+   "old_id": "TC_API_M5_10",
+   "type": "API",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-API-02": {
+   "old_id": "TC_API_M5_11",
+   "type": "API",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-API-03": {
+   "old_id": "TC_API_M5_12",
+   "type": "API",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-API-04": {
+   "old_id": "TC_API_M5_13",
+   "type": "API",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-API-05": {
+   "old_id": "TC_API_M5_14",
+   "type": "API",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-UI-01": {
+   "old_id": "TC_UI_M5_12",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-UI-02": {
+   "old_id": "TC_UI_M5_13",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-UI-03": {
+   "old_id": "TC_UI_M5_14",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "ADM-USR-UI-04": {
+   "old_id": "TC_UI_M5_15",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Admin App",
+   "module": "User Management",
+   "srs": "6.6",
+   "module_code": "ADM-USR"
+  },
+  "CLI-NAV-UI-01": {
+   "old_id": "TC_UI_M3_11",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Navigation",
+   "srs": "7.1",
+   "module_code": "CLI-NAV"
+  },
+  "CLI-NAV-UI-02": {
+   "old_id": "TC_UI_M3_12",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Navigation",
+   "srs": "7.1",
+   "module_code": "CLI-NAV"
+  },
+  "CLI-NAV-UI-03": {
+   "old_id": "TC_UI_M3_13",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Navigation",
+   "srs": "7.1",
+   "module_code": "CLI-NAV"
+  },
+  "CLI-REG-API-01": {
+   "old_id": "TC_API_M3_01",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-02": {
+   "old_id": "TC_API_M3_02",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-03": {
+   "old_id": "TC_API_M3_03",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-04": {
+   "old_id": "TC_API_M3_04",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-05": {
+   "old_id": "TC_API_M3_05",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-06": {
+   "old_id": "TC_API_M3_06",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-07": {
+   "old_id": "TC_API_M3_07",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-08": {
+   "old_id": "TC_API_M3_08",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-09": {
+   "old_id": "TC_API_M3_09",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-10": {
+   "old_id": "TC_API_M3_10",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-11": {
+   "old_id": "TC_API_M3_11",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-API-12": {
+   "old_id": "TC_API_M3_14",
+   "type": "API",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-01": {
+   "old_id": "TC_UI_M3_01",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-02": {
+   "old_id": "TC_UI_M3_02",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-03": {
+   "old_id": "TC_UI_M3_03",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-04": {
+   "old_id": "TC_UI_M3_04",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-05": {
+   "old_id": "TC_UI_M3_05",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-06": {
+   "old_id": "TC_UI_M3_06",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-07": {
+   "old_id": "TC_UI_M3_07",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-08": {
+   "old_id": "TC_UI_M3_08",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-09": {
+   "old_id": "TC_UI_M3_09",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-10": {
+   "old_id": "TC_UI_M3_10",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-11": {
+   "old_id": "TC_UI_M3_14",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-REG-UI-12": {
+   "old_id": "TC_UI_M3_15",
+   "type": "UI",
+   "member": "M3",
+   "portal": "Client App",
+   "module": "Registration",
+   "srs": "7.2",
+   "module_code": "CLI-REG"
+  },
+  "CLI-CTL-API-01": {
+   "old_id": "TC_API_M4_01",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-02": {
+   "old_id": "TC_API_M4_02",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-03": {
+   "old_id": "TC_API_M4_03",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-04": {
+   "old_id": "TC_API_M4_04",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-05": {
+   "old_id": "TC_API_M4_05",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-06": {
+   "old_id": "TC_API_M4_06",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-07": {
+   "old_id": "TC_API_M4_12",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-08": {
+   "old_id": "TC_API_M4_13",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-API-09": {
+   "old_id": "TC_API_M4_14",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-01": {
+   "old_id": "TC_UI_M4_01",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-02": {
+   "old_id": "TC_UI_M4_02",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-03": {
+   "old_id": "TC_UI_M4_03",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-04": {
+   "old_id": "TC_UI_M4_04",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-05": {
+   "old_id": "TC_UI_M4_05",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-06": {
+   "old_id": "TC_UI_M4_06",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-07": {
+   "old_id": "TC_UI_M4_07",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-08": {
+   "old_id": "TC_UI_M4_08",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-09": {
+   "old_id": "TC_UI_M4_09",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-10": {
+   "old_id": "TC_UI_M4_13",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-11": {
+   "old_id": "TC_UI_M4_14",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-CTL-UI-12": {
+   "old_id": "TC_UI_M4_15",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Catalog",
+   "srs": "7.3, 4.8",
+   "module_code": "CLI-CTL"
+  },
+  "CLI-DET-API-01": {
+   "old_id": "TC_API_M4_07",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-API-02": {
+   "old_id": "TC_API_M4_08",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-API-03": {
+   "old_id": "TC_API_M4_09",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-API-04": {
+   "old_id": "TC_API_M4_10",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-API-05": {
+   "old_id": "TC_API_M4_11",
+   "type": "API",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-UI-01": {
+   "old_id": "TC_UI_M4_10",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-UI-02": {
+   "old_id": "TC_UI_M4_11",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-DET-UI-03": {
+   "old_id": "TC_UI_M4_12",
+   "type": "UI",
+   "member": "M4",
+   "portal": "Client App",
+   "module": "Plant Details",
+   "srs": "7.4",
+   "module_code": "CLI-DET"
+  },
+  "CLI-BUY-API-01": {
+   "old_id": "TC_API_M5_01",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-02": {
+   "old_id": "TC_API_M5_02",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-03": {
+   "old_id": "TC_API_M5_03",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-04": {
+   "old_id": "TC_API_M5_04",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-05": {
+   "old_id": "TC_API_M5_05",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-06": {
+   "old_id": "TC_API_M5_06",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-API-07": {
+   "old_id": "TC_API_M5_15",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-01": {
+   "old_id": "TC_UI_M5_01",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-02": {
+   "old_id": "TC_UI_M5_02",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-03": {
+   "old_id": "TC_UI_M5_03",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-04": {
+   "old_id": "TC_UI_M5_04",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-05": {
+   "old_id": "TC_UI_M5_05",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-06": {
+   "old_id": "TC_UI_M5_06",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-07": {
+   "old_id": "TC_UI_M5_07",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-BUY-UI-08": {
+   "old_id": "TC_UI_M5_08",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "Buy Plant",
+   "srs": "7.5",
+   "module_code": "CLI-BUY"
+  },
+  "CLI-PUR-API-01": {
+   "old_id": "TC_API_M5_07",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "CLI-PUR-API-02": {
+   "old_id": "TC_API_M5_08",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "CLI-PUR-API-03": {
+   "old_id": "TC_API_M5_09",
+   "type": "API",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "CLI-PUR-UI-01": {
+   "old_id": "TC_UI_M5_09",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "CLI-PUR-UI-02": {
+   "old_id": "TC_UI_M5_10",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "CLI-PUR-UI-03": {
+   "old_id": "TC_UI_M5_11",
+   "type": "UI",
+   "member": "M5",
+   "portal": "Client App",
+   "module": "My Purchases",
+   "srs": "7.6",
+   "module_code": "CLI-PUR"
+  },
+  "API-GEN-API-01": {
+   "old_id": "TC_API_M3_12",
+   "type": "API",
+   "member": "M3",
+   "portal": "Backend API",
+   "module": "General API rules",
+   "srs": "4.5, 4.6",
+   "module_code": "API-GEN"
+  },
+  "API-GEN-API-02": {
+   "old_id": "TC_API_M3_13",
+   "type": "API",
+   "member": "M3",
+   "portal": "Backend API",
+   "module": "General API rules",
+   "srs": "4.5, 4.6",
+   "module_code": "API-GEN"
+  },
+  "API-GEN-API-03": {
+   "old_id": "TC_API_M3_15",
+   "type": "API",
+   "member": "M3",
+   "portal": "Backend API",
+   "module": "General API rules",
+   "srs": "4.5, 4.6",
+   "module_code": "API-GEN"
+  }
+ }
+}

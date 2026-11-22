@@ -10,7 +10,7 @@ from framework import api_test, verify, parallel  # noqa: F401
 from helpers import plant_body, reg_body, post_reg, content, buy, sell  # noqa: F401
 
 
-@api_test("TC_API_M6_01", 'M6', "Admin sells a plant; customer is 'Admin' and stock reduced", 'POST /api/admin/sales', 'Admin token',
+@api_test("ADM-SAL-API-01", 'M6', "Admin sells a plant; customer is 'Admin' and stock reduced", 'POST /api/admin/sales', 'Admin token',
           '{"plantId":<plant stock 10, price 15.00>,"quantity":3}',
           '201 Created, message "Sale completed successfully", customer "Admin", totalPrice 45.00, stock 7', 'Admin is logged in; a plant with stock exists.')
 def _(ctx):
@@ -22,7 +22,7 @@ def _(ctx):
                           ("stock 7", lambda: ctx.get_plant(p["id"])["quantity"] == 7)])
 
 
-@api_test("TC_API_M6_02", 'M6', "Sale quantity above stock is rejected, stock unchanged", 'POST /api/admin/sales', 'Admin token',
+@api_test("ADM-SAL-API-02", 'M6', "Sale quantity above stock is rejected, stock unchanged", 'POST /api/admin/sales', 'Admin token',
           '{"plantId":<plant stock 2>,"quantity":5}',
           '400 Bad Request, "Only 2 items available in stock"; stock remains 2',
           "Admin is logged in; a plant with stock 2 exists.")
@@ -33,7 +33,7 @@ def _(ctx):
                                      ("stock 2", lambda: ctx.get_plant(p["id"])["quantity"] == 2)])
 
 
-@api_test("TC_API_M6_03", 'M6', "Sale without quantity is rejected", 'POST /api/admin/sales', 'Admin token', '{"plantId":<id>}',
+@api_test("ADM-SAL-API-03", 'M6', "Sale without quantity is rejected", 'POST /api/admin/sales', 'Admin token', '{"plantId":<id>}',
           '400 Bad Request, errors.quantity = "Quantity is required"', 'Admin is logged in; a plant with stock exists.')
 def _(ctx):
     p = ctx.plant()
@@ -41,7 +41,7 @@ def _(ctx):
     return verify(s, b, 400, field="quantity", field_msg="Quantity is required")
 
 
-@api_test("TC_API_M6_04", 'M6', "Selling an out-of-stock plant is rejected", 'POST /api/admin/sales', 'Admin token',
+@api_test("ADM-SAL-API-04", 'M6', "Selling an out-of-stock plant is rejected", 'POST /api/admin/sales', 'Admin token',
           '{"plantId":<plant stock 0>,"quantity":1}', '409 Conflict, "This plant is out of stock"',
           "Admin is logged in; a plant with stock 0 exists.")
 def _(ctx):
@@ -50,14 +50,14 @@ def _(ctx):
     return verify(s, b, 409, checks=[("message", lambda: "This plant is out of stock" in str(b))])
 
 
-@api_test("TC_API_M6_05", 'M6', "Sale without plantId is rejected", 'POST /api/admin/sales', 'Admin token', '{"quantity":1}',
+@api_test("ADM-SAL-API-05", 'M6', "Sale without plantId is rejected", 'POST /api/admin/sales', 'Admin token', '{"quantity":1}',
           '400 Bad Request, errors.plantId = "Plant is required"', "Admin is logged in.")
 def _(ctx):
     s, b = sell(ctx, {"quantity": 1})
     return verify(s, b, 400, field="plantId", field_msg="Plant is required")
 
 
-@api_test("TC_API_M6_06", 'M6', "Deleting a sale restores the plant stock", "DELETE /api/admin/sales/{id}", 'Admin token',
+@api_test("ADM-SAL-API-06", 'M6', "Deleting a sale restores the plant stock", "DELETE /api/admin/sales/{id}", 'Admin token',
           "Plant stock 10; sell 4 (stock 6); delete that sale",
           '200 OK, message "Sale deleted successfully", plant stock back to 10', 'Admin is logged in; a plant with stock exists.')
 def _(ctx):
@@ -68,14 +68,14 @@ def _(ctx):
                   checks=[("stock 10", lambda: ctx.get_plant(p["id"])["quantity"] == 10)])
 
 
-@api_test("TC_API_M6_07", 'M6', "Deleting a non-existing sale", "DELETE /api/admin/sales/{id}", 'Admin token',
+@api_test("ADM-SAL-API-07", 'M6', "Deleting a non-existing sale", "DELETE /api/admin/sales/{id}", 'Admin token',
           "id = 99999999", '404 Not Found, message "Sale not found"', "Admin is logged in.")
 def _(ctx):
     s, b = call("DELETE", "/api/admin/sales/99999999", token=ctx.admin)
     return verify(s, b, 404, "Sale not found")
 
 
-@api_test("TC_API_M6_08", 'M6', "Filter sales by customer type CLIENT",
+@api_test("ADM-SAL-API-08", 'M6', "Filter sales by customer type CLIENT",
           "GET /api/admin/sales?customerType=CLIENT", 'Admin token',
           "One Admin sale and one Client purchase of the same plant; filter CLIENT",
           "200 OK, every row has customerType CLIENT; the Client purchase is listed",
@@ -91,7 +91,7 @@ def _(ctx):
                                      ("client listed", lambda: cl["username"] in [r["customer"] for r in rows()])])
 
 
-@api_test("TC_API_M6_09", 'M6', "soldFrom after soldTo is rejected",
+@api_test("ADM-SAL-API-09", 'M6', "soldFrom after soldTo is rejected",
           "GET /api/admin/sales?soldFrom=2026-11-20&soldTo=2026-11-10", 'Admin token',
           "soldFrom = 2026-11-20, soldTo = 2026-11-10",
           '400 Bad Request, "soldFrom must be on or before soldTo"', "Admin is logged in.")
@@ -100,7 +100,7 @@ def _(ctx):
     return verify(s, b, 400, checks=[("message", lambda: "soldFrom must be on or before soldTo" in str(b))])
 
 
-@api_test("TC_API_M6_10", 'M6', "Searching sales for 'admin' finds Admin sales",
+@api_test("ADM-SAL-API-10", 'M6', "Searching sales for 'admin' finds Admin sales",
           "GET /api/admin/sales?search=admin", 'Admin token', "search = ADMIN (upper case); at least one Admin sale exists",
           "200 OK, result contains sales with customer 'Admin'", "At least one Admin sale exists.")
 def _(ctx):
@@ -110,7 +110,7 @@ def _(ctx):
     return verify(s, b, 200, checks=[("admin sale found", lambda: sale["id"] in [r["id"] for r in b["data"]["content"]])])
 
 
-@api_test("TC_API_M6_11", 'M6', "Sell exactly the whole stock", 'POST /api/admin/sales', 'Admin token',
+@api_test("ADM-SAL-API-11", 'M6', "Sell exactly the whole stock", 'POST /api/admin/sales', 'Admin token',
           '{"plantId":<plant with stock 4>,"quantity":4}',
           '201 "Sale completed successfully"; plant stock becomes 0 and the plant is no longer in the Sell Plant dropdown '
           '(GET /api/admin/plants/in-stock)', precondition="A plant with stock 4 exists.")
@@ -123,7 +123,7 @@ def _(ctx):
                           ("not in Sell Plant dropdown", lambda: p["id"] not in [x["id"] for x in ins])])
 
 
-@api_test("TC_API_M6_12", 'M6', "Deleting a Client purchase removes it from My Purchases and restores stock",
+@api_test("ADM-SAL-API-12", 'M6', "Deleting a Client purchase removes it from My Purchases and restores stock",
           "DELETE /api/admin/sales/{id}", 'Admin token', "Client buys 3 of a plant with stock 10; Admin deletes that sale",
           '200 "Sale deleted successfully"; the Client\'s GET /api/client/purchases no longer lists it; stock back to 10',
           precondition="A Client has bought 3 of a plant with stock 10.")
@@ -138,7 +138,7 @@ def _(ctx):
                           ("stock 10", lambda: ctx.get_plant(p["id"])["quantity"] == 10)])
 
 
-@api_test("TC_API_M6_13", 'M6', "Parallel: deleting the same sale twice returns 404, not a server error",
+@api_test("ADM-SAL-API-13", 'M6', "Parallel: deleting the same sale twice returns 404, not a server error",
           "DELETE /api/admin/sales/{id}", 'Admin token', "6 x DELETE /api/admin/sales/{id} of one sale, sent at the same moment",
           '1 x 200 "Sale deleted successfully", 5 x 404 "Sale not found" (SRS 4.6); no 500',
           precondition="One sale exists.",
@@ -154,7 +154,7 @@ def _(ctx):
     return verify(s, b, s, checks=[(f"1 x 200 and 5 x 404, no 500 (got {codes})", lambda: codes == [200, 404, 404, 404, 404, 404])])
 
 
-@api_test("TC_API_M6_14", 'M6', "Sold-date filter with To date 9999-12-31", "GET /api/admin/sales?soldTo=9999-12-31",
+@api_test("ADM-SAL-API-14", 'M6', "Sold-date filter with To date 9999-12-31", "GET /api/admin/sales?soldTo=9999-12-31",
           'Admin token', "soldTo = 9999-12-31",
           '200 OK, "Sales retrieved successfully", all sales sold on or before that date (SRS 6.5.1 From/To both inclusive)')
 def _(ctx):
@@ -162,7 +162,7 @@ def _(ctx):
     return verify(s, b, 200, "Sales retrieved successfully")
 
 
-@api_test("TC_API_M6_15", 'M6', "Two invalid fields: out-of-stock plant AND quantity 0", 'POST /api/admin/sales', 'Admin token',
+@api_test("ADM-SAL-API-15", 'M6', "Two invalid fields: out-of-stock plant AND quantity 0", 'POST /api/admin/sales', 'Admin token',
           '{"plantId":<plant with stock 0>,"quantity":0}',
           '400 with one message per field (SRS 4.7, 6.5.2 table): errors.quantity = "Quantity must be greater than 0" AND '
           'the plant error "This plant is out of stock"', precondition="A plant with stock 0 exists.")

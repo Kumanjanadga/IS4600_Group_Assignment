@@ -23,12 +23,12 @@
     },
     "M5": {
       "id": "224208A",
-      "name": "Warnasooriya W.M.E.S.",
+      "name": "Warnasooriya W.M.E.S",
       "modules": "Buy Plant + My Purchases (SRS 7.5, 7.6) + User Management (SRS 6.6)"
     },
     "M6": {
       "id": "224003P",
-      "name": "Aberathna M.H.A.J.D.",
+      "name": "Aberathna M.H.A.J.D",
       "modules": "Sales Management + Sell Plant (SRS 6.5)"
     }
   },
@@ -41,20 +41,20 @@
     "M6": "/api/admin/sales (+ /{id})"
   },
   "defects": {
-    "TC_API_M1_13": "DEF-001",
-    "TC_API_M1_15": "DEF-002",
-    "TC_API_M1_14": "DEF-003",
-    "TC_API_M2_14": "DEF-004",
-    "TC_API_M2_13": "DEF-005",
-    "TC_API_M2_15": "DEF-006",
-    "TC_API_M3_14": "DEF-007",
-    "TC_API_M3_15": "DEF-008",
-    "TC_API_M4_14": "DEF-009",
-    "TC_API_M4_15": "DEF-010",
-    "TC_API_M5_14": "DEF-011",
-    "TC_API_M5_15": "DEF-012",
-    "TC_API_M6_14": "DEF-013",
-    "TC_API_M6_15": "DEF-014",
-    "TC_API_M6_13": "DEF-015"
+    "ADM-CAT-API-12": "DEF-001",
+    "ADM-CAT-API-13": "DEF-002",
+    "ADM-CAT-API-14": "DEF-003",
+    "ADM-PLT-API-13": "DEF-004",
+    "ADM-PLT-API-14": "DEF-005",
+    "ADM-PLT-API-15": "DEF-006",
+    "ADM-PLT-API-16": "DEF-007",
+    "ADM-SAL-API-13": "DEF-008",
+    "ADM-SAL-API-14": "DEF-009",
+    "ADM-SAL-API-15": "DEF-010",
+    "ADM-USR-API-05": "DEF-011",
+    "CLI-REG-API-12": "DEF-012",
+    "CLI-CTL-API-09": "DEF-013",
+    "CLI-BUY-API-07": "DEF-014",
+    "API-GEN-API-03": "DEF-015"
   }
 }

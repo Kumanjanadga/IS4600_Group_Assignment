@@ -10,7 +10,7 @@ from framework import api_test, verify, parallel  # noqa: F401
 from helpers import plant_body, reg_body, post_reg, content, buy, sell  # noqa: F401
 
 
-@api_test("TC_API_M2_01", 'M2', "Add a plant with valid data", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-01", 'M2', "Add a plant with valid data", 'POST /api/admin/plants', 'Admin token',
           '{"name":"<unique>","categoryId":<sub id>,"price":25.00,"quantity":10}',
           '201 Created, message "Plant created successfully", price 25.00, quantity 10', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
@@ -21,35 +21,35 @@ def _(ctx):
                           ("quantity 10", lambda: b["data"]["quantity"] == 10)])
 
 
-@api_test("TC_API_M2_02", 'M2', "Price at maximum boundary 10000.00 is accepted", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-02", 'M2', "Price at maximum boundary 10000.00 is accepted", 'POST /api/admin/plants', 'Admin token',
           'price = 10000.00 (other fields valid)', '201 Created, message "Plant created successfully"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, price=10000.00), ctx.admin)
     return verify(s, b, 201, "Plant created successfully")
 
 
-@api_test("TC_API_M2_03", 'M2', "Price above maximum (10000.01) is rejected", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-03", 'M2', "Price above maximum (10000.01) is rejected", 'POST /api/admin/plants', 'Admin token',
           'price = 10000.01', '400 Bad Request, errors.price = "Price cannot exceed 10000.00"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, price=10000.01), ctx.admin)
     return verify(s, b, 400, field="price", field_msg="Price cannot exceed 10000.00")
 
 
-@api_test("TC_API_M2_04", 'M2', "Price of 0 is rejected", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-04", 'M2', "Price of 0 is rejected", 'POST /api/admin/plants', 'Admin token',
           'price = 0', '400 Bad Request, errors.price = "Price must be greater than 0"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, price=0), ctx.admin)
     return verify(s, b, 400, field="price", field_msg="Price must be greater than 0")
 
 
-@api_test("TC_API_M2_05", 'M2', "Price with 3 decimal places is rejected", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-05", 'M2', "Price with 3 decimal places is rejected", 'POST /api/admin/plants', 'Admin token',
           'price = 12.345', '400 Bad Request, errors.price = "Price can have at most 2 decimal places"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, price=12.345), ctx.admin)
     return verify(s, b, 400, field="price", field_msg="Price can have at most 2 decimal places")
 
 
-@api_test("TC_API_M2_06", 'M2', "Trailing zeros do not count as decimals (10.500)", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-06", 'M2', "Trailing zeros do not count as decimals (10.500)", 'POST /api/admin/plants', 'Admin token',
           'price = "10.500" (sent as text)', '201 Created, price saved as 10.50', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, price="10.500"), ctx.admin)
@@ -57,14 +57,14 @@ def _(ctx):
                   checks=[("price 10.50", lambda: float(b["data"]["price"]) == 10.50)])
 
 
-@api_test("TC_API_M2_07", 'M2', "Negative quantity is rejected", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-07", 'M2', "Negative quantity is rejected", 'POST /api/admin/plants', 'Admin token',
           'quantity = -1', '400 Bad Request, errors.quantity = "Quantity cannot be negative"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
     s, b = call("POST", "/api/admin/plants", plant_body(ctx, quantity=-1), ctx.admin)
     return verify(s, b, 400, field="quantity", field_msg="Quantity cannot be negative")
 
 
-@api_test("TC_API_M2_08", 'M2', "Plant cannot be added to a main category", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-08", 'M2', "Plant cannot be added to a main category", 'POST /api/admin/plants', 'Admin token',
           'categoryId = <main category id>', '400 Bad Request, errors.categoryId = "Category must be a sub-category"',
           "Admin is logged in; a main category exists.")
 def _(ctx):
@@ -72,7 +72,7 @@ def _(ctx):
     return verify(s, b, 400, field="categoryId", field_msg="Category must be a sub-category")
 
 
-@api_test("TC_API_M2_09", 'M2', "Duplicate plant name (different case) is rejected", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-09", 'M2', "Duplicate plant name (different case) is rejected", 'POST /api/admin/plants', 'Admin token',
           'name = existing plant name in UPPERCASE', '409 Conflict, "Plant name already exists"',
           "A plant already exists.")
 def _(ctx):
@@ -82,7 +82,7 @@ def _(ctx):
                                       lambda: "Plant name already exists" in str(b))])
 
 
-@api_test("TC_API_M2_10", 'M2', "Plant name above maximum length (26 chars)", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-10", 'M2', "Plant name above maximum length (26 chars)", 'POST /api/admin/plants', 'Admin token',
           'name = "ABCDEFGHIJKLMNOPQRSTUVWXYZ" (26 chars)',
           '400 Bad Request, errors.name = "Plant name must be between 3 and 25 characters"', 'Admin is logged in; a sub-category exists.')
 def _(ctx):
@@ -90,7 +90,7 @@ def _(ctx):
     return verify(s, b, 400, field="name", field_msg="Plant name must be between 3 and 25 characters")
 
 
-@api_test("TC_API_M2_11", 'M2', "Plant with sales records cannot be deleted",
+@api_test("ADM-PLT-API-11", 'M2', "Plant with sales records cannot be deleted",
           "DELETE /api/admin/plants/{id}", 'Admin token', "id = plant that has 1 sale",
           '409 Conflict, message "Plant cannot be deleted because it has sales records."',
           "A plant with at least one sale exists.")
@@ -101,7 +101,7 @@ def _(ctx):
     return verify(s, b, 409, "Plant cannot be deleted because it has sales records.")
 
 
-@api_test("TC_API_M2_12", 'M2', "Filter by main category returns plants of all its sub-categories",
+@api_test("ADM-PLT-API-12", 'M2', "Filter by main category returns plants of all its sub-categories",
           "GET /api/admin/plants?categoryId={mainId}", 'Admin token',
           "Main category with 2 sub-categories, 1 plant in each",
           "200 OK, list contains both plants (totalElements = 2)",
@@ -115,7 +115,7 @@ def _(ctx):
     return verify(s, b, 200, checks=[("both plants returned", lambda: ids() == {p1["id"], p2["id"]})])
 
 
-@api_test("TC_API_M2_13", 'M2', "Plant name with a special letter is not a duplicate", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-13", 'M2', "Plant name with a special letter is not a duplicate", 'POST /api/admin/plants', 'Admin token',
           'Plant "Straße Fern <xyz>" exists; send {"name":"Strasse Fern <xyz>","categoryId":<sub id>,"price":5,"quantity":5}',
           '201 Created, "Plant created successfully" - plant names are unique only case-insensitively (SRS 6.4.2), '
           'and "Strasse" is a different name from "Straße"',
@@ -128,7 +128,7 @@ def _(ctx):
     return verify(s, b, 201, "Plant created successfully")
 
 
-@api_test("TC_API_M2_14", 'M2', "Stock never becomes negative when a sale is deleted at maximum stock",
+@api_test("ADM-PLT-API-14", 'M2', "Stock never becomes negative when a sale is deleted at maximum stock",
           "DELETE /api/admin/sales/{id}", 'Admin token',
           "Plant qty 10 -> sell 5 -> edit plant quantity to 2147483647 -> delete the sale",
           'Stock is never negative (SRS 6.5.2 "stock can never become negative"): the delete is rejected or the stock '
@@ -145,7 +145,7 @@ def _(ctx):
     return verify(s, b, s, checks=[(f"stock not negative (stock={q})", lambda: q >= 0)])
 
 
-@api_test("TC_API_M2_15", 'M2', "Plant name of 20 characters including emoji is within 3-25", 'POST /api/admin/plants', 'Admin token',
+@api_test("ADM-PLT-API-15", 'M2', "Plant name of 20 characters including emoji is within 3-25", 'POST /api/admin/plants', 'Admin token',
           '{"name":"Rose<4 letters>🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹🌹","categoryId":<sub id>,"price":5,"quantity":1}  (20 characters)',
           '201 Created, "Plant created successfully" (SRS 6.4.2 "Length 3-25" counts characters)',
           precondition="A sub-category exists.")

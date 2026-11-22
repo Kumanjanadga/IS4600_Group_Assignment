@@ -10,7 +10,7 @@ from framework import api_test, verify, parallel  # noqa: F401
 from helpers import plant_body, reg_body, post_reg, content, buy, sell  # noqa: F401
 
 
-@api_test("TC_API_M1_01", 'M1', "Create a main category", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-01", 'M1', "Create a main category", 'POST /api/admin/categories', 'Admin token',
           '{"name":"<unique 7 chars>","parentId":null}',
           '201 Created, message "Category created successfully", data.parentId is null')
 def _(ctx):
@@ -21,7 +21,7 @@ def _(ctx):
                           ("parentId null", lambda: b["data"].get("parentId") is None)])
 
 
-@api_test("TC_API_M1_02", 'M1', "Create a sub-category under a main category", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-02", 'M1', "Create a sub-category under a main category", 'POST /api/admin/categories', 'Admin token',
           '{"name":"<unique>","parentId":<main category id>}',
           '201 Created, message "Category created successfully", data.parentId = main category id',
           precondition="A main category exists.")
@@ -32,7 +32,7 @@ def _(ctx):
                   checks=[("parentId set", lambda: b["data"]["parentId"] == main["id"])])
 
 
-@api_test("TC_API_M1_03", 'M1', "Category name is required", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-03", 'M1', "Category name is required", 'POST /api/admin/categories', 'Admin token',
           '{"name":"","parentId":null}',
           '400 Bad Request, errors.name = "Category name is required"')
 def _(ctx):
@@ -40,7 +40,7 @@ def _(ctx):
     return verify(s, b, 400, field="name", field_msg="Category name is required")
 
 
-@api_test("TC_API_M1_04", 'M1', "Category name below minimum length (2 chars)", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-04", 'M1', "Category name below minimum length (2 chars)", 'POST /api/admin/categories', 'Admin token',
           '{"name":"AB","parentId":null}',
           '400 Bad Request, errors.name = "Category name must be between 3 and 10 characters"')
 def _(ctx):
@@ -48,7 +48,7 @@ def _(ctx):
     return verify(s, b, 400, field="name", field_msg="Category name must be between 3 and 10 characters")
 
 
-@api_test("TC_API_M1_05", 'M1', "Duplicate category name (different case) under same parent", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-05", 'M1', "Duplicate category name (different case) under same parent", 'POST /api/admin/categories', 'Admin token',
           'Existing main category "<name>"; send {"name":"<name in lowercase>","parentId":null}',
           '409 Conflict, errors.name = "Category name already exists"',
           precondition="A main category exists.")
@@ -58,7 +58,7 @@ def _(ctx):
     return verify(s, b, 409, field="name", field_msg="Category name already exists")
 
 
-@api_test("TC_API_M1_06", 'M1', "Sub-category cannot be used as a parent", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-06", 'M1', "Sub-category cannot be used as a parent", 'POST /api/admin/categories', 'Admin token',
           '{"name":"<unique>","parentId":<sub-category id>}',
           '400 Bad Request, errors.parentId = "Parent category must be a main category"',
           precondition="A sub-category exists.")
@@ -68,7 +68,7 @@ def _(ctx):
     return verify(s, b, 400, field="parentId", field_msg="Parent category must be a main category")
 
 
-@api_test("TC_API_M1_07", 'M1', "Delete main category that has 1 sub-category",
+@api_test("ADM-CAT-API-07", 'M1', "Delete main category that has 1 sub-category",
           "DELETE /api/admin/categories/{id}", 'Admin token', "id = main category with exactly 1 sub-category",
           '409 Conflict, message "Category cannot be deleted because it has 1 sub-category."',
           precondition="A main category with exactly one sub-category exists.")
@@ -79,7 +79,7 @@ def _(ctx):
     return verify(s, b, 409, "Category cannot be deleted because it has 1 sub-category.")
 
 
-@api_test("TC_API_M1_08", 'M1', "Client token cannot create a category", 'POST /api/admin/categories', "Client token (user)",
+@api_test("ADM-CAT-API-08", 'M1', "Client token cannot create a category", 'POST /api/admin/categories', "Client token (user)",
           '{"name":"Indoor","parentId":null}',
           '403 Forbidden, message "You do not have permission to access this resource"')
 def _(ctx):
@@ -87,7 +87,7 @@ def _(ctx):
     return verify(s, b, 403, "You do not have permission to access this resource")
 
 
-@api_test("TC_API_M1_09", 'M1', "Dashboard low-stock count includes quantity 0 and 4, not 5",
+@api_test("ADM-DSH-API-01", 'M1', "Dashboard low-stock count includes quantity 0 and 4, not 5",
           "GET /api/admin/dashboard/summary", 'Admin token',
           "Read summary; add plants with quantity 0, 4 and 5; read summary again",
           "200 OK, plants.total +3 and plants.lowStock +2",
@@ -106,7 +106,7 @@ def _(ctx):
                                       lambda: ap["lowStock"] - bp["lowStock"] == 2)])
 
 
-@api_test("TC_API_M1_10", 'M1', "A category cannot be its own parent (Edit)", "PUT /api/admin/categories/{id}", 'Admin token',
+@api_test("ADM-CAT-API-09", 'M1', "A category cannot be its own parent (Edit)", "PUT /api/admin/categories/{id}", 'Admin token',
           'id = main category C; {"name":"<C name>","parentId":<C id>}',
           '400 Bad Request, errors.parentId = "A category cannot be its own parent"',
           precondition="A main category C exists.")
@@ -116,7 +116,7 @@ def _(ctx):
     return verify(s, b, 400, field="parentId", field_msg="A category cannot be its own parent")
 
 
-@api_test("TC_API_M1_11", 'M1', "Delete sub-category with 2 plants shows plural message", "DELETE /api/admin/categories/{id}",
+@api_test("ADM-CAT-API-10", 'M1', "Delete sub-category with 2 plants shows plural message", "DELETE /api/admin/categories/{id}",
           'Admin token', "id = sub-category that contains exactly 2 plants",
           '409 Conflict, message "Category cannot be deleted because it has 2 plants."',
           precondition="A sub-category with exactly two plants exists.")
@@ -128,7 +128,7 @@ def _(ctx):
     return verify(s, b, 409, "Category cannot be deleted because it has 2 plants.")
 
 
-@api_test("TC_API_M1_12", 'M1', "Main category with sub-categories cannot be moved under another", "PUT /api/admin/categories/{id}",
+@api_test("ADM-CAT-API-11", 'M1', "Main category with sub-categories cannot be moved under another", "PUT /api/admin/categories/{id}",
           'Admin token', 'id = main M (has 1 sub-category); {"name":"<M name>","parentId":<other main id>}',
           '400 Bad Request, errors.parentId = "A category with sub-categories cannot be moved under another category"',
           precondition="Main category M with one sub-category, and another main category O, exist.")
@@ -140,7 +140,7 @@ def _(ctx):
                   field_msg="A category with sub-categories cannot be moved under another category")
 
 
-@api_test("TC_API_M1_13", 'M1', "Category name with an accented letter is not a duplicate", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-12", 'M1', "Category name with an accented letter is not a duplicate", 'POST /api/admin/categories', 'Admin token',
           'Category "Cafe<xyz>" exists; send {"name":"Café<xyz>","parentId":null}',
           '201 Created, "Category created successfully" - names are unique only case-insensitively (SRS 6.3.2), '
           'and "Café" is a different name from "Cafe"',
@@ -152,7 +152,7 @@ def _(ctx):
     return verify(s, b, 201, "Category created successfully")
 
 
-@api_test("TC_API_M1_14", 'M1', "Parallel: 8 identical Add Category requests create only one category", 'POST /api/admin/categories',
+@api_test("ADM-CAT-API-13", 'M1', "Parallel: 8 identical Add Category requests create only one category", 'POST /api/admin/categories',
           'Admin token', '8 x {"name":"<same unique name>","parentId":null} sent at the same moment',
           '1 x 201 "Category created successfully", 7 x 409 "Category name already exists"; '
           'GET /api/admin/categories?search=<name> returns 1 category (SRS 6.3.2 unique within the same parent)',
@@ -168,7 +168,7 @@ def _(ctx):
                                      (f"one saved category (got {b['data']['totalElements']})", lambda: b["data"]["totalElements"] == 1)])
 
 
-@api_test("TC_API_M1_15", 'M1', "Category name of 7 characters including emoji is within 3-10", 'POST /api/admin/categories', 'Admin token',
+@api_test("ADM-CAT-API-14", 'M1', "Category name of 7 characters including emoji is within 3-10", 'POST /api/admin/categories', 'Admin token',
           '{"name":"<3 letters>🌵🌵🌵🌵","parentId":null}  (7 characters)',
           '201 Created, "Category created successfully" (SRS 6.3.2 "Length 3-10" counts characters)')
 def _(ctx):

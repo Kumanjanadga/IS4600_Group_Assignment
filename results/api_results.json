@@ -1,5 +1,5 @@
 {
-  "executed_at": "2026-11-22T07:31:38.363659+00:00",
+  "executed_at": "2026-11-22T07:38:17.097316+00:00",
   "counts": {
     "Pass": 75,
     "Fail": 15,
@@ -7,7 +7,7 @@
   },
   "results": [
     {
-      "id": "TC_API_M1_01",
+      "id": "ADM-CAT-API-01",
       "member": "M1",
       "title": "Create a main category",
       "description": "Create a main category",
@@ -21,7 +21,7 @@
       "actual": "201, message='Category created successfully'"
     },
     {
-      "id": "TC_API_M1_02",
+      "id": "ADM-CAT-API-02",
       "member": "M1",
       "title": "Create a sub-category under a main category",
       "description": "Create a sub-category under a main category",
@@ -35,7 +35,7 @@
       "actual": "201, message='Category created successfully'"
     },
     {
-      "id": "TC_API_M1_03",
+      "id": "ADM-CAT-API-03",
       "member": "M1",
       "title": "Category name is required",
       "description": "Category name is required",
@@ -49,7 +49,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Category name is required\"}"
     },
     {
-      "id": "TC_API_M1_04",
+      "id": "ADM-CAT-API-04",
       "member": "M1",
       "title": "Category name below minimum length (2 chars)",
       "description": "Category name below minimum length (2 chars)",
@@ -63,7 +63,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"}"
     },
     {
-      "id": "TC_API_M1_05",
+      "id": "ADM-CAT-API-05",
       "member": "M1",
       "title": "Duplicate category name (different case) under same parent",
       "description": "Duplicate category name (different case) under same parent",
@@ -77,7 +77,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Category name already exists\"}"
     },
     {
-      "id": "TC_API_M1_06",
+      "id": "ADM-CAT-API-06",
       "member": "M1",
       "title": "Sub-category cannot be used as a parent",
       "description": "Sub-category cannot be used as a parent",
@@ -91,7 +91,7 @@
       "actual": "400, message='Validation failed', errors={\"parentId\": \"Parent category must be a main category\"}"
     },
     {
-      "id": "TC_API_M1_07",
+      "id": "ADM-CAT-API-07",
       "member": "M1",
       "title": "Delete main category that has 1 sub-category",
       "description": "Delete main category that has 1 sub-category",
@@ -105,7 +105,7 @@
       "actual": "409, message='Category cannot be deleted because it has 1 sub-category.'"
     },
     {
-      "id": "TC_API_M1_08",
+      "id": "ADM-CAT-API-08",
       "member": "M1",
       "title": "Client token cannot create a category",
       "description": "Client token cannot create a category",
@@ -119,7 +119,7 @@
       "actual": "403, message='You do not have permission to access this resource'"
     },
     {
-      "id": "TC_API_M1_09",
+      "id": "ADM-DSH-API-01",
       "member": "M1",
       "title": "Dashboard low-stock count includes quantity 0 and 4, not 5",
       "description": "Dashboard low-stock count includes quantity 0 and 4, not 5",
@@ -133,7 +133,7 @@
       "actual": "200, message='Dashboard summary retrieved successfully'"
     },
     {
-      "id": "TC_API_M1_10",
+      "id": "ADM-CAT-API-09",
       "member": "M1",
       "title": "A category cannot be its own parent (Edit)",
       "description": "A category cannot be its own parent (Edit)",
@@ -147,7 +147,7 @@
       "actual": "400, message='Validation failed', errors={\"parentId\": \"A category cannot be its own parent\"}"
     },
     {
-      "id": "TC_API_M1_11",
+      "id": "ADM-CAT-API-10",
       "member": "M1",
       "title": "Delete sub-category with 2 plants shows plural message",
       "description": "Delete sub-category with 2 plants shows plural message",
@@ -161,7 +161,7 @@
       "actual": "409, message='Category cannot be deleted because it has 2 plants.'"
     },
     {
-      "id": "TC_API_M1_12",
+      "id": "ADM-CAT-API-11",
       "member": "M1",
       "title": "Main category with sub-categories cannot be moved under another",
       "description": "Main category with sub-categories cannot be moved under another",
@@ -175,7 +175,7 @@
       "actual": "400, message='Validation failed', errors={\"parentId\": \"A category with sub-categories cannot be moved under another category\"}"
     },
     {
-      "id": "TC_API_M1_13",
+      "id": "ADM-CAT-API-12",
       "member": "M1",
       "title": "Category name with an accented letter is not a duplicate",
       "description": "Category name with an accented letter is not a duplicate",
@@ -189,7 +189,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Category name already exists\"} | MISMATCH: status 409 != 201; message 'Validation failed' != 'Category created successfully'"
     },
     {
-      "id": "TC_API_M1_14",
+      "id": "ADM-CAT-API-13",
       "member": "M1",
       "title": "Parallel: 8 identical Add Category requests create only one category",
       "description": "Parallel: 8 identical Add Category requests create only one category",
@@ -203,7 +203,7 @@
       "actual": "200, message='Categories retrieved successfully' | MISMATCH: check failed: exactly one 201 (got [201, 201, 201, 201, 201, 201, 201, 201]); check failed: one saved category (got 8)"
     },
     {
-      "id": "TC_API_M1_15",
+      "id": "ADM-CAT-API-14",
       "member": "M1",
       "title": "Category name of 7 characters including emoji is within 3-10",
       "description": "Category name of 7 characters including emoji is within 3-10",
@@ -217,7 +217,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Category name must be between 3 and 10 characters\"} | MISMATCH: status 400 != 201; message 'Validation failed' != 'Category created successfully'"
     },
     {
-      "id": "TC_API_M2_01",
+      "id": "ADM-PLT-API-01",
       "member": "M2",
       "title": "Add a plant with valid data",
       "description": "Add a plant with valid data",
@@ -231,7 +231,7 @@
       "actual": "201, message='Plant created successfully'"
     },
     {
-      "id": "TC_API_M2_02",
+      "id": "ADM-PLT-API-02",
       "member": "M2",
       "title": "Price at maximum boundary 10000.00 is accepted",
       "description": "Price at maximum boundary 10000.00 is accepted",
@@ -245,7 +245,7 @@
       "actual": "201, message='Plant created successfully'"
     },
     {
-      "id": "TC_API_M2_03",
+      "id": "ADM-PLT-API-03",
       "member": "M2",
       "title": "Price above maximum (10000.01) is rejected",
       "description": "Price above maximum (10000.01) is rejected",
@@ -259,7 +259,7 @@
       "actual": "400, message='Validation failed', errors={\"price\": \"Price cannot exceed 10000.00\"}"
     },
     {
-      "id": "TC_API_M2_04",
+      "id": "ADM-PLT-API-04",
       "member": "M2",
       "title": "Price of 0 is rejected",
       "description": "Price of 0 is rejected",
@@ -273,7 +273,7 @@
       "actual": "400, message='Validation failed', errors={\"price\": \"Price must be greater than 0\"}"
     },
     {
-      "id": "TC_API_M2_05",
+      "id": "ADM-PLT-API-05",
       "member": "M2",
       "title": "Price with 3 decimal places is rejected",
       "description": "Price with 3 decimal places is rejected",
@@ -287,7 +287,7 @@
       "actual": "400, message='Validation failed', errors={\"price\": \"Price can have at most 2 decimal places\"}"
     },
     {
-      "id": "TC_API_M2_06",
+      "id": "ADM-PLT-API-06",
       "member": "M2",
       "title": "Trailing zeros do not count as decimals (10.500)",
       "description": "Trailing zeros do not count as decimals (10.500)",
@@ -301,7 +301,7 @@
       "actual": "201, message='Plant created successfully'"
     },
     {
-      "id": "TC_API_M2_07",
+      "id": "ADM-PLT-API-07",
       "member": "M2",
       "title": "Negative quantity is rejected",
       "description": "Negative quantity is rejected",
@@ -315,7 +315,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity cannot be negative\"}"
     },
     {
-      "id": "TC_API_M2_08",
+      "id": "ADM-PLT-API-08",
       "member": "M2",
       "title": "Plant cannot be added to a main category",
       "description": "Plant cannot be added to a main category",
@@ -329,7 +329,7 @@
       "actual": "400, message='Validation failed', errors={\"categoryId\": \"Category must be a sub-category\"}"
     },
     {
-      "id": "TC_API_M2_09",
+      "id": "ADM-PLT-API-09",
       "member": "M2",
       "title": "Duplicate plant name (different case) is rejected",
       "description": "Duplicate plant name (different case) is rejected",
@@ -343,7 +343,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Plant name already exists\"}"
     },
     {
-      "id": "TC_API_M2_10",
+      "id": "ADM-PLT-API-10",
       "member": "M2",
       "title": "Plant name above maximum length (26 chars)",
       "description": "Plant name above maximum length (26 chars)",
@@ -357,7 +357,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Plant name must be between 3 and 25 characters\"}"
     },
     {
-      "id": "TC_API_M2_11",
+      "id": "ADM-PLT-API-11",
       "member": "M2",
       "title": "Plant with sales records cannot be deleted",
       "description": "Plant with sales records cannot be deleted",
@@ -371,7 +371,7 @@
       "actual": "409, message='Plant cannot be deleted because it has sales records.'"
     },
     {
-      "id": "TC_API_M2_12",
+      "id": "ADM-PLT-API-12",
       "member": "M2",
       "title": "Filter by main category returns plants of all its sub-categories",
       "description": "Filter by main category returns plants of all its sub-categories",
@@ -385,7 +385,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M2_13",
+      "id": "ADM-PLT-API-13",
       "member": "M2",
       "title": "Plant name with a special letter is not a duplicate",
       "description": "Plant name with a special letter is not a duplicate",
@@ -399,7 +399,7 @@
       "actual": "409, message='Validation failed', errors={\"name\": \"Plant name already exists\"} | MISMATCH: status 409 != 201; message 'Validation failed' != 'Plant created successfully'"
     },
     {
-      "id": "TC_API_M2_14",
+      "id": "ADM-PLT-API-14",
       "member": "M2",
       "title": "Stock never becomes negative when a sale is deleted at maximum stock",
       "description": "Stock never becomes negative when a sale is deleted at maximum stock",
@@ -413,7 +413,7 @@
       "actual": "200, message='Sale deleted successfully' | MISMATCH: check failed: stock not negative (stock=-2147483644)"
     },
     {
-      "id": "TC_API_M2_15",
+      "id": "ADM-PLT-API-15",
       "member": "M2",
       "title": "Plant name of 20 characters including emoji is within 3-25",
       "description": "Plant name of 20 characters including emoji is within 3-25",
@@ -427,7 +427,7 @@
       "actual": "400, message='Validation failed', errors={\"name\": \"Plant name must be between 3 and 25 characters\"} | MISMATCH: status 400 != 201; message 'Validation failed' != 'Plant created successfully'"
     },
     {
-      "id": "TC_API_M3_01",
+      "id": "CLI-REG-API-01",
       "member": "M3",
       "title": "Register a new Client with valid data",
       "description": "Register a new Client with valid data",
@@ -441,7 +441,7 @@
       "actual": "201, message='Registration successful. Please log in.'"
     },
     {
-      "id": "TC_API_M3_02",
+      "id": "CLI-REG-API-02",
       "member": "M3",
       "title": "Registration ignores an extra role=ADMIN field",
       "description": "Registration ignores an extra role=ADMIN field",
@@ -455,7 +455,7 @@
       "actual": "201, message='Registration successful. Please log in.'"
     },
     {
-      "id": "TC_API_M3_03",
+      "id": "CLI-REG-API-03",
       "member": "M3",
       "title": "Duplicate username with different case is rejected",
       "description": "Duplicate username with different case is rejected",
@@ -469,7 +469,7 @@
       "actual": "409, message='Validation failed', errors={\"username\": \"Username is already taken\"}"
     },
     {
-      "id": "TC_API_M3_04",
+      "id": "CLI-REG-API-04",
       "member": "M3",
       "title": "Duplicate email with different case is rejected",
       "description": "Duplicate email with different case is rejected",
@@ -483,7 +483,7 @@
       "actual": "409, message='Validation failed', errors={\"email\": \"Email is already registered\"}"
     },
     {
-      "id": "TC_API_M3_05",
+      "id": "CLI-REG-API-05",
       "member": "M3",
       "title": "Admin username is reserved and cannot be registered",
       "description": "Admin username is reserved and cannot be registered",
@@ -497,7 +497,7 @@
       "actual": "409, message='Validation failed', errors={\"username\": \"Username is already taken\"}"
     },
     {
-      "id": "TC_API_M3_06",
+      "id": "CLI-REG-API-06",
       "member": "M3",
       "title": "Username with a hyphen is rejected",
       "description": "Username with a hyphen is rejected",
@@ -511,7 +511,7 @@
       "actual": "400, message='Validation failed', errors={\"username\": \"Username can only contain letters, numbers and underscores\"}"
     },
     {
-      "id": "TC_API_M3_07",
+      "id": "CLI-REG-API-07",
       "member": "M3",
       "title": "Email of exactly 100 characters (max boundary) is accepted",
       "description": "Email of exactly 100 characters (max boundary) is accepted",
@@ -525,7 +525,7 @@
       "actual": "201, message='Registration successful. Please log in.'"
     },
     {
-      "id": "TC_API_M3_08",
+      "id": "CLI-REG-API-08",
       "member": "M3",
       "title": "Password without an uppercase letter is rejected",
       "description": "Password without an uppercase letter is rejected",
@@ -539,7 +539,7 @@
       "actual": "400, message='Validation failed', errors={\"password\": \"Password must contain at least one uppercase letter, one lowercase letter and one number\"}"
     },
     {
-      "id": "TC_API_M3_09",
+      "id": "CLI-REG-API-09",
       "member": "M3",
       "title": "Password below minimum length (7 chars)",
       "description": "Password below minimum length (7 chars)",
@@ -553,7 +553,7 @@
       "actual": "400, message='Validation failed', errors={\"password\": \"Password must be between 8 and 20 characters\"}"
     },
     {
-      "id": "TC_API_M3_10",
+      "id": "CLI-REG-API-10",
       "member": "M3",
       "title": "Confirm Password does not match",
       "description": "Confirm Password does not match",
@@ -567,7 +567,7 @@
       "actual": "400, message='Validation failed', errors={\"confirmPassword\": \"Passwords do not match\"}"
     },
     {
-      "id": "TC_API_M3_11",
+      "id": "CLI-REG-API-11",
       "member": "M3",
       "title": "Email with 1-letter top-level domain is rejected",
       "description": "Email with 1-letter top-level domain is rejected",
@@ -581,7 +581,7 @@
       "actual": "400, message='Validation failed', errors={\"email\": \"Please enter a valid email address\"}"
     },
     {
-      "id": "TC_API_M3_12",
+      "id": "API-GEN-API-01",
       "member": "M3",
       "title": "Unsupported HTTP method on the registration endpoint",
       "description": "Unsupported HTTP method on the registration endpoint",
@@ -595,7 +595,7 @@
       "actual": "405, message='Method GET is not supported for this endpoint'"
     },
     {
-      "id": "TC_API_M3_13",
+      "id": "API-GEN-API-02",
       "member": "M3",
       "title": "Registration body that is not JSON",
       "description": "Registration body that is not JSON",
@@ -609,7 +609,7 @@
       "actual": "415, message='Content-Type must be application/json'"
     },
     {
-      "id": "TC_API_M3_14",
+      "id": "CLI-REG-API-12",
       "member": "M3",
       "title": "Full name of 1 character (an emoji) is rejected",
       "description": "Full name of 1 character (an emoji) is rejected",
@@ -623,7 +623,7 @@
       "actual": "201, message='Registration successful. Please log in.' | MISMATCH: status 201 != 400; errors.fullName 'None' != 'Full name must be between 2 and 50 characters'"
     },
     {
-      "id": "TC_API_M3_15",
+      "id": "API-GEN-API-03",
       "member": "M3",
       "title": "Error for a very long search is returned in the standard JSON format",
       "description": "Error for a very long search is returned in the standard JSON format",
@@ -637,7 +637,7 @@
       "actual": "400, <!doctype html><html lang=\"en\"><head><title>HTTP Status 400 \u2013 Bad Request</title><style type=\"text/css\">body {font-family:Tahoma,Arial,sans-serif;} h1, h2, h3, b {color:white;background-color:#525D76; | MISMATCH: check failed: JSON body with success and message"
     },
     {
-      "id": "TC_API_M4_01",
+      "id": "CLI-CTL-API-01",
       "member": "M4",
       "title": "Guest can view the plant catalog with default page size 12",
       "description": "Guest can view the plant catalog with default page size 12",
@@ -651,7 +651,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_02",
+      "id": "CLI-CTL-API-02",
       "member": "M4",
       "title": "Filter by main category shows plants of all sub-categories",
       "description": "Filter by main category shows plants of all sub-categories",
@@ -665,7 +665,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_03",
+      "id": "CLI-CTL-API-03",
       "member": "M4",
       "title": "Sort catalog by price descending",
       "description": "Sort catalog by price descending",
@@ -679,7 +679,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_04",
+      "id": "CLI-CTL-API-04",
       "member": "M4",
       "title": "Invalid sortBy value is rejected",
       "description": "Invalid sortBy value is rejected",
@@ -693,7 +693,7 @@
       "actual": "400, message='Invalid sortBy value. Allowed: name, price'"
     },
     {
-      "id": "TC_API_M4_05",
+      "id": "CLI-CTL-API-05",
       "member": "M4",
       "title": "Page 0 is rejected",
       "description": "Page 0 is rejected",
@@ -707,7 +707,7 @@
       "actual": "400, message='Page must be 1 or greater'"
     },
     {
-      "id": "TC_API_M4_06",
+      "id": "CLI-CTL-API-06",
       "member": "M4",
       "title": "Page size above 100 is rejected",
       "description": "Page size above 100 is rejected",
@@ -721,7 +721,7 @@
       "actual": "400, message='Size must be between 1 and 100'"
     },
     {
-      "id": "TC_API_M4_07",
+      "id": "CLI-DET-API-01",
       "member": "M4",
       "title": "Out-of-stock plant shows 'Out of Stock' and cannot be bought",
       "description": "Out-of-stock plant shows 'Out of Stock' and cannot be bought",
@@ -735,7 +735,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_08",
+      "id": "CLI-DET-API-02",
       "member": "M4",
       "title": "Low-stock plant (3) shows 'Only 3 left'",
       "description": "Low-stock plant (3) shows 'Only 3 left'",
@@ -749,7 +749,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_09",
+      "id": "CLI-DET-API-03",
       "member": "M4",
       "title": "In-stock plant (10) does not reveal stock quantity",
       "description": "In-stock plant (10) does not reveal stock quantity",
@@ -763,7 +763,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_10",
+      "id": "CLI-DET-API-04",
       "member": "M4",
       "title": "Plant details show category as 'Parent > Sub-category'",
       "description": "Plant details show category as 'Parent > Sub-category'",
@@ -777,7 +777,7 @@
       "actual": "200, message='Plant retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_11",
+      "id": "CLI-DET-API-05",
       "member": "M4",
       "title": "Plant details for a non-existing id",
       "description": "Plant details for a non-existing id",
@@ -791,7 +791,7 @@
       "actual": "404, message='Plant not found'"
     },
     {
-      "id": "TC_API_M4_12",
+      "id": "CLI-CTL-API-07",
       "member": "M4",
       "title": "Catalog filter lists main categories with their sub-categories",
       "description": "Catalog filter lists main categories with their sub-categories",
@@ -805,7 +805,7 @@
       "actual": "200, message='Categories retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_13",
+      "id": "CLI-CTL-API-08",
       "member": "M4",
       "title": "'%' in search is treated as a normal character",
       "description": "'%' in search is treated as a normal character",
@@ -819,7 +819,7 @@
       "actual": "200, message='Plants retrieved successfully'"
     },
     {
-      "id": "TC_API_M4_14",
+      "id": "CLI-CTL-API-09",
       "member": "M4",
       "title": "Very large page number returns an empty list",
       "description": "Very large page number returns an empty list",
@@ -833,7 +833,7 @@
       "actual": "500, message='Unexpected server error' | MISMATCH: status 500 != 200; message 'Unexpected server error' != 'Plants retrieved successfully'; check failed: empty list"
     },
     {
-      "id": "TC_API_M4_15",
+      "id": "ADM-PLT-API-16",
       "member": "M4",
       "title": "Parallel: deleting the same plant twice returns 404, not a server error",
       "description": "Parallel: deleting the same plant twice returns 404, not a server error",
@@ -847,7 +847,7 @@
       "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 4 x 404, no 500 (got [200, 500, 500, 500, 500])"
     },
     {
-      "id": "TC_API_M5_01",
+      "id": "CLI-BUY-API-01",
       "member": "M5",
       "title": "Client buys a plant and stock is reduced",
       "description": "Client buys a plant and stock is reduced",
@@ -861,7 +861,7 @@
       "actual": "201, message='Purchase completed successfully.'"
     },
     {
-      "id": "TC_API_M5_02",
+      "id": "CLI-BUY-API-02",
       "member": "M5",
       "title": "Purchase quantity 0 is rejected",
       "description": "Purchase quantity 0 is rejected",
@@ -875,7 +875,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be greater than 0\"}"
     },
     {
-      "id": "TC_API_M5_03",
+      "id": "CLI-BUY-API-03",
       "member": "M5",
       "title": "Purchase quantity above stock is rejected, stock unchanged",
       "description": "Purchase quantity above stock is rejected, stock unchanged",
@@ -889,7 +889,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Only 3 items available in stock\"}"
     },
     {
-      "id": "TC_API_M5_04",
+      "id": "CLI-BUY-API-04",
       "member": "M5",
       "title": "Buying an out-of-stock plant is rejected",
       "description": "Buying an out-of-stock plant is rejected",
@@ -903,7 +903,7 @@
       "actual": "409, message='This plant is out of stock'"
     },
     {
-      "id": "TC_API_M5_05",
+      "id": "CLI-BUY-API-05",
       "member": "M5",
       "title": "Buying a non-existing plant",
       "description": "Buying a non-existing plant",
@@ -917,7 +917,7 @@
       "actual": "400, message='Validation failed', errors={\"plantId\": \"Plant not found\"}"
     },
     {
-      "id": "TC_API_M5_06",
+      "id": "CLI-BUY-API-06",
       "member": "M5",
       "title": "Decimal purchase quantity is rejected",
       "description": "Decimal purchase quantity is rejected",
@@ -931,7 +931,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be a whole number\"}"
     },
     {
-      "id": "TC_API_M5_07",
+      "id": "CLI-PUR-API-01",
       "member": "M5",
       "title": "My Purchases shows only the logged-in Client's purchases",
       "description": "My Purchases shows only the logged-in Client's purchases",
@@ -945,7 +945,7 @@
       "actual": "200, message='Purchases retrieved successfully'"
     },
     {
-      "id": "TC_API_M5_08",
+      "id": "CLI-PUR-API-02",
       "member": "M5",
       "title": "Purchase keeps the unit price at the time of purchase",
       "description": "Purchase keeps the unit price at the time of purchase",
@@ -959,7 +959,7 @@
       "actual": "200, message='Purchases retrieved successfully'"
     },
     {
-      "id": "TC_API_M5_09",
+      "id": "CLI-PUR-API-03",
       "member": "M5",
       "title": "Token of a deactivated Client is rejected",
       "description": "Token of a deactivated Client is rejected",
@@ -973,7 +973,7 @@
       "actual": "401, message='Your account is inactive. Please contact support.'"
     },
     {
-      "id": "TC_API_M5_10",
+      "id": "ADM-USR-API-01",
       "member": "M5",
       "title": "Deactivate an active Client",
       "description": "Deactivate an active Client",
@@ -987,7 +987,7 @@
       "actual": "200, message='User deactivated successfully.'"
     },
     {
-      "id": "TC_API_M5_11",
+      "id": "ADM-USR-API-02",
       "member": "M5",
       "title": "Deactivating an already inactive Client is rejected",
       "description": "Deactivating an already inactive Client is rejected",
@@ -1001,7 +1001,7 @@
       "actual": "409, message='User is already inactive'"
     },
     {
-      "id": "TC_API_M5_12",
+      "id": "ADM-USR-API-03",
       "member": "M5",
       "title": "Admin account cannot be deactivated",
       "description": "Admin account cannot be deactivated",
@@ -1015,7 +1015,7 @@
       "actual": "404, message='User not found'"
     },
     {
-      "id": "TC_API_M5_13",
+      "id": "ADM-USR-API-04",
       "member": "M5",
       "title": "Old token stays invalid after the Client is reactivated",
       "description": "Old token stays invalid after the Client is reactivated",
@@ -1029,7 +1029,7 @@
       "actual": "401, message='Invalid or expired token'"
     },
     {
-      "id": "TC_API_M5_14",
+      "id": "ADM-USR-API-05",
       "member": "M5",
       "title": "Parallel: deactivating the same Client twice succeeds only once",
       "description": "Parallel: deactivating the same Client twice succeeds only once",
@@ -1043,7 +1043,7 @@
       "actual": "200, message='User deactivated successfully.' | MISMATCH: check failed: 1 x 200 and 5 x 409 (got [200, 200, 200, 200, 200, 200])"
     },
     {
-      "id": "TC_API_M5_15",
+      "id": "CLI-BUY-API-07",
       "member": "M5",
       "title": "Two invalid fields: out-of-stock plant AND quantity 0",
       "description": "Two invalid fields: out-of-stock plant AND quantity 0",
@@ -1057,7 +1057,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity must be greater than 0\"} | MISMATCH: check failed: errors.plantId = 'This plant is out of stock'"
     },
     {
-      "id": "TC_API_M6_01",
+      "id": "ADM-SAL-API-01",
       "member": "M6",
       "title": "Admin sells a plant; customer is 'Admin' and stock reduced",
       "description": "Admin sells a plant; customer is 'Admin' and stock reduced",
@@ -1071,7 +1071,7 @@
       "actual": "201, message='Sale completed successfully'"
     },
     {
-      "id": "TC_API_M6_02",
+      "id": "ADM-SAL-API-02",
       "member": "M6",
       "title": "Sale quantity above stock is rejected, stock unchanged",
       "description": "Sale quantity above stock is rejected, stock unchanged",
@@ -1085,7 +1085,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Only 2 items available in stock\"}"
     },
     {
-      "id": "TC_API_M6_03",
+      "id": "ADM-SAL-API-03",
       "member": "M6",
       "title": "Sale without quantity is rejected",
       "description": "Sale without quantity is rejected",
@@ -1099,7 +1099,7 @@
       "actual": "400, message='Validation failed', errors={\"quantity\": \"Quantity is required\"}"
     },
     {
-      "id": "TC_API_M6_04",
+      "id": "ADM-SAL-API-04",
       "member": "M6",
       "title": "Selling an out-of-stock plant is rejected",
       "description": "Selling an out-of-stock plant is rejected",
@@ -1113,7 +1113,7 @@
       "actual": "409, message='This plant is out of stock'"
     },
     {
-      "id": "TC_API_M6_05",
+      "id": "ADM-SAL-API-05",
       "member": "M6",
       "title": "Sale without plantId is rejected",
       "description": "Sale without plantId is rejected",
@@ -1127,7 +1127,7 @@
       "actual": "400, message='Validation failed', errors={\"plantId\": \"Plant is required\"}"
     },
     {
-      "id": "TC_API_M6_06",
+      "id": "ADM-SAL-API-06",
       "member": "M6",
       "title": "Deleting a sale restores the plant stock",
       "description": "Deleting a sale restores the plant stock",
@@ -1141,7 +1141,7 @@
       "actual": "200, message='Sale deleted successfully'"
     },
     {
-      "id": "TC_API_M6_07",
+      "id": "ADM-SAL-API-07",
       "member": "M6",
       "title": "Deleting a non-existing sale",
       "description": "Deleting a non-existing sale",
@@ -1155,7 +1155,7 @@
       "actual": "404, message='Sale not found'"
     },
     {
-      "id": "TC_API_M6_08",
+      "id": "ADM-SAL-API-08",
       "member": "M6",
       "title": "Filter sales by customer type CLIENT",
       "description": "Filter sales by customer type CLIENT",
@@ -1169,7 +1169,7 @@
       "actual": "200, message='Sales retrieved successfully'"
     },
     {
-      "id": "TC_API_M6_09",
+      "id": "ADM-SAL-API-09",
       "member": "M6",
       "title": "soldFrom after soldTo is rejected",
       "description": "soldFrom after soldTo is rejected",
@@ -1183,7 +1183,7 @@
       "actual": "400, message='soldFrom must be on or before soldTo'"
     },
     {
-      "id": "TC_API_M6_10",
+      "id": "ADM-SAL-API-10",
       "member": "M6",
       "title": "Searching sales for 'admin' finds Admin sales",
       "description": "Searching sales for 'admin' finds Admin sales",
@@ -1197,7 +1197,7 @@
       "actual": "200, message='Sales retrieved successfully'"
     },
     {
-      "id": "TC_API_M6_11",
+      "id": "ADM-SAL-API-11",
       "member": "M6",
       "title": "Sell exactly the whole stock",
       "description": "Sell exactly the whole stock",
@@ -1211,7 +1211,7 @@
       "actual": "201, message='Sale completed successfully'"
     },
     {
-      "id": "TC_API_M6_12",
+      "id": "ADM-SAL-API-12",
       "member": "M6",
       "title": "Deleting a Client purchase removes it from My Purchases and restores stock",
       "description": "Deleting a Client purchase removes it from My Purchases and restores stock",
@@ -1225,7 +1225,7 @@
       "actual": "200, message='Sale deleted successfully'"
     },
     {
-      "id": "TC_API_M6_13",
+      "id": "ADM-SAL-API-13",
       "member": "M6",
       "title": "Parallel: deleting the same sale twice returns 404, not a server error",
       "description": "Parallel: deleting the same sale twice returns 404, not a server error",
@@ -1239,7 +1239,7 @@
       "actual": "500, message='Unexpected server error' | MISMATCH: check failed: 1 x 200 and 5 x 404, no 500 (got [200, 500, 500, 500, 500, 500])"
     },
     {
-      "id": "TC_API_M6_14",
+      "id": "ADM-SAL-API-14",
       "member": "M6",
       "title": "Sold-date filter with To date 9999-12-31",
       "description": "Sold-date filter with To date 9999-12-31",
@@ -1253,7 +1253,7 @@
       "actual": "500, message='Unexpected server error' | MISMATCH: status 500 != 200; message 'Unexpected server error' != 'Sales retrieved successfully'"
     },
     {
-      "id": "TC_API_M6_15",
+      "id": "ADM-SAL-API-15",
       "member": "M6",
       "title": "Two invalid fields: out-of-stock plant AND quantity 0",
       "description": "Two invalid fields: out-of-stock plant AND quantity 0",

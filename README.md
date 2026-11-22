@@ -13,9 +13,10 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 
 | Path | What it is |
 |---|---|
-| `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary, Module Division, Defect Log and all 180 test cases (Template sheet) |
+| `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary (per module), Module Division (per member), Defect Log (per module) and all 180 test cases grouped by Portal → Module (Template sheet) |
 | `DEFECT_REPORT.md` | The 15 defects: steps, expected vs actual, SRS sentence broken, owner |
-| `members.json` | Group number, member IDs/names, module split, test case → defect IDs – edit, then rebuild the Excel |
+| `members.json` | Group number, member names/IDs, module split, test case → defect IDs – edit, then rebuild the Excel |
+| `test_index.json` | Portal and module of every test case (drives the Excel grouping) |
 | `api-tests/tests_m1_…py` … `tests_m6_…py` | Executable API test cases, one file per member (15 each) |
 | `api-tests/framework.py`, `client.py`, `helpers.py`, `run_tests.py` | Test runner, HTTP client, fixtures, `parallel()` helper |
 | `ui-tests/ui_test_cases.py` | UI test cases written from the SRS (no UI in this release → *Not Executed*), 15 per member |
@@ -38,14 +39,17 @@ qa-project/
 
 ## Module division (equal weight, ~27 SRS rules each)
 
-| Member | SRS modules | API test file / endpoints | UI pages | Defects |
+Test case IDs read **Portal-Module-Type-Number**: `ADM-CAT-API-12` = Admin App · Category Management · API case 12.
+Portals: `ADM` Admin App, `CLI` Client App, `API` Backend API (general rules).
+
+| Member | Portal · Modules | Test case IDs | API test file | Defects |
 |---|---|---|---|---|
-| M1 – 224135V Nimhan R.D.S. | Category Management (6.3) + Dashboard (6.2) | `tests_m1_categories_dashboard.py` · `/api/admin/categories/*`, `/api/admin/dashboard/summary` | `/admin/categories`, add/edit, `/admin/dashboard` | DEF-001, 002, 003 |
-| M2 – 224098H Kahanda M.C. | Plant Management (6.4) | `tests_m2_plants.py` · `/api/admin/plants/*` | `/admin/plants`, add/edit | DEF-004, 005, 006 |
-| M3 – 224114G Kumanjana D.G.A. | Registration (7.2) + Navigation/header (7.1) + general API rules (4.5, 4.6) | `tests_m3_registration_general.py` · `/api/client/public/auth/register`, 405/415/response format | `/client/register`, `/client`, header | DEF-007, 008 |
-| M4 – 224173 Sathsara | Plant Catalog + Plant Details (7.3, 7.4) + list rules (4.8) | `tests_m4_catalog.py` · `/api/client/public/plants/*`, `/api/client/public/categories`, page/size/sort | `/client/plants`, `/client/plants/{id}` | DEF-009, 010 |
-| M5 – 224208A Warnasooriya W.M.E.S. | Buy Plant + My Purchases (7.5, 7.6) + User Management (6.6) | `tests_m5_purchases_users.py` · `/api/client/purchases`, `/plants/{id}/buy-info`, `/api/admin/users/*` | `/client/plants/{id}/buy`, `/client/purchases`, `/admin/users` | DEF-011, 012 |
-| M6 – 224003P Aberathna M.H.A.J.D. | Sales Management + Sell Plant (6.5) | `tests_m6_sales.py` · `/api/admin/sales/*` | `/admin/sales`, `/admin/sales/new` | DEF-013, 014, 015 |
+| Nimhan R.D.S. (224135V) | Admin App · Dashboard & navigation (6.2), Category Management (6.3) | ADM-DSH-*, ADM-CAT-* | `tests_m1_categories_dashboard.py` | DEF-001, 002, 003 |
+| Kahanda M.C. (224098H) | Admin App · Plant Management (6.4) | ADM-PLT-API-01–15, ADM-PLT-UI-* | `tests_m2_plants.py` | DEF-004, 005, 006 |
+| Aberathna M.H.A.J.D (224003P) | Admin App · Sales Management (6.5) | ADM-SAL-* | `tests_m6_sales.py` | DEF-008, 009, 010 |
+| Warnasooriya W.M.E.S (224208A) | Admin App · User Management (6.6); Client App · Buy Plant (7.5), My Purchases (7.6) | ADM-USR-*, CLI-BUY-*, CLI-PUR-* | `tests_m5_purchases_users.py` | DEF-011, 014 |
+| Kumanjana D.G.A. (224114G) | Client App · Navigation (7.1), Registration (7.2); Backend API · General API rules (4.5, 4.6) | CLI-NAV-*, CLI-REG-*, API-GEN-* | `tests_m3_registration_general.py` | DEF-012, 015 |
+| Sathsara (224173) | Client App · Plant Catalog (7.3, 4.8), Plant Details (7.4); + ADM-PLT-API-16 | CLI-CTL-*, CLI-DET-*, ADM-PLT-API-16 | `tests_m4_catalog.py` | DEF-007, 013 |
 
 - Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
 - Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
@@ -55,7 +59,7 @@ qa-project/
 
 ## Rules we follow (instructions + sir's notices)
 
-1. Each member: 15 API + 15 UI test cases, only inside their own modules; every case carries the writer's ID (Tester column).
+1. Each member: 15 API + 15 UI test cases, only inside their own modules; every case carries the writer's name and ID (Tester column).
 2. **No test cases for the login function** (login page, login API, logout) – sir's notice.
 3. API cases state endpoint, HTTP method, role/token, request data, expected status code and response.
 4. UI cases state page URL, role (or Guest), steps, test data and the expected result with the **exact SRS message**.
@@ -87,7 +91,7 @@ qa-project/
 ```bash
 cd api-tests
 python run_tests.py          # all 90
-python run_tests.py M3       # one member
+python run_tests.py M3       # one member's file (M1 Nimhan, M2 Kahanda, M3 Kumanjana, M4 Sathsara, M5 Warnasooriya, M6 Aberathna)
 ```
 Tests create their own uniquely-named data, so they can be re-run on the same database. Set `QA_BASE_URL` for another host.
 "Parallel" cases send the same request several times at the same moment (`framework.parallel`); in Postman use the
@@ -105,20 +109,20 @@ python build_excel.py
 **75 Passed, 15 Failed** – every failure is one of the 15 defects (10 need only a single request) (`results/api_results.json`, `DEFECT_REPORT.md`).
 UI cases: 90 *Not Executed* (no UI in this release).
 
-| Defect | Test case | Summary |
-|---|---|---|
-| DEF-001 | TC_API_M1_13 | "Café" rejected as a duplicate of category "Cafe" |
-| DEF-002 | TC_API_M1_15 | 7-character category name (with emoji) rejected as longer than 10 |
-| DEF-003 | TC_API_M1_14 | Duplicate category names saved (parallel) |
-| DEF-004 | TC_API_M2_14 | Stock becomes negative after a sale is deleted |
-| DEF-005 | TC_API_M2_13 | "Strasse Fern" rejected as a duplicate of plant "Straße Fern" |
-| DEF-006 | TC_API_M2_15 | 20-character plant name (with emoji) rejected as longer than 25 |
-| DEF-007 | TC_API_M3_14 | 1-character full name (an emoji) accepted |
-| DEF-008 | TC_API_M3_15 | Some errors are HTML instead of JSON |
-| DEF-009 | TC_API_M4_14 | Huge page number → 500 on every list |
-| DEF-010 | TC_API_M4_15 | Deleting the same plant twice → 500 (parallel) |
-| DEF-011 | TC_API_M5_14 | Deactivating the same Client twice → both succeed (parallel) |
-| DEF-012 | TC_API_M5_15 | Buy Plant drops the out-of-stock error |
-| DEF-013 | TC_API_M6_14 | `soldTo=9999-12-31` → 500 |
-| DEF-014 | TC_API_M6_15 | Sell Plant drops the out-of-stock error |
-| DEF-015 | TC_API_M6_13 | Deleting the same sale twice → 500 (parallel) |
+| Defect | Portal · Module | Test case | Summary |
+|---|---|---|---|
+| DEF-001 | Admin · Category Management | ADM-CAT-API-12 | "Café" rejected as a duplicate of category "Cafe" |
+| DEF-002 | Admin · Category Management | ADM-CAT-API-13 | Duplicate category names saved (parallel) |
+| DEF-003 | Admin · Category Management | ADM-CAT-API-14 | 7-character category name (with emoji) rejected as longer than 10 |
+| DEF-004 | Admin · Plant Management | ADM-PLT-API-13 | "Strasse Fern" rejected as a duplicate of plant "Straße Fern" |
+| DEF-005 | Admin · Plant Management | ADM-PLT-API-14 | Stock becomes negative after a sale is deleted |
+| DEF-006 | Admin · Plant Management | ADM-PLT-API-15 | 20-character plant name (with emoji) rejected as longer than 25 |
+| DEF-007 | Admin · Plant Management | ADM-PLT-API-16 | Deleting the same plant twice → 500 (parallel) |
+| DEF-008 | Admin · Sales Management | ADM-SAL-API-13 | Deleting the same sale twice → 500 (parallel) |
+| DEF-009 | Admin · Sales Management | ADM-SAL-API-14 | `soldTo=9999-12-31` → 500 |
+| DEF-010 | Admin · Sales Management | ADM-SAL-API-15 | Sell Plant drops the out-of-stock error |
+| DEF-011 | Admin · User Management | ADM-USR-API-05 | Deactivating the same Client twice → both succeed (parallel) |
+| DEF-012 | Client · Registration | CLI-REG-API-12 | 1-character full name (an emoji) accepted |
+| DEF-013 | Client · Plant Catalog | CLI-CTL-API-09 | Huge page number → 500 on every list |
+| DEF-014 | Client · Buy Plant | CLI-BUY-API-07 | Buy Plant drops the out-of-stock error |
+| DEF-015 | Backend API · General rules | API-GEN-API-03 | Some errors are HTML instead of JSON |
