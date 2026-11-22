@@ -26,6 +26,7 @@ index = json.load(open(os.path.join(HERE, "test_index.json"), encoding="utf-8"))
 MODULES = index["modules"]                       # [{code, portal, module, srs}] in SRS order
 TESTS = index["tests"]                           # id -> {type, member, portal, module, srs, module_code}
 group = cfg["group_number"]
+GROUP_LABEL = "Group " + "".join(ch for ch in group if ch.isdigit())   # "Group 20"
 out = os.path.join(HERE, f"TestCaseDocument_{group}_v0.1.xlsx")
 shutil.copy(os.path.join(HERE, "template", "TestCaseDocument__GroupNumber__v0.1.xlsx"), out)
 STATUS = {"Pass": "Passed", "Fail": "Failed", "Blocked": "Blocked"}
@@ -141,7 +142,7 @@ def print_setup(sheet, title_rows=None):
     sheet.page_setup.blackAndWhite = True
     if title_rows:
         sheet.print_title_rows = title_rows
-    sheet.oddHeader.right.text = f"{group} - IS4600 Task 1"
+    sheet.oddHeader.right.text = f"{GROUP_LABEL} - IS4600 Task 1"
     sheet.oddFooter.center.text = "Page &P of &N"
 
 
@@ -149,6 +150,8 @@ print_setup(ws, "2:2")
 
 # ---------------------------------------------------------------- Summary sheet (Feature = module)
 s = wb["Summary"]
+s["B1"] = f"IS4600 IT Quality Assurance - Task 1: Test Case Design - Group No: {GROUP_LABEL[6:]}"
+s["B1"].font = Font(bold=True, size=14)
 s["C3"] = "QA Training App - Admin App, Client App and Backend API (all modules)"
 s["C4"] = "v0.1"
 s["E4"] = "16/11/2026"
@@ -156,7 +159,7 @@ s["G4"] = date.today().strftime("%d/%m/%Y")
 s["C5"] = "QA_Training_App_SRS_v2.1.pdf"
 s["C6"] = "Swagger / OpenAPI (http://localhost:8080/swagger-ui.html)"
 s["C8"] = "v0.1"
-s["D8"] = f"{group} (all members)"
+s["D8"] = f"{GROUP_LABEL} (all members)"
 s["E8"] = (f"Test case design: {len(rows)} test cases (15 API + 15 UI per member), no login cases. "
            f"API cases executed on {api['executed_at'][:10]}; UI not executed (no UI in this release). "
            f"{len(cfg['defects'])} defects - see the Defect Log sheet.")

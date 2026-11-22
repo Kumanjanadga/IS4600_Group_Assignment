@@ -13,6 +13,7 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 
 | Path | What it is |
 |---|---|
+| `TestCaseDocument_Group20.pdf` | **Print this** – black and white, A4 landscape, no cover page, Group No: 20 on page 1 and in every footer; grouped by member, then module; ends with the defect list (built by `build_pdf.py`) |
 | `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary, Module Division, Defect Log and all 180 test cases, all grouped by member → module (Template sheet) |
 | `DEFECT_REPORT.md` | The 15 defects: steps, expected vs actual, SRS sentence broken, owner |
 | `members.json` | Group number, member names/IDs, module split, test case → defect IDs – edit, then rebuild the Excel |
@@ -27,7 +28,8 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 
 ```
 qa-project/
-├── TestCaseDocument_Group20_v0.1.xlsx   ← print this (the submission)
+├── TestCaseDocument_Group20.pdf        ← print this (the hand-in)
+├── TestCaseDocument_Group20_v0.1.xlsx   ← same content as an editable spreadsheet
 ├── DEFECT_REPORT.md                     ← 15 defects
 ├── README.md · members.json · build_excel.py
 ├── api-tests/      90 API test cases (tests_m1 … tests_m6) + runner
@@ -97,11 +99,12 @@ Tests create their own uniquely-named data, so they can be re-run on the same da
 "Parallel" cases send the same request several times at the same moment (`framework.parallel`); in Postman use the
 Collection Runner with several iterations and 0 ms delay.
 
-## Rebuilding the Excel
+## Rebuilding the Excel and the PDF
 
 ```bash
-pip install openpyxl
+pip install openpyxl reportlab
 python build_excel.py
+python build_pdf.py
 ```
 
 ## Latest results (API, 22/11/2026)
