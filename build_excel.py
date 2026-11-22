@@ -5,7 +5,7 @@ Reads:  template/TestCaseDocument__GroupNumber__v0.1.xlsx   (sir's template)
         ui-tests/ui_test_cases.py, members.json, test_index.json (portal + module of every test), DEFECT_REPORT.md
 Writes: TestCaseDocument_<Group>_v0.1.xlsx
 
-Test cases are grouped by Portal -> Module (SRS order). IDs read Portal-Module-Type-Number, e.g. ADM-CAT-API-12.
+Everything is grouped by member first, then module (SRS order). IDs read Portal-Module-Type-Number, e.g. ADM-CAT-API-12.
 The Tester column shows the member's name and student ID.
 """
 import json, os, re, shutil, sys
@@ -55,7 +55,8 @@ for r in rows:
     t = TESTS[r["id"]]
     r.update(portal=t["portal"], module=t["module"], code=t["module_code"], srs=t["srs"],
              tester=person(r["member"]), defect=cfg["defects"].get(r["id"], ""))
-rows.sort(key=lambda r: (order[r["code"]], 0 if r["type"] == "API" else 1, r["id"]))
+MORDER = list(cfg["members"])
+rows.sort(key=lambda r: (MORDER.index(r["member"]), order[r["code"]], 0 if r["type"] == "API" else 1, r["id"]))
 
 # ---------------------------------------------------------------- Template sheet
 wb = openpyxl.load_workbook(out)
@@ -75,27 +76,41 @@ wrap = Alignment(wrap_text=True, vertical="top")
 thick = Side(style="medium")
 COLS = ["id", "portal", "module", "title", "desc", "pre", "steps", "data", "exp", "act", "type", "status", "tester", "defect"]
 
-i, cur_code, cur_portal, sections = 3, None, None, 0
+i, cur_member, cur_code, sections = 3, None, None, 0
+
+
+def header(row_i, text, size, height):
+    ws.cell(row=row_i, column=1, value=text)
+    ws.merge_cells(start_row=row_i, start_column=1, end_row=row_i, end_column=NCOL)
+    ws.cell(row=row_i, column=1).font = Font(bold=True, size=size)
+    ws.cell(row=row_i, column=1).alignment = Alignment(vertical="center")
+    side = thick if size >= 14 else Side(style="thin")
+    for c in range(1, NCOL + 1):
+        ws.cell(row=row_i, column=c).border = Border(top=side, bottom=side, left=side if c == 1 else None,
+                                                     right=side if c == NCOL else None)
+    ws.row_dimensions[row_i].height = height
+
+
 for r in rows:
-    if r["code"] != cur_code:                            # module section header
-        owners = []
-        for x in rows:
-            if x["code"] == r["code"] and x["tester"] not in owners:
-                owners.append(x["tester"])
-        n_api = sum(1 for x in rows if x["code"] == r["code"] and x["type"] == "API")
-        n_ui = sum(1 for x in rows if x["code"] == r["code"] and x["type"] == "UI")
-        ws.cell(row=i, column=1, value=f"{r['portal']}  ·  {r['module']} (SRS {r['srs']})   |   "
-                                       f"Tester: {', '.join(owners)}   |   {n_api} API + {n_ui} UI test cases")
-        ws.merge_cells(start_row=i, start_column=1, end_row=i, end_column=NCOL)
-        ws.cell(row=i, column=1).font = Font(bold=True, size=13)
-        ws.cell(row=i, column=1).alignment = Alignment(vertical="center")
-        for c in range(1, NCOL + 1):
-            ws.cell(row=i, column=c).border = Border(top=thick, bottom=thick, left=thick if c == 1 else None,
-                                                     right=thick if c == NCOL else None)
-        ws.row_dimensions[i].height = 26
-        if cur_portal is not None and r["portal"] != cur_portal:
-            ws.row_breaks.append(Break(id=i - 1))       # each portal starts on a new printed page
-        cur_code, cur_portal, sections = r["code"], r["portal"], sections + 1
+    if r["member"] != cur_member:                        # member section (each member starts a new printed page)
+        mine = [x for x in rows if x["member"] == r["member"]]
+        mods = []
+        for x in mine:
+            if x["module"] not in mods:
+                mods.append(x["module"])
+        if cur_member is not None:
+            ws.row_breaks.append(Break(id=i - 1))
+        header(i, f"{r['tester']}   |   {', '.join(mods)}   |   "
+                  f"{sum(1 for x in mine if x['type'] == 'API')} API + {sum(1 for x in mine if x['type'] == 'UI')} UI test cases",
+               15, 30)
+        cur_member, cur_code, sections = r["member"], None, sections + 1
+        i += 1
+    if r["code"] != cur_code:                            # module sub-section inside the member
+        sub = [x for x in rows if x["member"] == r["member"] and x["code"] == r["code"]]
+        header(i, f"{r['portal']}  ·  {r['module']} (SRS {r['srs']})   -   "
+                  f"{sum(1 for x in sub if x['type'] == 'API')} API + {sum(1 for x in sub if x['type'] == 'UI')} UI",
+               12, 22)
+        cur_code = r["code"]
         i += 1
     for c, key in enumerate(COLS, start=1):
         cell = ws.cell(row=i, column=c, value=r[key])
@@ -148,9 +163,9 @@ s["E8"] = (f"Test case design: {len(rows)} test cases (15 API + 15 UI per member
 CACHED = {}  # (sheet, cell) -> computed value, written next to each formula so viewers show numbers
 
 
-def count(module=None, kind=None, status=None):
+def count(module=None, kind=None, status=None, tester=None):
     return sum(1 for r in rows if (module is None or r["module"] == module) and (kind is None or r["type"] == kind)
-               and (status is None or r["status"] == status))
+               and (status is None or r["status"] == status) and (tester is None or r["tester"] == tester))
 
 
 st = {r: [(copy(s.cell(r, c).font), copy(s.cell(r, c).border), copy(s.cell(r, c).fill),
@@ -161,25 +176,27 @@ for rng_ in list(s.merged_cells.ranges):
 for r in range(12, 15):
     for c in range(2, 10):
         s.cell(r, c).value = None
-STA, TYP, MOD = f"Template!$L$3:$L${last}", f"Template!$K$3:$K${last}", f"Template!$C$3:$C${last}"
+STA, TYP, MOD, TST = (f"Template!$L$3:$L${last}", f"Template!$K$3:$K${last}", f"Template!$C$3:$C${last}",
+                      f"Template!$M$3:$M${last}")
+features = []                                            # (tester, module record) in member -> module order
+for r in rows:
+    key = (r["tester"], r["code"])
+    if key not in [(f[0], f[1]["code"]) for f in features]:
+        features.append((r["tester"], next(mo for mo in MODULES if mo["code"] == r["code"])))
 r0 = 12
-for n, mo in enumerate(MODULES, start=1):
-    owners = []
-    for x in rows:
-        if x["code"] == mo["code"] and x["tester"] not in owners:
-            owners.append(x["tester"])
+for n, (who, mo) in enumerate(features, start=1):
     for k, kind in enumerate(("UI", "API")):
         r = r0 + k
         for c in range(2, 10):
             f, b, fl, al, nf = st[12 + k][c - 2]
             cell = s.cell(r, c); cell.font, cell.border, cell.fill, cell.alignment, cell.number_format = f, b, fl, al, nf
         s.cell(r, 4, kind)
-        s.cell(r, 5, f"=SUM(F{r}:I{r})"); CACHED[("Summary", f"E{r}")] = count(mo["module"], kind)
+        s.cell(r, 5, f"=SUM(F{r}:I{r})"); CACHED[("Summary", f"E{r}")] = count(mo["module"], kind, tester=who)
         for col, stat in zip("FGHI", ("Passed", "Failed", "Blocked", "Not Executed")):
-            s[f"{col}{r}"] = f'=COUNTIFS({STA},{col}$11,{TYP},$D{r},{MOD},"{mo["module"]}")'
-            CACHED[("Summary", f"{col}{r}")] = count(mo["module"], kind, stat)
+            s[f"{col}{r}"] = f'=COUNTIFS({STA},{col}$11,{TYP},$D{r},{MOD},"{mo["module"]}",{TST},"{who}")'
+            CACHED[("Summary", f"{col}{r}")] = count(mo["module"], kind, stat, tester=who)
     s.cell(r0, 2, n)
-    s.cell(r0, 3, f"{mo['portal']} · {mo['module']} (SRS {mo['srs']})\nTester: {', '.join(owners)}")
+    s.cell(r0, 3, f"{who}\n{mo['portal']} · {mo['module']} (SRS {mo['srs']})")
     s.cell(r0, 3).alignment = Alignment(wrap_text=True, vertical="center")
     s.cell(r0, 2).alignment = Alignment(horizontal="center", vertical="center")
     s.merge_cells(start_row=r0, start_column=2, end_row=r0 + 1, end_column=2)
@@ -261,17 +278,17 @@ print_setup(s)
 # ---------------------------------------------------------------- Defect Log sheet (from DEFECT_REPORT.md)
 report = os.path.join(HERE, "DEFECT_REPORT.md")
 dl = wb.create_sheet("Defect Log", 2)
-dl.append(["Defect ID", "Portal", "Module", "Test case", "Defect", "Type", "Tester", "SRS sentence broken", "Status"])
+dl.append(["Defect ID", "Tester", "Portal", "Module", "Test case", "Defect", "Type", "SRS sentence broken", "Status"])
 n_def = 0
 for line in open(report, encoding="utf-8"):
     if re.match(r"\| DEF-\d{3} \|", line):
         d, pm, tc, text, typ, owner, srs = [c.strip().replace("`", "") for c in line.strip().strip("|").split("|")][:7]
         portal, module = [x.strip() for x in pm.split("·")]
-        dl.append([d, portal, module, tc, text, typ, owner, srs, "Open"]); n_def += 1
+        dl.append([d, owner, portal, module, tc, text, typ, srs, "Open"]); n_def += 1
 assert n_def == len(cfg["defects"]), (n_def, len(cfg["defects"]))
 for c in dl[1]:
     c.font = Font(bold=True)
-for col, w in zip("ABCDEFGHI", (10, 12, 22, 16, 50, 9, 26, 55, 8)):
+for col, w in zip("ABCDEFGHI", (10, 26, 12, 22, 16, 50, 9, 55, 8)):
     dl.column_dimensions[col].width = w
 for row in dl.iter_rows(min_row=2):
     for c in row:
@@ -303,4 +320,4 @@ def inject_cached_values(path, values):
 
 
 inject_cached_values(out, CACHED)
-print(f"Wrote {out}  ({len(rows)} test cases, {sections} module sections, {n_def} defects)")
+print(f"Wrote {out}  ({len(rows)} test cases, {sections} member sections, {len(features)} member-module features, {n_def} defects)")

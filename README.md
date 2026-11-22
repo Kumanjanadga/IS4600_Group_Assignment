@@ -13,7 +13,7 @@ Group assignment for **IS4600 IT Quality Assurance**: test cases for the QA Trai
 
 | Path | What it is |
 |---|---|
-| `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary (per module), Module Division (per member), Defect Log (per module) and all 180 test cases grouped by Portal → Module (Template sheet) |
+| `TestCaseDocument_Group20_v0.1.xlsx` | **Submission file** – Summary, Module Division, Defect Log and all 180 test cases, all grouped by member → module (Template sheet) |
 | `DEFECT_REPORT.md` | The 15 defects: steps, expected vs actual, SRS sentence broken, owner |
 | `members.json` | Group number, member names/IDs, module split, test case → defect IDs – edit, then rebuild the Excel |
 | `test_index.json` | Portal and module of every test case (drives the Excel grouping) |
@@ -46,10 +46,10 @@ Portals: `ADM` Admin App, `CLI` Client App, `API` Backend API (general rules).
 |---|---|---|---|---|
 | Nimhan R.D.S. (224135V) | Admin App · Dashboard & navigation (6.2), Category Management (6.3) | ADM-DSH-*, ADM-CAT-* | `tests_m1_categories_dashboard.py` | DEF-001, 002, 003 |
 | Kahanda M.C. (224098H) | Admin App · Plant Management (6.4) | ADM-PLT-API-01–15, ADM-PLT-UI-* | `tests_m2_plants.py` | DEF-004, 005, 006 |
-| Aberathna M.H.A.J.D (224003P) | Admin App · Sales Management (6.5) | ADM-SAL-* | `tests_m6_sales.py` | DEF-008, 009, 010 |
-| Warnasooriya W.M.E.S (224208A) | Admin App · User Management (6.6); Client App · Buy Plant (7.5), My Purchases (7.6) | ADM-USR-*, CLI-BUY-*, CLI-PUR-* | `tests_m5_purchases_users.py` | DEF-011, 014 |
-| Kumanjana D.G.A. (224114G) | Client App · Navigation (7.1), Registration (7.2); Backend API · General API rules (4.5, 4.6) | CLI-NAV-*, CLI-REG-*, API-GEN-* | `tests_m3_registration_general.py` | DEF-012, 015 |
-| Sathsara H.W.S (224173J) | Client App · Plant Catalog (7.3, 4.8), Plant Details (7.4); + ADM-PLT-API-16 | CLI-CTL-*, CLI-DET-*, ADM-PLT-API-16 | `tests_m4_catalog.py` | DEF-007, 013 |
+| Kumanjana D.G.A. (224114G) | Client App · Navigation (7.1), Registration (7.2); Backend API · General API rules (4.5, 4.6) | CLI-NAV-*, CLI-REG-*, API-GEN-* | `tests_m3_registration_general.py` | DEF-007, 008 |
+| Sathsara H.W.S (224173J) | Admin App · Plant Management (ADM-PLT-API-16); Client App · Plant Catalog (7.3, 4.8), Plant Details (7.4) | ADM-PLT-API-16, CLI-CTL-*, CLI-DET-* | `tests_m4_catalog.py` | DEF-009, 010 |
+| Warnasooriya W.M.E.S (224208A) | Admin App · User Management (6.6); Client App · Buy Plant (7.5), My Purchases (7.6) | ADM-USR-*, CLI-BUY-*, CLI-PUR-* | `tests_m5_purchases_users.py` | DEF-011, 012 |
+| Aberathna M.H.A.J.D (224003P) | Admin App · Sales Management (6.5) | ADM-SAL-* | `tests_m6_sales.py` | DEF-013, 014, 015 |
 
 - Each person kept the area they already worked on; the split is balanced by the number of SRS rules, not endpoints.
 - Token/role checks (401/403) are written only by the member who owns that endpoint, so no scenario is duplicated.
@@ -109,20 +109,20 @@ python build_excel.py
 **75 Passed, 15 Failed** – every failure is one of the 15 defects (10 need only a single request) (`results/api_results.json`, `DEFECT_REPORT.md`).
 UI cases: 90 *Not Executed* (no UI in this release).
 
-| Defect | Portal · Module | Test case | Summary |
-|---|---|---|---|
-| DEF-001 | Admin · Category Management | ADM-CAT-API-12 | "Café" rejected as a duplicate of category "Cafe" |
-| DEF-002 | Admin · Category Management | ADM-CAT-API-13 | Duplicate category names saved (parallel) |
-| DEF-003 | Admin · Category Management | ADM-CAT-API-14 | 7-character category name (with emoji) rejected as longer than 10 |
-| DEF-004 | Admin · Plant Management | ADM-PLT-API-13 | "Strasse Fern" rejected as a duplicate of plant "Straße Fern" |
-| DEF-005 | Admin · Plant Management | ADM-PLT-API-14 | Stock becomes negative after a sale is deleted |
-| DEF-006 | Admin · Plant Management | ADM-PLT-API-15 | 20-character plant name (with emoji) rejected as longer than 25 |
-| DEF-007 | Admin · Plant Management | ADM-PLT-API-16 | Deleting the same plant twice → 500 (parallel) |
-| DEF-008 | Admin · Sales Management | ADM-SAL-API-13 | Deleting the same sale twice → 500 (parallel) |
-| DEF-009 | Admin · Sales Management | ADM-SAL-API-14 | `soldTo=9999-12-31` → 500 |
-| DEF-010 | Admin · Sales Management | ADM-SAL-API-15 | Sell Plant drops the out-of-stock error |
-| DEF-011 | Admin · User Management | ADM-USR-API-05 | Deactivating the same Client twice → both succeed (parallel) |
-| DEF-012 | Client · Registration | CLI-REG-API-12 | 1-character full name (an emoji) accepted |
-| DEF-013 | Client · Plant Catalog | CLI-CTL-API-09 | Huge page number → 500 on every list |
-| DEF-014 | Client · Buy Plant | CLI-BUY-API-07 | Buy Plant drops the out-of-stock error |
-| DEF-015 | Backend API · General rules | API-GEN-API-03 | Some errors are HTML instead of JSON |
+| Defect | Tester | Portal · Module | Test case | Summary |
+|---|---|---|---|---|
+| DEF-001 | Nimhan R.D.S. | Admin · Category Management | ADM-CAT-API-12 | "Café" rejected as a duplicate of category "Cafe" |
+| DEF-002 | Nimhan R.D.S. | Admin · Category Management | ADM-CAT-API-13 | Duplicate category names saved (parallel) |
+| DEF-003 | Nimhan R.D.S. | Admin · Category Management | ADM-CAT-API-14 | 7-character category name (with emoji) rejected as longer than 10 |
+| DEF-004 | Kahanda M.C. | Admin · Plant Management | ADM-PLT-API-13 | "Strasse Fern" rejected as a duplicate of plant "Straße Fern" |
+| DEF-005 | Kahanda M.C. | Admin · Plant Management | ADM-PLT-API-14 | Stock becomes negative after a sale is deleted |
+| DEF-006 | Kahanda M.C. | Admin · Plant Management | ADM-PLT-API-15 | 20-character plant name (with emoji) rejected as longer than 25 |
+| DEF-007 | Kumanjana D.G.A. | Client · Registration | CLI-REG-API-12 | 1-character full name (an emoji) accepted |
+| DEF-008 | Kumanjana D.G.A. | Backend API · General rules | API-GEN-API-03 | Some errors are HTML instead of JSON |
+| DEF-009 | Sathsara H.W.S | Admin · Plant Management | ADM-PLT-API-16 | Deleting the same plant twice → 500 (parallel) |
+| DEF-010 | Sathsara H.W.S | Client · Plant Catalog | CLI-CTL-API-09 | Huge page number → 500 on every list |
+| DEF-011 | Warnasooriya W.M.E.S | Admin · User Management | ADM-USR-API-05 | Deactivating the same Client twice → both succeed (parallel) |
+| DEF-012 | Warnasooriya W.M.E.S | Client · Buy Plant | CLI-BUY-API-07 | Buy Plant drops the out-of-stock error |
+| DEF-013 | Aberathna M.H.A.J.D | Admin · Sales Management | ADM-SAL-API-13 | Deleting the same sale twice → 500 (parallel) |
+| DEF-014 | Aberathna M.H.A.J.D | Admin · Sales Management | ADM-SAL-API-14 | `soldTo=9999-12-31` → 500 |
+| DEF-015 | Aberathna M.H.A.J.D | Admin · Sales Management | ADM-SAL-API-15 | Sell Plant drops the out-of-stock error |

@@ -47,14 +47,14 @@
     "ADM-PLT-API-13": "DEF-004",
     "ADM-PLT-API-14": "DEF-005",
     "ADM-PLT-API-15": "DEF-006",
-    "ADM-PLT-API-16": "DEF-007",
-    "ADM-SAL-API-13": "DEF-008",
-    "ADM-SAL-API-14": "DEF-009",
-    "ADM-SAL-API-15": "DEF-010",
+    "CLI-REG-API-12": "DEF-007",
+    "API-GEN-API-03": "DEF-008",
+    "ADM-PLT-API-16": "DEF-009",
+    "CLI-CTL-API-09": "DEF-010",
     "ADM-USR-API-05": "DEF-011",
-    "CLI-REG-API-12": "DEF-012",
-    "CLI-CTL-API-09": "DEF-013",
-    "CLI-BUY-API-07": "DEF-014",
-    "API-GEN-API-03": "DEF-015"
+    "CLI-BUY-API-07": "DEF-012",
+    "ADM-SAL-API-13": "DEF-013",
+    "ADM-SAL-API-14": "DEF-014",
+    "ADM-SAL-API-15": "DEF-015"
   }
 }
